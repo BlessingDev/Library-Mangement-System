@@ -1,7 +1,14 @@
 #pragma once
+#ifndef _USERINFO_H
+#define _USERINFO_H
+
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <list>
 using namespace std;
+
+enum RelationType {LESS, GREATER, EQUAL};
 
 class UserInfo {
 private:
@@ -13,22 +20,34 @@ private:
 
 public:
 	UserInfo();
+	~UserInfo();
 
 	void SetID(int ID);
 	void SetUserName(string name);
 	void SetUserAddress(string address);
-	int SetUserNumber(int number);
+	void SetUserNumber(int number);
 
 	void SetIDByKB();
 	void SetUserNameByKB();
 	void SetUserAddressByKB();
 	void SetUserNumberByKB();
+	void SetRecordByKB();
 
 	int GetUserID();
 	string GetUserName();
 	string GetUserAddress();
 	int GetUserNumber();
 
+	void DisplayUserID();
+	void DisplayUserName();
+	void DisplayUserAddress();
+	void DisplayUserNumber();
 	void DisplayUserInfo();
-	void DisplayUserBorrowedBook();
+
+	int ReadDataFromFile(ifstream& fin);
+	int WriteDataToFile(ofstream& fout);
+
+	RelationType CompareByID(const UserInfo& info);
 };
+
+#endif // !_USERINFO_H
