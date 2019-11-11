@@ -6,25 +6,30 @@ class BookInfo
 {
 public:
 	string GetAuthor();
-	string GetISBN();
 	string GetTitle();
 	int GetISBN();
 	int GetCategoryNum();
 
 	void SetAuthor();
-	void SetISBN();
 	void SetTitle();
 	void SetISBN();
 	void SetCategoryNum();
+
+	//EnQueue
+	//bool BorrowBook();
+
+	//DeQueue
+	//bool ReturnBook(); 
+	
 
 private:
 	string author;
 	string publisher;
 	string title;
-	string BorrowedBookQueue;
 
 	int ISBN;
 	int CategoryNum;
+	//Queue BorrowedBooks;
 
 };
 
