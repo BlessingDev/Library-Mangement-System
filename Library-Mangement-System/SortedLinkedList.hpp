@@ -1,5 +1,12 @@
 #pragma once
+#include <functional>
+
 #include "LinkedList.h"
+
+/**
+*	Relation between two items.
+*/
+enum RelationType { LESS, GREATER, EQUAL };
 
 /**
 *	Simple unsorted list class for managing items.
@@ -12,6 +19,12 @@ public:
 	*	default constructor.
 	*/
 	SortedLinkedList();
+
+	/**
+	*	@요약	비교 함수를 이용한 생성자
+	*	@전		첫번째 인자를 기준으로 비교를 수행하여 RelationType을 반환하는 함수를 전달할 것
+	*/
+	SortedLinkedList(std::function<RelationType(const T&, const T&)>);
 
 	/**
 	*	destructor.
@@ -66,6 +79,7 @@ public:
 	int GetNextItem(T& item);
 
 private:
+	std::function<RelationType(const T&, const T&)> mCompFunc;
 	NodeType<T>* m_pList;	///< Pointer for pointing a first node.
 	NodeType<T>* m_pCurPointer;	///< Node pointer for pointing current node to use iteration.
 	int m_nLength;	///< Number of node in the list.
@@ -78,8 +92,24 @@ SortedLinkedList<T>::SortedLinkedList()
 	m_nLength = 0;
 	m_pList = nullptr;
 	m_pCurPointer = nullptr;
+	mCompFunc = [](const T& a, const T&b)->RelationType {
+		if (a == b)
+			return RelationType::EQUAL;
+		else if (a > b)
+			return RelationType::GREATER;
+		else
+			return RelationType::LESS;
+	};
 }
 
+template <typename T>
+SortedLinkedList<T>::SortedLinkedList(std::function<RelationType(const T&, const T&)> func)
+{
+	m_nLength = 0;
+	m_pList = nullptr;
+	m_pCurPointer = nullptr;
+	mCompFunc = func;
+}
 
 // Class destructor
 template <typename T>
@@ -151,7 +181,8 @@ void SortedLinkedList<T>::InsertItem(T item)
 			// iteration 을 이용해 node 포인터 갱신.
 			GetNextItem(dummy);
 
-			if (dummy >= node->data)
+			RelationType result = mCompFunc(dummy, node->data);
+			if (result == RelationType::EQUAL || result == RelationType::GREATER)
 			{
 				if (pre == nullptr)
 				{
