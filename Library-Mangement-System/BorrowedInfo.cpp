@@ -1,10 +1,10 @@
-#include "BorrowedBook.h"
+#include "BorrowedInfo.h"
 #include <iostream>
 #include <string>
 
 
 //Setting borrowed date.
-void BorrowedBook::SetBorrowedDate()
+void BorrowedInfo::SetBorrowedDate()
 {
 	time_t rawtime;
 	struct tm* timeinfo;
@@ -19,25 +19,36 @@ void BorrowedBook::SetBorrowedDate()
 }
 
 //Setting book info.
-void BorrowedBook::SetBookInfo(const BookInfo& book)
+void BorrowedInfo::SetBookInfo(const BookInfo& book)
 {
 	m_bookInfo = book;
 }
 
 //Setting user info.
-void BorrowedBook::SetUserInfo(const UserInfo& user)
+void BorrowedInfo::SetUserInfo(const UserInfo& user)
 {
 	m_userInfo = user;
 }
 
 //Returns borrowed date.
-string BorrowedBook::GetBorrowedDate()
+string BorrowedInfo::GetBorrowedDate()
 {
 	return m_borrowedDate;
 }
 
+void BorrowedInfo::Borrow()
+{
+	m_borrowed = true;
+	SetBorrowedDate();
+}
 
-RelationType BorrowedBook::CompareByDate(const BorrowedBook& data)
+void BorrowedInfo::Reserve()
+{
+	m_reserverd = true;
+}
+
+
+RelationType BorrowedInfo::CompareByDate(const BorrowedInfo& data)
 {
 	if (this->m_borrowedDate > data.m_borrowedDate)
 		return GREATER;
