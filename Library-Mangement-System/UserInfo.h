@@ -18,6 +18,10 @@ private:
 	int m_userNumber;
 	list<BorrowedBookList>* m_borrowedBookList;
 
+	char m_penalty;
+	char m_nReserve;
+	char m_nBorrow;
+
 public:
 	UserInfo();
 	~UserInfo();

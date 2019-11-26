@@ -7,6 +7,10 @@ UserInfo::UserInfo()
 	m_userAddress = "";
 	m_userNumber = -1;
 	m_borrowedBookList = NULL;
+	
+	m_penalty = 0;
+	m_nReserve = 4;
+	m_nBorrow = 5;
 }
 
 UserInfo::~UserInfo()

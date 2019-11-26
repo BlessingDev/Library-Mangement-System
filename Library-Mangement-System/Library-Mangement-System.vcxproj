@@ -115,6 +115,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BookInfo.cpp" />
+    <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>

@@ -21,6 +21,15 @@
     <ClCompile Include="UserInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BookInfo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeForm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UserInfo.h">
