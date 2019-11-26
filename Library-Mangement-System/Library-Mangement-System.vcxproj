@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BookInfo.cpp" />
+    <ClCompile Include="BorrowedInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TimeForm.cpp" />
     <ClCompile Include="UserInfo.cpp" />
@@ -130,6 +131,9 @@
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="SortedLinkedList.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BorrowedInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
