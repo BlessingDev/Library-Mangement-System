@@ -192,6 +192,39 @@ public:
 		return m_CurPointer;
 	}
 
+	T GetBinarySearch(T item) 
+	{
+		int midpoint;
+		int first = 0;
+		int last = m_Length - 1;
+		bool found = false;
+		bool moreToSearch = (first <= last);
+
+		while (moreToSearch && !found)
+		{
+			midpoint = (first + last) / 2;
+			if (item < m_Array[midpoint])
+			{
+				last = midpoint - 1;
+				moreToSearch = (first <= last);
+				continue;
+			}
+			if (item > m_Array[midpoint])
+			{
+				first = midpoint + 1;
+				moreToSearch = (first <= last);
+				continue;
+			}
+			if (item == m_Array[midpoint])
+			{
+				found = true;
+				item = m_Array[midpoint];
+				break;
+			}
+		}
+		return item;
+	}
+
 
 private:
 	T* m_Array;  ///< list array.
