@@ -18,6 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BorrowedBook.cpp">
+          <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="UserInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -32,7 +35,21 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BorrowedBook.h">
+          <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="UserInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LibraryManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SortedLinkedList.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
