@@ -115,11 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BookInfo.cpp" />
     <ClCompile Include="BorrowedBook.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BookInfo.h" />
+    <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <ItemGroup>

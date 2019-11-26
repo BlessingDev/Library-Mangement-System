@@ -8,7 +8,7 @@ BookInfo::BookInfo()
 	m_Title = "";
 	m_Publisher = "";
 	m_Author = "";	
-	//	Queue BorrowedBooks = NULL;
+	BorrowedBooks.setMaxSize(10); //Set Q size
 }
 
 BookInfo::~BookInfo()
@@ -26,7 +26,7 @@ void BookInfo::SetTitle(string title)
 	m_Title = title;
 }
 
-void BookInfo::SetISBN(int ISBN)
+void BookInfo::SetISBN(string ISBN)
 {
 	m_ISBN = ISBN;
 }
@@ -46,7 +46,7 @@ string BookInfo::GetTitle()
 	return m_Title;
 }
 
-int BookInfo::GetISBN()
+string BookInfo::GetISBN()
 {
 	return m_ISBN;
 }
@@ -80,7 +80,7 @@ void BookInfo::SetCategoryNumByKB()
 	cin >> m_CategoryNum;
 }
 
-void BookInfo::SetBookInfo()
+void BookInfo::SetBookInfoByKB()
 {
 	SetAuthorByKB();
 	SetTitleByKB();
@@ -114,4 +114,19 @@ void BookInfo::DisplayBookInfo()
 	DisplayTitle();
 	DisplayISBN();
 	DisplayCategoryNum();
+}
+
+void BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
+{
+	BorrowedBooks.EnQueue(bInfo);
+}
+
+void BookInfo::DeQueueBorrowed(BorrowedInfo bInfo)
+{
+	BorrowedBooks.DeQueue(bInfo);
+}
+
+BorrowedInfo BookInfo::GetFrontBorrowed()
+{
+	return BorrowedBooks.getFront();
 }
