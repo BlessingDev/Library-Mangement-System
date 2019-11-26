@@ -1,12 +1,23 @@
 #include "LibraryManager.h"
 
+LibraryManager::LibraryManager()
+{
+	mBookNum = 0;
+	mUserNum = 0;
+	mNextUserId = -1;
+	mBorrowDay = 14;
+	mPossBorrowNum = 5;
+}
+
+LibraryManager::~LibraryManager(){}
 /**
 * @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
 * @후: 책 추가
 **/
-void LibraryManager::AddBook(BookInfo* book)
+void LibraryManager::AddBook(BookInfo book)
 {
 	mBooks.Add(book);
+	mBookNum++;
 }
 
 /**
@@ -23,16 +34,16 @@ void LibraryManager::AddBookFromWeb(std::string)
 * @후: 입력된 ISBN에 해당하는 책을 삭제
 * @반환: 책 삭제에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::DeleteBook(int isbn)
+bool LibraryManager::DeleteBook(std::string isbn)
 {
 	BookInfo temp;
-	BookInfo* book = &temp;
-	book->SetISBN(isbn);
-	
-	mBooks.Get(book);
+	temp.SetISBN(isbn);
 
-	if (mBooks.Delete(book))
+	if (mBooks.Delete(temp))
+	{
+		mBookNum--;
 		return true;
+	}
 	else
 		return false;
 }
@@ -42,15 +53,14 @@ bool LibraryManager::DeleteBook(int isbn)
 * @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
 * @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::SearchBookWithIsbn(int isbn, BookInfo& book)
+bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
 	BookInfo temp;
-	BookInfo* curbook = &temp;
-	curbook->SetISBN(isbn);
+	temp.SetISBN(isbn);
 
-	if (mBooks.Get(curbook))
+	if (mBooks.Get(temp))
 	{
-		book = *curbook;
+		book = temp;
 		return true;
 	}
 	else
@@ -64,7 +74,36 @@ bool LibraryManager::SearchBookWithIsbn(int isbn, BookInfo& book)
 **/
 bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
 {
+	BookInfo dummy;
+	mBooks.ResetList();
+	int length = mBooks.GetLength();
 
+	string title, publisher, isbn, author;
+	bool found = false;
+
+	for (int i = 0; i < length; i++)
+	{
+
+		mBooks.GetNextItem(dummy);
+		isbn = dummy.GetISBN();
+		author = dummy.GetAuthor();
+		publisher = dummy.GetPublisher(); //getpublisher함수 구현필요
+		title = dummy.GetTitle();
+
+		if (isbn.find(search) == string:npos)
+			if (author.find(search) == string:npos)
+				if (publisher.find(search) == string:npos)
+					if (title.find(search) == string:npos)
+						break;
+
+		found = true;
+		searchList.Add(dummy);
+	}
+
+	if (found)
+		return true;
+	else
+		return false;
 }
 
 /**
@@ -72,9 +111,36 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 * @후: 책을 대출
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::BorrowBook(std::string, std::string)
+bool LibraryManager::BorrowBook(std::string isbn, std::string id)
 {
+	UserInfo curUser;
+	curUser.SetID(id);
+	mUsers.Get(curUser);
 
+	char curPenalty = curUser.GetUserPenalty();
+	char curNBorrow = curUser.GetUserNBorrow();
+
+	BookInfo curBook;
+	curBook.SetISBN(isbn);
+	mBooks.Get(curBook);
+
+	BorrowInfo newBorrow;
+	newBorrow.SetBookInfo(const curBook);
+	newBorrow.SetUserInfo(const curUser);
+	newBorrow.SetBorrowedDate();
+
+	if (curPenalty>0 || curNBorrow<=0)
+	{
+		//예약한 인원이 없는지 확인하는 코드 추가필요.
+		cout << "Borrow Failed";
+		return false;
+	}
+	else
+	{
+		curUser.SetUserNBorrow(--curNBorrow);
+		mBorrows.InsertItem(newBorrow);
+		return true;
+	}
 }
 
 /**
@@ -88,31 +154,55 @@ bool LibraryManager::ReserveBook(std::string, std::string, int&)
 }
 
 /**
+* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
+* @후 : 책을 반납
+* @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
+*/
+bool LibraryManager::ReturnBook(std::string isbn, std::string id)
+{
+	UserInfo curUser;
+	curUser.SetID(id);
+	mUsers.Get(curUser);
+
+	char curPenalty = curUser.GetUserPenalty();
+	char curNBorrow = curUser.GetUserNBorrow();
+
+	BookInfo curBook;
+	curBook.SetISBN(isbn);
+	mBooks.Get(curBook);
+
+	BorrowInfo newReturn;
+	//template type=borrowInfo일때 Get에서 기준?
+	//연체를확인하기 위해 날짜연산이 가능한 함수 필요.
+	
+}
+
+/**
 * @전: 연체된 대출이 존재할 것
 * @후: 연체된 대출을 출력
 **/
 void LibraryManager::DisplayDelayedBooks()
 {
-	BorrowInfo* dummy;
-
+	BorrowInfo dummy;
 	mBorrows.ResetList();
 	int length = mBorrows.GetLength();
 
 	for (int i = 0; i < length; i++)
 	{
 		mBorrows.GetNextItem(dummy);
-		//연체된 대출에 대한 어떤 정보 출력?
+		cout<<"Borrowed Date	:	"<<dummy.GetBorrowedDate();
+		//책이름, 빌린사람을 표시하는 get함수 필요.
 	}
-
 }
 
 /**
 * @전: 추가할 UserInfo 객체의 포인터를 전달한다.
 * @후: UserInfo 객체가 시스템에 추가된다.
 **/
-void LibraryManager::AddUser(UserInfo* user)
+void LibraryManager::AddUser(UserInfo user)
 {
 	mUsers.Add(user);
+	mUserNum++;
 }
 
 /**
@@ -120,9 +210,37 @@ void LibraryManager::AddUser(UserInfo* user)
 * @후: 사용자 정보를 LinkedList에 추가한다
 * @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 **/
-bool LibraryManager::SearchUserWithString(std::string, LinkedList<UserInfo>&)
+bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInfo>& searchList)
 {
+	UserInfo dummy;
+	mUsers.ResetList();
+	int length = mUsers.GetLength();
 
+	string name, address, id, number;
+	bool found = false;
+
+	for (int i = 0; i < length; i++)
+	{
+		mUsers.GetNextItem(dummy);
+		name = dummy.GetUserName();
+		address = dummy.GetUserAddress();
+		id = to_string(dummy.GetUserID());
+		number = to_string(dummy.GetUserNumber());
+
+		if (name.find(search) == string:npos)
+			if (address.find(search == string:npos))
+				if (id.find(search == string:npos))
+					if (number.find(search) == string:npos)
+						break;
+
+		found = true;
+		searchList.Add(dummy);
+	}
+
+	if (found)
+		return true;
+	else
+		return false;
 }
 
 /**
@@ -133,12 +251,11 @@ bool LibraryManager::SearchUserWithString(std::string, LinkedList<UserInfo>&)
 bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
 	UserInfo temp;
-	UserInfo* curuser = &temp;
-	curuser->SetID(id);
+	temp.SetID(id);
 
-	if (mUsers.Get(curuser))
+	if (mUsers.Get(temp))
 	{
-		user = *curuser;
+		user = temp;
 		return true;
 	}
 	else
@@ -153,13 +270,13 @@ bool LibraryManager::SearchUserById(int id, UserInfo& user)
 bool LibraryManager::DeleteUser(int id)
 {
 	UserInfo temp;
-	UserInfo* user = &temp;
-	user->SetID(id);
+	temp.SetID(id);
 
-	mUsers.Get(user);
-
-	if (mUsers.Delete(user))
+	if (mUsers.Delete(temp))
+	{
+		mUserNum--;
 		return true;
+	}
 	else
 		return false;
 }

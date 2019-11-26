@@ -30,6 +30,9 @@ public:
 	void SetUserName(string name);
 	void SetUserAddress(string address);
 	void SetUserNumber(int number);
+	void SetUserPenalty(char);
+	void SetUserNReserve(char);
+	void SetUserNBorrow(char);
 
 	void SetIDByKB();
 	void SetUserNameByKB();
@@ -41,6 +44,9 @@ public:
 	string GetUserName();
 	string GetUserAddress();
 	int GetUserNumber();
+	char GetUserPenalty();
+	char GetUserNReserve();
+	char GetUserNBorrow();
 
 	void DisplayUserID();
 	void DisplayUserName();
@@ -52,6 +58,10 @@ public:
 	int WriteDataToFile(ofstream& fout);
 
 	RelationType CompareByID(const UserInfo& info);
+
+	bool operator<(const UserInfo&);
+	bool operator>(const UserInfo&);
+	bool operator==(const UserInfo&);
 };
 
 #endif // !_USERINFO_H
