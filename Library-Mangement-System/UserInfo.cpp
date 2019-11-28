@@ -7,6 +7,10 @@ UserInfo::UserInfo()
 	m_userAddress = "";
 	m_userNumber = -1;
 	m_borrowedBookList = NULL;
+	
+	m_penalty = 0;
+	m_nReserve = 4;
+	m_nBorrow = 5;
 }
 
 UserInfo::~UserInfo()
@@ -32,6 +36,21 @@ void UserInfo::SetUserAddress(string address)
 void UserInfo::SetUserNumber(int number)
 {
 	m_userNumber = number;
+}
+
+void UserInfo::SetUserPenalty(char penalty)
+{
+	m_penalty = penalty;
+}
+
+void UserInfo::SetUserNBorrow(char nborrow)
+{
+	m_nBorrow = nborrow;
+}
+
+void UserInfo::SetUserNReserve(char nreserve)
+{
+	m_nReserve = nreserve;
 }
 
 void UserInfo::SetIDByKB()
@@ -84,6 +103,21 @@ string UserInfo::GetUserAddress()
 int UserInfo::GetUserNumber()
 {
 	return m_userNumber;
+}
+
+char UserInfo::GetUserPenalty()
+{
+	return m_penalty;
+}
+
+char UserInfo::GetUserNReserve()
+{
+	return m_nReserve;
+}
+
+char UserInfo::GetUserNBorrow()
+{
+	return m_nBorrow;
 }
 
 void UserInfo::DisplayUserID()
@@ -143,4 +177,28 @@ RelationType UserInfo::CompareByID(const UserInfo& info)
 		return LESS;
 	else
 		return EQUAL;
+}
+
+bool UserInfo::operator<(const UserInfo& comp)
+{
+	if (this->m_userID < comp.m_userID)
+		return true;
+	else
+		return false;
+}
+
+bool UserInfo::operator>(const UserInfo& comp)
+{
+	if (this->m_userID > comp.m_userID)
+		return true;
+	else
+		return false;
+}
+
+bool UserInfo::operator==(const UserInfo& comp)
+{
+	if (this->m_userID == comp.m_userID)
+		return true;
+	else
+		return false;
 }
