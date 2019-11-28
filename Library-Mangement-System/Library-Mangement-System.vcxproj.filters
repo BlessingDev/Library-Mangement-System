@@ -25,6 +25,9 @@
     <ClCompile Include="BookInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TimeForm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     </ClInclude>
@@ -35,6 +38,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CircularQueue.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeForm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
