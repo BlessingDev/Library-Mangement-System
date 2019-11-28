@@ -3,12 +3,13 @@
 
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
+#include "SortedList.h"
 
 class LibraryManager
 {
 private:
-	LinkedList<UserInfo*> mUsers;
-	LinkedList<BookInfo*> mBooks;
+	SortedList<UserInfo> mUsers;
+	SortedList<BookInfo> mBooks;
 	SortedLinkedList<BorrowInfo*> mBorrows;
 	int mBookNum;
 	int mUserNum;
