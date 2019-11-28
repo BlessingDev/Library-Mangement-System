@@ -3,6 +3,7 @@
 
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
+#include "SortedList.h"
 
 #include "UserInfo.h"
 #include "BookInfo.h"
@@ -11,9 +12,9 @@
 class LibraryManager
 {
 private:
-	LinkedList<UserInfo> mUsers;
-	LinkedList<BookInfo> mBooks;
-	SortedLinkedList<BorrowInfo> mBorrows;
+	SortedList<UserInfo> mUsers;
+	SortedList<BookInfo> mBooks;
+	SortedLinkedList<BorrowInfo*> mBorrows;
 	int mBookNum;
 	int mUserNum;
 	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID
