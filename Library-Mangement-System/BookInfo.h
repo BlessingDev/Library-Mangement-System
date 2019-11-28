@@ -1,5 +1,10 @@
-#include <iostream>
-#include <string>
+#pragma once
+#ifndef _BOOKINFO_H
+#define _BOOKINFO_H
+
+#include "CircularQueue.h"
+#include "BorrowedInfo.h"
+
 using namespace std;
 
 class BookInfo
@@ -10,20 +15,19 @@ public:
 
 	void SetAuthor(string author);
 	void SetTitle(string title);
-	void SetISBN(int ISBN);
+	void SetISBN(string  ISBN);
 	void SetCategoryNum(int CategoryNum);
 
 	string GetAuthor();
 	string GetTitle();
-	int GetISBN();
+	string GetISBN();
 	int GetCategoryNum();
 
 	void SetAuthorByKB();
 	void SetTitleByKB();
 	void SetISBNByKB();
 	void SetCategoryNumByKB();
-
-	void SetBookInfo();
+	void SetBookInfoByKB();
 
 	void DisplayAuthor();
 	void DisplayTitle();
@@ -31,20 +35,31 @@ public:
 	void DisplayCategoryNum();
 	void DisplayBookInfo();
 
-	//EnQueue
-	//bool BorrowBook();
+	/**
+	*	@brief	EnQueue BorrowedInfoQ.
+	*	@pre	Queue has been initialized.
+	*	@post	If (queue is full), FullQueue exception is thrown; otherwise, newItem is at the last.
+	*/
+	void EnQueueBorrowed(BorrowedInfo bInfo);
 
-	//DeQueue
-	//bool ReturnBook(); 
-	
+	/**
+	*	@brief	DeQueue BorrowedInfoQ.
+	*	@pre	Queue has been initialized.
+	*	@post	If (queue is empty), EmptyQueue exception is thrown; otherwise, first element has been removed from queue. item gets value of removed item.
+	*/
+	void DeQueueBorrowed(BorrowedInfo bInfo);
+
+	BorrowedInfo GetFrontBorrowed();
+
 
 private:
 	string m_Author;
 	string m_Publisher;
 	string m_Title;
 
-	int m_ISBN;
+	string m_ISBN;
 	int m_CategoryNum;
-//	Queue BorrowedBooks;
+	CircularQueueType<BorrowedInfo> BorrowedBooks;
 };
 
+#endif // !_BOOKINFO_H
