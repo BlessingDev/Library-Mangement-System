@@ -3,101 +3,114 @@
 
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
+#include "SortedList.h"
+
+#include "UserInfo.h"
+#include "BookInfo.h"
+#include "BorrowInfo.h"
 
 class LibraryManager
 {
 private:
-	LinkedList<UserInfo*> mUsers;
-	LinkedList<BookInfo*> mBooks;
+	SortedList<UserInfo> mUsers;
+	SortedList<BookInfo> mBooks;
 	SortedLinkedList<BorrowInfo*> mBorrows;
 	int mBookNum;
 	int mUserNum;
-	int mNextUserId;	// ´ÙÀ½¿¡ Ãß°¡µÇ´Â »ç¿ëÀÚ¿¡°Ô ºÎ¿©ÇÒ ID
-	int mBorrowDay;		// ´ëÃâ ±â°£
-	int mPossBorrowNum;	// ÇÑ »ç¶÷ÀÌ ÃÖ´ë ´ëÃâ °¡´ÉÇÑ ±Ç¼ö
+	int mNextUserId;	// ë‹¤ìŒì— ì¶”ê°€ë˜ëŠ” ì‚¬ìš©ìžì—ê²Œ ë¶€ì—¬í•  ID
+	int mBorrowDay;		// ëŒ€ì¶œ ê¸°ê°„
+	int mPossBorrowNum;	// í•œ ì‚¬ëžŒì´ ìµœëŒ€ ëŒ€ì¶œ ê°€ëŠ¥í•œ ê¶Œìˆ˜
 
 public:
+
 	LibraryManager();
 
 	~LibraryManager();
 
 	/**
-	* @Àü: ÃÊ±âÈ­µÈ Book ¸®½ºÆ®, Ãß°¡ÇÒ BookInfo °´Ã¼
-	* @ÈÄ: Ã¥ Ãß°¡
+	* @ì „: ì´ˆê¸°í™”ëœ Book ë¦¬ìŠ¤íŠ¸, ì¶”ê°€í•  BookInfo ê°ì²´
+	* @í›„: ì±… ì¶”ê°€
 	**/
-	void AddBook(BookInfo*);
+	void AddBook(BookInfo);
 
 	/**
-	* @Àü: ÃÊ±âÈ­µÈ Book ¸®½ºÆ®, °Ë»öÇÒ ¹®ÀÚ¿­
-	* @ÈÄ: Ã¥ Ãß°¡
+	* @ì „: ì´ˆê¸°í™”ëœ Book ë¦¬ìŠ¤íŠ¸, ê²€ìƒ‰í•  ë¬¸ìžì—´
+	* @í›„: ì±… ì¶”ê°€
 	**/
 	void AddBookFromWeb(std::string);
 
 	/**
-	* @Àü: Book List¿¡ ÇØ´ç Ã¥ÀÌ µé¾îÀÖÀ» °Í, Ã¥ÀÇ ISBNÀ» ¾Ë°í ÀÖÀ» °Í
-	* @ÈÄ: ÀÔ·ÂµÈ ISBN¿¡ ÇØ´çÇÏ´Â Ã¥À» »èÁ¦
-	* @¹ÝÈ¯: Ã¥ »èÁ¦¿¡ ¼º°øÇÏ¸é true, ½ÇÆÐÇÏ¸é false¸¦ ¹ÝÈ¯
+	* @ì „: Book Listì— í•´ë‹¹ ì±…ì´ ë“¤ì–´ìžˆì„ ê²ƒ, ì±…ì˜ ISBNì„ ì•Œê³  ìžˆì„ ê²ƒ
+	* @í›„: ìž…ë ¥ëœ ISBNì— í•´ë‹¹í•˜ëŠ” ì±…ì„ ì‚­ì œ
+	* @ë°˜í™˜: ì±… ì‚­ì œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool DeleteBook(std::string);
 
 	/**
-	* @Àü: °Ë»öÇÒ isbnÀ» string ÇüÅÂ·Î Àü´Þ¹Þ´Â´Ù. Ã¥ Á¤º¸¸¦ ¹ÝÈ¯¹ÞÀ» BookInfo °´Ã¼¸¦ Àü´ÞÇÑ´Ù.
-	* @ÈÄ: ISBN °Ë»öÀ» ¼öÇàÇÏ°í, °Ë»ö¿¡ ¼º°øÇÏ¸é °Ë»öµÈ Ã¥ÀÇ Á¤º¸ BookInfo& °´Ã¼¿¡ Áý¾î³Ö´Â´Ù.
-	* @¹ÝÈ¯: Ã¥ °Ë»ö¿¡ ¼º°øÇÏ¸é true, ½ÇÆÐÇÏ¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ê²€ìƒ‰í•  isbnì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì±… ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ BookInfo ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+	* @í›„: ISBN ê²€ìƒ‰ì„ ìˆ˜í–‰í•˜ê³ , ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ ê²€ìƒ‰ëœ ì±…ì˜ ì •ë³´ BookInfo& ê°ì²´ì— ì§‘ì–´ë„£ëŠ”ë‹¤.
+	* @ë°˜í™˜: ì±… ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool SearchBookWithIsbn(std::string, BookInfo&);
 
 	/**
-	* @Àü: °Ë»öÇÒ ¹®ÀÚ¿­À» string ÇüÅÂ·Î Àü´Þ¹Þ´Â´Ù. Ã¥ Á¤º¸¸¦ ¹ÝÈ¯¹ÞÀ» LinkedList<BookInfo> °´Ã¼¸¦ Àü´ÞÇÑ´Ù.
-	* @ÈÄ: ¸ðµç ¹®ÀÚ¿­ ¼Ó¼º¿¡ ´ëÇØ ÅëÇÕ °Ë»öÀ» ¼öÇàÇÏ°í, °Ë»ö¿¡ ¼º°øÇÏ¸é °Ë»öµÈ Ã¥ÀÇ Á¤º¸¸¦ LinkedList¿¡ AddÇÑ´Ù
-	* @¹ÝÈ¯: °Ë»öµÈ Ã¥ÀÌ ÇÑ ±ÇÀÌ¶óµµ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ê²€ìƒ‰í•  ë¬¸ìžì—´ì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì±… ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ LinkedList<BookInfo> ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+	* @í›„: ëª¨ë“  ë¬¸ìžì—´ ì†ì„±ì— ëŒ€í•´ í†µí•© ê²€ìƒ‰ì„ ìˆ˜í–‰í•˜ê³ , ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ ê²€ìƒ‰ëœ ì±…ì˜ ì •ë³´ë¥¼ LinkedListì— Addí•œë‹¤
+	* @ë°˜í™˜: ê²€ìƒ‰ëœ ì±…ì´ í•œ ê¶Œì´ë¼ë„ ìžˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool SearchBookWithString(std::string, LinkedList<BookInfo>&);
 
 	/**
-	* @Àü: ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBN°ú ºô¸®°íÀÚ ÇÏ´Â »ç¶÷ÀÇ UserID¸¦ Àü´Þ. ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ¿¹¾àÀÌ ¾ø°Å³ª Àü´ÞµÈ »ç¶÷ÀÇ ¿¹¾àÀÏ °Í.
-	* @ÈÄ: Ã¥À» ´ëÃâ
-	* @¹ÝÈ¯: ´ëÃâ¿¡ ¼º°øÇÏ¸é true, ½ÇÆÐÇÏ¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì‚¬ëžŒì˜ UserIDë¥¼ ì „ë‹¬. ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì±…ì˜ ì˜ˆì•½ì´ ì—†ê±°ë‚˜ ì „ë‹¬ëœ ì‚¬ëžŒì˜ ì˜ˆì•½ì¼ ê²ƒ.
+	* @í›„: ì±…ì„ ëŒ€ì¶œ
+	* @ë°˜í™˜: ëŒ€ì¶œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜. ì±…ì„ ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì‚¬ëžŒì˜ penalty, nbookì„ í™•ì¸í•˜ê³  ì¡°ê±´ì— ë§žì§€ ì•ŠëŠ”ë‹¤ë©´ ëŒ€ì¶œì‹¤íŒ¨
 	**/
 	bool BorrowBook(std::string, std::string);
 
 	/**
-	* @Àü: ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBN°ú ºô¸®°íÀÚ ÇÏ´Â »ç¶÷ÀÇ UserID¸¦ Àü´Þ. ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ¿¹¾àÀÌ ²Ë Â÷ÀÖ°Å³ª ÀÌ¹Ì ¿¹¾àÅ¥¿¡ µé¾îÀÖÁö ¾ÊÀ» °Í. ¸î ¹øÂ° ¿¹¾àÀÎÁö¸¦ ¹ÝÈ¯¹ÞÀ» int º¯¼ö
-	* @ÈÄ: Ã¥ ´ëÃâÀ» ¿¹¾à
-	* @¹ÝÈ¯: ´ëÃâ¿¡ ¼º°øÇÏ¸é true, ½ÇÆÐÇÏ¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì‚¬ëžŒì˜ UserIDë¥¼ ì „ë‹¬. ë¹Œë¦¬ê³ ìž í•˜ëŠ” ì±…ì˜ ì˜ˆì•½ì´ ê½‰ ì°¨ìžˆê±°ë‚˜ ì´ë¯¸ ì˜ˆì•½íì— ë“¤ì–´ìžˆì§€ ì•Šì„ ê²ƒ. ëª‡ ë²ˆì§¸ ì˜ˆì•½ì¸ì§€ë¥¼ ë°˜í™˜ë°›ì„ int ë³€ìˆ˜
+	* @í›„: ì±… ëŒ€ì¶œì„ ì˜ˆì•½
+	* @ë°˜í™˜: ëŒ€ì¶œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool ReserveBook(std::string, std::string, int&);
 
 	/**
-	* @Àü: ¿¬Ã¼µÈ ´ëÃâÀÌ Á¸ÀçÇÒ °Í
-	* @ÈÄ: ¿¬Ã¼µÈ ´ëÃâÀ» Ãâ·Â
+	* @ì „ : ë°˜ë‚©í•˜ê³ ìž í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë°˜ë‚©í•˜ê³ ìž í•˜ëŠ” ì‚¬ëžŒì˜ User IDë¥¼ ì „ë‹¬
+	* @í›„ : ì±…ì„ ë°˜ë‚©
+	* @ë°˜í™˜ : ë°˜ë‚©ì— ì„±ê³µí•˜ë©´ true. ì±…ì´ ì—°ì²´ë˜ì—ˆì„ ê²½ìš° ì—°ì²´ë˜ì—ˆë‹¤ëŠ” ë©”ì„¸ì§€ë¥¼ ì¶œë ¥í•˜ê³ , í•´ë‹¹ ì‚¬ëžŒì˜ penaltyë¥¼ ì—°ì²´ë‚ ì§œë§Œí¼ ì¶”ê°€
+	*/
+	bool ReturnBook(std::string, std::string);
+
+	/**
+	* @ì „: ì—°ì²´ëœ ëŒ€ì¶œì´ ì¡´ìž¬í•  ê²ƒ
+	* @í›„: ì—°ì²´ëœ ëŒ€ì¶œì„ ì¶œë ¥
 	**/
 	void DisplayDelayedBooks();
 
 	/**
-	* @Àü: Ãß°¡ÇÒ UserInfo °´Ã¼ÀÇ Æ÷ÀÎÅÍ¸¦ Àü´ÞÇÑ´Ù.
-	* @ÈÄ: UserInfo °´Ã¼°¡ ½Ã½ºÅÛ¿¡ Ãß°¡µÈ´Ù.
+	* @ì „: ì¶”ê°€í•  UserInfo ê°ì²´ì˜ í¬ì¸í„°ë¥¼ ì „ë‹¬í•œë‹¤.
+	* @í›„: UserInfo ê°ì²´ê°€ ì‹œìŠ¤í…œì— ì¶”ê°€ëœë‹¤.
 	**/
-	void AddUser(UserInfo*);
+	void AddUser(UserInfo);
 
 	/**
-	* @Àü: °Ë»öÇÒ ¹®ÀÚ¿­À» string ÇüÅÂ·Î Àü´Þ¹Þ´Â´Ù. »ç¿ëÀÚ Á¤º¸¸¦ ¹ÝÈ¯¹ÞÀ» LinkedList<UserInfo> °´Ã¼¸¦ Àü´ÞÇÑ´Ù.
-	* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ LinkedList¿¡ Ãß°¡ÇÑ´Ù
-	* @¹ÝÈ¯: °Ë»öµÈ »ç¿ëÀÚ°¡ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ê²€ìƒ‰í•  ë¬¸ìžì—´ì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì‚¬ìš©ìž ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ LinkedList<UserInfo> ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+	* @í›„: ì‚¬ìš©ìž ì •ë³´ë¥¼ LinkedListì— ì¶”ê°€í•œë‹¤
+	* @ë°˜í™˜: ê²€ìƒ‰ëœ ì‚¬ìš©ìžê°€ ìžˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 	**/
-	bool SearchUserWithString(std::string, LinkedList<USerInfo>&);
+	bool SearchUserWithString(std::string, LinkedList<UserInfo>&);
 
 	/**
-	* @Àü: Ã£À» »ç¿ëÀÚÀÇ ID¸¦ Àü´Þ¹Þ´Â´Ù. »ç¿ëÀÚ Á¤º¸¸¦ ¹ÝÈ¯¹ÞÀ» UserInfo °´Ã¼¸¦ Àü´ÞÇÑ´Ù.
-	* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ Ã£À¸¸é UserInfo °´Ã¼¿¡ ³Ö´Â´Ù
-	* @¹ÝÈ¯: °Ë»öµÈ »ç¿ëÀÚ°¡ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ì°¾ì„ ì‚¬ìš©ìžì˜ IDë¥¼ ì „ë‹¬ë°›ëŠ”ë‹¤. ì‚¬ìš©ìž ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ UserInfo ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+	* @í›„: ì‚¬ìš©ìž ì •ë³´ë¥¼ ì°¾ìœ¼ë©´ UserInfo ê°ì²´ì— ë„£ëŠ”ë‹¤
+	* @ë°˜í™˜: ê²€ìƒ‰ëœ ì‚¬ìš©ìžê°€ ìžˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool SearchUserById(int, UserInfo&);
 
 	/**
-	* @Àü: Á¦°ÅÇÒ »ç¿ëÀÚÀÇ ID¸¦ Àü´Þ¹Þ´Â´Ù.
-	* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ Ã£À¸¸é ½Ã½ºÅÛ¿¡¼­ »èÁ¦ÇÑ´Ù
-	* @¹ÝÈ¯: »èÁ¦¿¡ ¼º°øÇÏ¸é true, ½ÇÆÐÇÏ¸é false¸¦ ¹ÝÈ¯
+	* @ì „: ì œê±°í•  ì‚¬ìš©ìžì˜ IDë¥¼ ì „ë‹¬ë°›ëŠ”ë‹¤.
+	* @í›„: ì‚¬ìš©ìž ì •ë³´ë¥¼ ì°¾ìœ¼ë©´ ì‹œìŠ¤í…œì—ì„œ ì‚­ì œí•œë‹¤
+	* @ë°˜í™˜: ì‚­ì œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 	**/
 	bool DeleteUser(int);
 };
