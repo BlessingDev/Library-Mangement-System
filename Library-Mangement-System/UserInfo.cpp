@@ -6,12 +6,12 @@ UserInfo::UserInfo()
 	m_userName = "";
 	m_userAddress = "";
 	m_userNumber = -1;
-	m_borrowedBookList = NULL;
+//	m_borrowedBookList = NULL;
 }
 
 UserInfo::~UserInfo()
 {
-	delete m_borrowedBookList;
+//	delete m_borrowedBookList;
 }
 
 void UserInfo::SetID(int ID)

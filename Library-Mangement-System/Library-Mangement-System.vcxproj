@@ -77,6 +77,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,7 +119,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BookInfo.cpp" />
-    <ClCompile Include="BorrowedInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TimeForm.cpp" />
     <ClCompile Include="UserInfo.cpp" />
