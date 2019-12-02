@@ -111,6 +111,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 * @후: 책을 대출
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
+
 bool LibraryManager::BorrowBook(std::string isbn, std::string id)
 {
 	UserInfo curUser;
@@ -131,7 +132,6 @@ bool LibraryManager::BorrowBook(std::string isbn, std::string id)
 
 	if (curPenalty>0 || curNBorrow<=0)
 	{
-		//예약한 인원이 없는지 확인하는 코드 추가필요.
 		cout << "Borrow Failed";
 		return false;
 	}
@@ -148,9 +148,35 @@ bool LibraryManager::BorrowBook(std::string isbn, std::string id)
 * @후: 책 대출을 예약
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::ReserveBook(std::string, std::string, int&)
-{
 
+bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowedNum)
+{
+	UserInfo curUser;
+	curUser.SetID(id);
+	mUsers.Get(curUser);
+
+	char curNBorrow = curUser.GetUserNBorrow();
+
+	BookInfo curBook;
+	curBook.SetISBN(isbn);
+	mBooks.Get(curBook);
+
+	BorrowInfo newBorrow;
+	newBorrow.SetBookInfo(const curBook);
+	newBorrow.SetUserInfo(const curUser);
+	newBorrow.SetBorrowedDate();
+
+	try
+	{
+		curUser.SetUserNBorrow(--curNBorrow);
+		curBook.EnQueueBorrowed(newBorrow);
+		borrowedNum = curBook.GetNumReservation()
+		return true;
+	}
+	catch
+	{
+		return false;
+	}
 }
 
 /**
