@@ -3,15 +3,15 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
-#include "BookInfo"
-#include "UserInfo"
+#include "BookInfo.h"
+#include "UserInfo.h"
 
 using namespace std;
 
 /**
 *	Relation between two items.
 */
-enum RelationType { LESS, GREATER, EQUAL };
+enum RelationType;
 
 
 class BorrowedInfo

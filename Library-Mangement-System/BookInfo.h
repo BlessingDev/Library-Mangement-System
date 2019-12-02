@@ -21,6 +21,7 @@ public:
 	string GetAuthor();
 	string GetTitle();
 	string GetISBN();
+	string GetPublisher();
 	int GetCategoryNum();
 
 	void SetAuthorByKB();
