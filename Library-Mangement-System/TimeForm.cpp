@@ -1,8 +1,30 @@
 #include "TimeForm.h"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <cstdlib>
 
+TimeForm::TimeForm()
+	: mTime{ 0 }
+{
+	auto timer = std::time(nullptr);
+
+	localtime_s(&mTime, &timer);
+}
+
 TimeForm::TimeForm(std::string timeStr)
+	: mTime{ 0 }
+{
+	FromString(timeStr);
+}
+
+TimeForm::TimeForm(std::time_t ts)
+	: mTime{ 0 }
+{
+	FromTimeStamp(ts);
+}
+
+void TimeForm::FromString(std::string timeStr)
 {
 	try
 	{
@@ -19,79 +41,64 @@ TimeForm::TimeForm(std::string timeStr)
 	}
 
 
-	year = atoi(timeStr.substr(0, 4).c_str());
-	month = atoi(timeStr.substr(4, 2).c_str());
-	day = atoi(timeStr.substr(6, 2).c_str());
-	hour = atoi(timeStr.substr(8, 2).c_str());
-	min = atoi(timeStr.substr(10, 2).c_str());
-	sec = atoi(timeStr.substr(12, 2).c_str());
+	int year = atoi(timeStr.substr(0, 4).c_str());
+	int month = atoi(timeStr.substr(4, 2).c_str());
+	int day = atoi(timeStr.substr(6, 2).c_str());
+	int hour = atoi(timeStr.substr(8, 2).c_str());
+	int min = atoi(timeStr.substr(10, 2).c_str());
+	int sec = atoi(timeStr.substr(12, 2).c_str());
+
+	std::ostringstream oss;
+	oss << year << "-" << month << "-" << day << " " << hour << ":" << min << ":" << sec;
+	std::istringstream iss(oss.str());
+	iss >> std::get_time(&mTime, "%Y-%m-%d %H:%M:%S");
+}
+
+void TimeForm::FromTimeStamp(std::time_t ts)
+{
+	localtime_s(&mTime, &ts);
+}
+
+int TimeForm::year() const
+{
+	return 1900 + mTime.tm_year;
+}
+
+int TimeForm::month() const
+{
+	return mTime.tm_mon + 1;
+}
+
+int TimeForm::day() const
+{
+	return mTime.tm_mday;
+}
+
+int TimeForm::hour() const
+{
+	return mTime.tm_hour;
+}
+
+int TimeForm::minute() const
+{
+	return mTime.tm_min;
+}
+
+int TimeForm::second() const
+{
+	return mTime.tm_sec;
+}
+
+std::time_t TimeForm::timeStamp() const
+{
+	std::tm tTm = this->mTime;
+	auto stamp = std::mktime(std::addressof(tTm));
+	return stamp;
 }
 
 bool TimeForm::operator<(const TimeForm& other)
 {
-	if (this->year < other.year)
-	{
-		return true;
-	}
-	else if (this->year == other.year)
-	{
-		if (this->month < other.month)
-		{
-			return true;
-		}
-		else if (this->month == other.month)
-		{
-			if (this->day > other.day)
-			{
-				return true;
-			}
-			else if (this->day == other.day)
-			{
-				if (this->hour < other.hour)
-				{
-					return true;
-				}
-				else if (this->hour == other.hour)
-				{
-					if (this->min < other.min)
-					{
-						return true;
-					}
-					else if (this->min == other.min)
-					{
-						if (this->sec < other.sec)
-						{
-							return true;
-						}
-						else
-						{
-							return false;
-						}
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
-		return false;
-	}
+	return (this->timeStamp() < other.timeStamp());
 }
 
 bool TimeForm::operator<=(const TimeForm& other)
@@ -101,69 +108,7 @@ bool TimeForm::operator<=(const TimeForm& other)
 
 bool TimeForm::operator>(const TimeForm& other)
 {
-	if (this->year > other.year)
-	{
-		return true;
-	}
-	else if (this->year == other.year)
-	{
-		if (this->month > other.month)
-		{
-			return true;
-		}
-		else if (this->month == other.month)
-		{
-			if (this->day > other.day)
-			{
-				return true;
-			}
-			else if (this->day == other.day)
-			{
-				if (this->hour > other.hour)
-				{
-					return true;
-				}
-				else if (this->hour == other.hour)
-				{
-					if (this->min > other.min)
-					{
-						return true;
-					}
-					else if (this->min == other.min)
-					{
-						if (this->sec > other.sec)
-						{
-							return true;
-						}
-						else
-						{
-							return false;
-						}
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
-		return false;
-	}
+	return (this->timeStamp() > other.timeStamp());
 }
 
 bool TimeForm::operator>=(const TimeForm& other)
@@ -173,12 +118,17 @@ bool TimeForm::operator>=(const TimeForm& other)
 
 bool TimeForm::operator==(const TimeForm& other)
 {
-	return (
-		this->year == other.year &&
-		this->month == other.month &&
-		this->day == other.month &&
-		this->hour == other.hour &&
-		this->min == other.min &&
-		this->sec == other.sec
-		);
+	return (this->timeStamp() == other.timeStamp());
+}
+
+std::time_t TimeForm::operator-(const TimeForm& other)
+{
+	int diff = this->timeStamp() - other.timeStamp();
+	return diff;
+}
+
+std::time_t TimeForm::operator+(const TimeForm& other)
+{
+	std::time_t sum = this->timeStamp() + other.timeStamp();
+	return sum;
 }

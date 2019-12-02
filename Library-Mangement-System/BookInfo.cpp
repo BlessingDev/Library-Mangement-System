@@ -1,14 +1,14 @@
 #include "BookInfo.h"
 
 BookInfo::BookInfo()
+	: mBorrowingInfo(10)
 {
-	m_ISBN = 0;
+	m_ISBN = "";
 	m_CategoryNum = 0;
 
 	m_Title = "";
 	m_Publisher = "";
 	m_Author = "";	
-	BorrowedBooks.setMaxSize(10); //Set Q size
 }
 
 BookInfo::~BookInfo()
@@ -116,17 +116,41 @@ void BookInfo::DisplayBookInfo()
 	DisplayCategoryNum();
 }
 
-void BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
+bool BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
 {
-	BorrowedBooks.EnQueue(bInfo);
+	try
+	{
+		mBorrowingInfo.EnQueue(bInfo);
+		return true;
+	}
+	catch (FullQueue e)
+	{
+		return false;
+	}
 }
 
-void BookInfo::DeQueueBorrowed(BorrowedInfo bInfo)
+bool BookInfo::DeQueueBorrowed(BorrowedInfo& bInfo)
 {
-	BorrowedBooks.DeQueue(bInfo);
+	try
+	{
+		mBorrowingInfo.DeQueue(bInfo);
+		return true;
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
 }
 
-BorrowedInfo BookInfo::GetFrontBorrowed()
+bool BookInfo::GetCurrentBorrowInfo(BorrowedInfo& bInfo)
 {
-	return BorrowedBooks.getFront();
+	try
+	{
+		bInfo = mBorrowingInfo.getFront();
+		return true;
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
 }

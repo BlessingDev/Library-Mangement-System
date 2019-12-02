@@ -15,7 +15,7 @@ UserInfo::UserInfo()
 
 UserInfo::~UserInfo()
 {
-	delete m_borrowedBookList;
+//	delete m_borrowedBookList;
 }
 
 void UserInfo::SetID(int ID)
