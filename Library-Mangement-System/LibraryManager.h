@@ -14,7 +14,7 @@ class LibraryManager
 private:
 	SortedList<UserInfo> mUsers;
 	SortedList<BookInfo> mBooks;
-	SortedLinkedList<BorrowInfo*> mBorrows;
+	SortedLinkedList<BorrowInfo> mBorrows;
 	int mBookNum;
 	int mUserNum;
 	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID

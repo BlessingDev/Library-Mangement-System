@@ -36,5 +36,14 @@ string BorrowInfo::GetBorrowedDate()
 	return m_borrowedDate;
 }
 
+BookInfo BorrowInfo::GetBookInfo()
+{
+	return m_bookInfo;
+}
+
+UserInfo BorrowInfo::GetUserInfo()
+{
+	return m_userInfo;
+}
 
 
