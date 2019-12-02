@@ -16,7 +16,7 @@ private:
 	string m_userName;
 	string m_userAddress;
 	int m_userNumber;
-	list<BorrowedBookList>* m_borrowedBookList;
+	//list<BorrowedBookList>* m_borrowedBookList;
 
 	char m_penalty;
 	char m_nReserve;

@@ -39,7 +39,7 @@ public:
 
 /**
 *	@brief	Queue class.
-*	@details	This class processes as First In, First Out (FIFO), ÅÛÇÃ¸´À» Àû¿ëÇØ ´Ù¾çÇÑ º¯¼ö Å¸ÀÔÀ» ÀúÀåÇÒ ¼ö ÀÖ´Ù.
+*	@details	This class processes as First In, First Out (FIFO), í…œí”Œë¦¿ì„ ì ìš©í•´ ë‹¤ì–‘í•œ ë³€ìˆ˜ íƒ€ì…ì„ ì €ì¥í•  ìˆ˜ ìˆë‹¤.
 */
 
 template <typename T>
@@ -85,7 +85,7 @@ public:
 	/**
 	*	@brief	Makes the queue empty.
 	*	@pre	Queue has been initialized.
-	*	@post	miFront¿Í miRear is set same value as Constructer.
+	*	@post	miFrontì™€ miRear is set same value as Constructer.
 	*/
 	void MakeEmpty();
 
@@ -189,7 +189,7 @@ void CircularQueueType<T>::EnQueue(T item)
 	}
 	else
 	{
-		miRear = (miRear + 1) % mMaxQueue; //ÇÏ³ª ´õ Å« °É·Î ³ª´²Áà¾ß ±ò²ûÇÏ°Ô ³Ñ¾î°¨
+		miRear = (miRear + 1) % mMaxQueue; //í•˜ë‚˜ ë” í° ê±¸ë¡œ ë‚˜ëˆ ì¤˜ì•¼ ê¹”ë”í•˜ê²Œ ë„˜ì–´ê°
 		mPtrItems[miRear] = item;
 		mQLength++;
 	}
@@ -225,7 +225,7 @@ void CircularQueueType<T>::Print()
 		while(1)
 		{
 			i++;
-			i %= mMaxQueue; //maxsizeÀÏ¶§´Â À¯ÁöÇÏ°í, maxsize+1ÀÏ¶§ 0À¸·Î
+			i %= mMaxQueue; //maxsizeì¼ë•ŒëŠ” ìœ ì§€í•˜ê³ , maxsize+1ì¼ë•Œ 0ìœ¼ë¡œ
 			cout << mPtrItems[i] << "-";
 
 			if (i == miRear)
@@ -247,6 +247,17 @@ template<typename T>
 int CircularQueueType<T>::GetLength()
 {
 	return mQLength;
+}
+
+template<typename T>
+inline T CircularQueueType<T>::getFront()
+{
+	if (IsEmpty())
+	{
+		throw EmptyQueue();
+	}
+
+	return m_pItems[m_iFront];
 }
 
 #endif
