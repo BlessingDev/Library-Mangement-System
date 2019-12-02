@@ -85,7 +85,7 @@ public:
 	/**
 	*	@brief	Makes the queue empty.
 	*	@pre	Queue has been initialized.
-	*	@post	m_iFront와 m_iRear is set same value as Constructer.
+	*	@post	miFront와 miRear is set same value as Constructer.
 	*/
 	void MakeEmpty();
 
@@ -108,7 +108,7 @@ public:
 	*	@pre	Queue has been initialized.
 	*/
 
-	T getFront();
+	T GetFront();
 
 	/**
 	*	@brief	Print all the items in the queue on screen
@@ -118,62 +118,65 @@ public:
 	void Print();
 
 	/**
-	* @brief Set size of Q
+	* @brief Return length of current Q
 	*/
-	void setMaxSize(int num);
+	int GetLength();
 
 private:
-	int m_iFront;	//index of one infront of the first element.
-	int m_iRear;	//index of the last element.
-	int m_nMaxQueue;	//max size of the queue.
-	T* m_pItems;	//pointer for dynamic allocation
-	int maxQueue; //defining at Application
+	int miFront;	//index of one infront of the first element.
+	int miRear;	//index of the last element.
+	int mMaxQueue;	//max size of the queue.
+	T* mPtrItems;	//pointer for dynamic allocation
+	int maxQueue; //defining Q size
+	int mQLength; //Length of Q
 };
 
 
 template<typename T>
 CircularQueueType<T>::CircularQueueType()
 {
-	maxQueue = 0;
-	m_nMaxQueue = maxQueue + 1;
-	m_iFront = m_nMaxQueue - 1;
-	m_iRear = m_nMaxQueue - 1;
-	m_pItems = new T[m_nMaxQueue];
+	maxQueue = 10;
+	mMaxQueue = maxQueue + 1;
+	miFront = mMaxQueue - 1;
+	miRear = mMaxQueue - 1;
+	mQLength = 0;
+	mPtrItems = new T[mMaxQueue];
 }
 
 
 template<typename T>
 CircularQueueType<T>::CircularQueueType(int max)
 {
-	m_nMaxQueue = max + 1;
-	m_iFront = m_nMaxQueue - 1;
-	m_iRear = m_nMaxQueue - 1;
-	m_pItems = new T[m_nMaxQueue];
+	mMaxQueue = max + 1;
+	miFront = mMaxQueue - 1;
+	miRear = mMaxQueue - 1;
+	mQLength = 0;
+	mPtrItems = new T[mMaxQueue];
 }
 
 template<typename T>
 CircularQueueType<T>::~CircularQueueType()
 {
-	delete[] m_pItems;
+	delete[] mPtrItems;
 }
 
 template<typename T>
 bool CircularQueueType<T>::IsFull()
 {
-	return ((m_iRear + 1) % m_nMaxQueue == m_iFront);
+	return ((miRear + 1) % mMaxQueue == miFront);
 }
 
 template<typename T>
 bool CircularQueueType<T>::IsEmpty()
 {
-	return(m_iFront == m_iRear);
+	return(miFront == miRear);
 }
 
 template<typename T>
 void CircularQueueType<T>::MakeEmpty()
 {
-	m_iFront = m_nMaxQueue - 1;
-	m_iRear = m_nMaxQueue - 1;
+	miFront = mMaxQueue - 1;
+	miRear = mMaxQueue - 1;
 
 }
 
@@ -186,9 +189,9 @@ void CircularQueueType<T>::EnQueue(T item)
 	}
 	else
 	{
-		m_iRear = (m_iRear + 1) % m_nMaxQueue; //하나 더 큰 걸로 나눠줘야 깔끔하게 넘어감
-		m_pItems[m_iRear] = item;
-
+		miRear = (miRear + 1) % mMaxQueue; //하나 더 큰 걸로 나눠줘야 깔끔하게 넘어감
+		mPtrItems[miRear] = item;
+		mQLength++;
 	}
 }
 
@@ -201,8 +204,9 @@ void CircularQueueType<T>::DeQueue(T& item)
 	}
 	else
 	{
-		m_iFront = (m_iFront + 1) % m_nMaxQueue;
-		item = m_pItems[m_iFront];
+		miFront = (miFront + 1) % mMaxQueue;
+		item = mPtrItems[miFront];
+		mQLength--;
 	}
 }
 
@@ -217,14 +221,14 @@ void CircularQueueType<T>::Print()
 	}
 	else
 	{
-		int i = m_iFront;
+		int i = miFront;
 		while(1)
 		{
 			i++;
-			i %= m_nMaxQueue; //maxsize일때는 유지하고, maxsize+1일때 0으로
-			cout << m_pItems[i] << "-";
+			i %= mMaxQueue; //maxsize일때는 유지하고, maxsize+1일때 0으로
+			cout << mPtrItems[i] << "-";
 
-			if (i == m_iRear)
+			if (i == miRear)
 			{
 				cout << endl;
 				return;
@@ -234,14 +238,15 @@ void CircularQueueType<T>::Print()
 }
 
 template<typename T>
-inline void CircularQueueType<T>::setMaxSize(int num)
+T CircularQueueType<T>::GetFront()
 {
-	maxQueue = num;
+	return mPtrItems[miFront];
 }
 
 template<typename T>
-inline T CircularQueueType<T>::getFront()
+int CircularQueueType<T>::GetLength()
 {
-	return m_pItems[m_iFront];
+	return mQLength;
 }
+
 #endif
