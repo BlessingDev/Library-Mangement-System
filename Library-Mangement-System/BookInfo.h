@@ -51,6 +51,15 @@ public:
 
 	BorrowedInfo GetFrontBorrowed();
 
+	/**
+	*	@brief if borrowedQ is empty, return true. if not empty, return false.
+	*/
+	bool IsNoReservation();
+
+	/**
+	*	@brief if borrowedQ is full, return true. if not full, return false.
+	*/
+	bool IsFullReservation();
 
 private:
 	string m_Author;

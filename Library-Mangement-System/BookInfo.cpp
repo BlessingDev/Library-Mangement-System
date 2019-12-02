@@ -1,4 +1,5 @@
 #include "BookInfo.h"
+#include "BookInfo.h"
 
 BookInfo::BookInfo()
 {
@@ -8,7 +9,6 @@ BookInfo::BookInfo()
 	m_Title = "";
 	m_Publisher = "";
 	m_Author = "";	
-	BorrowedBooks.setMaxSize(10); //Set Q size
 }
 
 BookInfo::~BookInfo()
@@ -128,5 +128,20 @@ void BookInfo::DeQueueBorrowed(BorrowedInfo bInfo)
 
 BorrowedInfo BookInfo::GetFrontBorrowed()
 {
-	return BorrowedBooks.getFront();
+	return BorrowedBooks.GetFront();
+}
+
+bool BookInfo::IsNoReservation()
+{
+	return BorrowedBooks.IsEmpty();
+}
+
+bool BookInfo::IsFullReservation()
+{
+	return BorrowedBooks.IsFull();
+}
+
+int BookInfo::GetNumReservation()
+{
+	return BorrowedBooks.GetLength();
 }
