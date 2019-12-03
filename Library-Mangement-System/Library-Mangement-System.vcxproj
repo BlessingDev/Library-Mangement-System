@@ -77,6 +77,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,8 +118,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BookInfo.cpp" />
     <ClCompile Include="BorrowedInfo.cpp" />
+    <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TimeForm.cpp" />
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +132,6 @@
   <ItemGroup>
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="SortedLinkedList.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BorrowedInfo.h" />

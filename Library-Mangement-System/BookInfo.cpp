@@ -1,14 +1,15 @@
 #include "BookInfo.h"
+#include "BookInfo.h"
 
 BookInfo::BookInfo()
+	: mBorrowingInfo(10)
 {
-	m_ISBN = 0;
+	m_ISBN = "";
 	m_CategoryNum = 0;
 
 	m_Title = "";
 	m_Publisher = "";
 	m_Author = "";	
-	//	Queue BorrowedBooks = NULL;
 }
 
 BookInfo::~BookInfo()
@@ -26,7 +27,7 @@ void BookInfo::SetTitle(string title)
 	m_Title = title;
 }
 
-void BookInfo::SetISBN(int ISBN)
+void BookInfo::SetISBN(string ISBN)
 {
 	m_ISBN = ISBN;
 }
@@ -46,9 +47,14 @@ string BookInfo::GetTitle()
 	return m_Title;
 }
 
-int BookInfo::GetISBN()
+string BookInfo::GetISBN()
 {
 	return m_ISBN;
+}
+
+string BookInfo::GetPublisher()
+{
+	return m_Publisher;
 }
 
 int BookInfo::GetCategoryNum()
@@ -80,7 +86,7 @@ void BookInfo::SetCategoryNumByKB()
 	cin >> m_CategoryNum;
 }
 
-void BookInfo::SetBookInfo()
+void BookInfo::SetBookInfoByKB()
 {
 	SetAuthorByKB();
 	SetTitleByKB();
@@ -115,3 +121,58 @@ void BookInfo::DisplayBookInfo()
 	DisplayISBN();
 	DisplayCategoryNum();
 }
+
+bool BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
+{
+	try
+	{
+		mBorrowingInfo.EnQueue(bInfo);
+		return true;
+	}
+	catch (FullQueue e)
+	{
+		return false;
+	}
+}
+
+bool BookInfo::DeQueueBorrowed(BorrowedInfo& bInfo)
+{
+	try
+	{
+		mBorrowingInfo.DeQueue(bInfo);
+		return true;
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
+}
+
+bool BookInfo::GetCurrentBorrowInfo(BorrowedInfo& bInfo)
+{
+	try
+	{
+		bInfo = mBorrowingInfo.getFront();
+		return true;
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
+}
+
+bool BookInfo::IsNoReservation()
+{
+	return BorrowedBooks.IsEmpty();
+}
+
+bool BookInfo::IsFullReservation()
+{
+	return BorrowedBooks.IsFull();
+}
+
+int BookInfo::GetNumReservation()
+{
+	return BorrowedBooks.GetLength();
+}
+

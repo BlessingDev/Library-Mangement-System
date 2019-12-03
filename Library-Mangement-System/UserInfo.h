@@ -8,7 +8,7 @@
 #include <list>
 using namespace std;
 
-enum RelationType {LESS, GREATER, EQUAL};
+enum RelationType;
 
 class UserInfo {
 private:
@@ -16,7 +16,11 @@ private:
 	string m_userName;
 	string m_userAddress;
 	int m_userNumber;
-	list<BorrowedBookList>* m_borrowedBookList;
+	//list<BorrowedBookList>* m_borrowedBookList;
+
+	char m_penalty;
+	char m_nReserve;
+	char m_nBorrow;
 
 public:
 	UserInfo();
@@ -26,6 +30,9 @@ public:
 	void SetUserName(string name);
 	void SetUserAddress(string address);
 	void SetUserNumber(int number);
+	void SetUserPenalty(char);
+	void SetUserNReserve(char);
+	void SetUserNBorrow(char);
 
 	void SetIDByKB();
 	void SetUserNameByKB();
@@ -37,6 +44,9 @@ public:
 	string GetUserName();
 	string GetUserAddress();
 	int GetUserNumber();
+	char GetUserPenalty();
+	char GetUserNReserve();
+	char GetUserNBorrow();
 
 	void DisplayUserID();
 	void DisplayUserName();
@@ -48,6 +58,10 @@ public:
 	int WriteDataToFile(ofstream& fout);
 
 	RelationType CompareByID(const UserInfo& info);
+
+	bool operator<(const UserInfo&);
+	bool operator>(const UserInfo&);
+	bool operator==(const UserInfo&);
 };
 
 #endif // !_USERINFO_H

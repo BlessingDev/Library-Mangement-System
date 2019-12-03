@@ -3,8 +3,8 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
-#include "BookInfo"
-#include "UserInfo"
+#include "BookInfo.h"
+#include "UserInfo.h"
 
 using namespace std;
 
@@ -48,6 +48,8 @@ public:
 	*	@post	Borrowed time is returned.
 	*/
 	string GetBorrowedDate();
+	BookInfo GetBookInfo();
+	UserInfo GetUserInfo();
 
 private:
 	BookInfo m_bookInfo;
