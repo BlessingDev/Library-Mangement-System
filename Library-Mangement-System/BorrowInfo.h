@@ -48,6 +48,8 @@ public:
 	*	@post	Borrowed time is returned.
 	*/
 	string GetBorrowedDate();
+	BookInfo GetBookInfo();
+	UserInfo GetUserInfo();
 
 private:
 	BookInfo m_bookInfo;

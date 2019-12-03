@@ -51,6 +51,11 @@ string BookInfo::GetISBN()
 	return m_ISBN;
 }
 
+string BookInfo::GetPublisher()
+{
+	return m_Publisher;
+}
+
 int BookInfo::GetCategoryNum()
 {
 	return m_CategoryNum;

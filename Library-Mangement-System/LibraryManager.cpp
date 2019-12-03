@@ -86,7 +86,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 		dummy = mBooks[i];
 		isbn = dummy.GetISBN();
 		author = dummy.GetAuthor();
-		publisher = dummy.GetPublisher(); //getpublisher함수 구현필요
+		publisher = dummy.GetPublisher();
 		title = dummy.GetTitle();
 
 		if (isbn.find(search) == string:npos)
@@ -171,9 +171,26 @@ bool LibraryManager::ReturnBook(std::string isbn, int id)
 	mBooks.Get(curBook);
 
 	BorrowInfo newReturn;
-	//template type=borrowInfo일때 Get에서 기준?
-	//연체를확인하기 위해 날짜연산이 가능한 함수 필요.
-	
+	BookInfo returnbook;
+
+	int length = mBorrows.GetLength();
+
+	if (/*연체되었을 때*/)
+	{
+		//오늘날짜계산함수?
+	}
+	else
+	{
+		for (int i = 0; i < length; i++)
+		{
+			mBorrows.GetNextItem(newReturn);
+			returnbook = newReturn.GetBookInfo();//일단 isbn으로 설정
+			if (returnbook == curBook)
+			{
+				mBorrows.Delete(newReturn);
+			}
+		}
+	}
 }
 
 /**
@@ -185,12 +202,19 @@ void LibraryManager::DisplayDelayedBooks()
 	BorrowInfo dummy;
 	mBorrows.ResetList();
 	int length = mBorrows.GetLength();
+	BookInfo curbook;
+	UserInfo curuser;
 
 	for (int i = 0; i < length; i++)
 	{
 		mBorrows.GetNextItem(dummy);
 		cout<<"Borrowed Date	:	"<<dummy.GetBorrowedDate();
-		//책이름, 빌린사람을 표시하는 get함수 필요.
+		cout << "Book Info	:	" << endl;
+		curbook = dummy.GetBookInfo();
+		curbook.DisplayBookInfo();
+		cout << "User Info	:	" << endl;
+		curuser = dummy.GetUserInfo();
+		curuser.DisplayUserInfo();
 	}
 }
 
@@ -200,6 +224,7 @@ void LibraryManager::DisplayDelayedBooks()
 **/
 void LibraryManager::AddUser(UserInfo user)
 {
+	user.SetID(mNextUserId);
 	mUsers.Add(user);
 	mUserNum++;
 }
