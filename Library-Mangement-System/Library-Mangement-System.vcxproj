@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="BookInfo.cpp" />
     <ClCompile Include="BorrowedInfo.cpp" />
+    <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TimeForm.cpp" />
     <ClCompile Include="UserInfo.cpp" />
@@ -128,13 +129,13 @@
     <ClInclude Include="BookInfo.h" />
     <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="SortedPointerVector.hpp" />
     <ClInclude Include="TimeForm.h" />
     <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="SortedLinkedList.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BorrowedInfo.h" />

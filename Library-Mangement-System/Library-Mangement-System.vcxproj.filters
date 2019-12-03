@@ -30,6 +30,9 @@
     <ClCompile Include="BorrowedInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LibraryManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BorrowedInfo.h">
@@ -56,7 +59,7 @@
     <ClInclude Include="LinkedList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SortedLinkedList.hpp">
+    <ClInclude Include="SortedPointerVector.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

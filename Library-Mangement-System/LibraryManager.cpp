@@ -11,8 +11,8 @@ LibraryManager::LibraryManager()
 
 LibraryManager::~LibraryManager(){}
 /**
-* @Àü: ÃÊ±âÈ­µÈ Book ¸®½ºÆ®, Ãß°¡ÇÒ BookInfo °´Ã¼
-* @ÈÄ: Ã¥ Ãß°¡
+* @ì „: ì´ˆê¸°í™”ëœ Book ë¦¬ìŠ¤íŠ¸, ì¶”ê°€í•  BookInfo ê°ì²´
+* @í›„: ì±… ì¶”ê°€
 **/
 void LibraryManager::AddBook(BookInfo book)
 {
@@ -21,8 +21,8 @@ void LibraryManager::AddBook(BookInfo book)
 }
 
 /**
-* @Àü: ÃÊ±âÈ­µÈ Book ¸®½ºÆ®, °Ë»öÇÒ ¹®ÀÚ¿­
-* @ÈÄ: Ã¥ Ãß°¡
+* @ì „: ì´ˆê¸°í™”ëœ Book ë¦¬ìŠ¤íŠ¸, ê²€ìƒ‰í•  ë¬¸ìì—´
+* @í›„: ì±… ì¶”ê°€
 **/
 void LibraryManager::AddBookFromWeb(std::string)
 {
@@ -30,9 +30,9 @@ void LibraryManager::AddBookFromWeb(std::string)
 }
 
 /**
-* @Àü: Book List¿¡ ÇØ´ç Ã¥ÀÌ µé¾îÀÖÀ» °Í, Ã¥ÀÇ ISBNÀ» ¾Ë°í ÀÖÀ» °Í
-* @ÈÄ: ÀÔ·ÂµÈ ISBN¿¡ ÇØ´çÇÏ´Â Ã¥À» »èÁ¦
-* @¹İÈ¯: Ã¥ »èÁ¦¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯
+* @ì „: Book Listì— í•´ë‹¹ ì±…ì´ ë“¤ì–´ìˆì„ ê²ƒ, ì±…ì˜ ISBNì„ ì•Œê³  ìˆì„ ê²ƒ
+* @í›„: ì…ë ¥ëœ ISBNì— í•´ë‹¹í•˜ëŠ” ì±…ì„ ì‚­ì œ
+* @ë°˜í™˜: ì±… ì‚­ì œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::DeleteBook(std::string isbn)
 {
@@ -49,16 +49,16 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 /**
-* @Àü: °Ë»öÇÒ isbnÀ» string ÇüÅÂ·Î Àü´Ş¹Ş´Â´Ù. Ã¥ Á¤º¸¸¦ ¹İÈ¯¹ŞÀ» BookInfo °´Ã¼¸¦ Àü´ŞÇÑ´Ù.
-* @ÈÄ: ISBN °Ë»öÀ» ¼öÇàÇÏ°í, °Ë»ö¿¡ ¼º°øÇÏ¸é °Ë»öµÈ Ã¥ÀÇ Á¤º¸ BookInfo& °´Ã¼¿¡ Áı¾î³Ö´Â´Ù.
-* @¹İÈ¯: Ã¥ °Ë»ö¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯
+* @ì „: ê²€ìƒ‰í•  isbnì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì±… ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ BookInfo ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+* @í›„: ISBN ê²€ìƒ‰ì„ ìˆ˜í–‰í•˜ê³ , ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ ê²€ìƒ‰ëœ ì±…ì˜ ì •ë³´ BookInfo& ê°ì²´ì— ì§‘ì–´ë„£ëŠ”ë‹¤.
+* @ë°˜í™˜: ì±… ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
 	BookInfo temp;
 	temp.SetISBN(isbn);
 
-	if (mBooks.Get(temp))
+	if (mBooks.GetItem(temp))
 	{
 		book = temp;
 		return true;
@@ -68,14 +68,13 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 }
 
 /**
-* @Àü: °Ë»öÇÒ ¹®ÀÚ¿­À» string ÇüÅÂ·Î Àü´Ş¹Ş´Â´Ù. Ã¥ Á¤º¸¸¦ ¹İÈ¯¹ŞÀ» LinkedList<BookInfo> °´Ã¼¸¦ Àü´ŞÇÑ´Ù.
-* @ÈÄ: ¸ğµç ¹®ÀÚ¿­ ¼Ó¼º¿¡ ´ëÇØ ÅëÇÕ °Ë»öÀ» ¼öÇàÇÏ°í, °Ë»ö¿¡ ¼º°øÇÏ¸é °Ë»öµÈ Ã¥ÀÇ Á¤º¸¸¦ LinkedList¿¡ AddÇÑ´Ù
-* @¹İÈ¯: °Ë»öµÈ Ã¥ÀÌ ÇÑ ±ÇÀÌ¶óµµ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹İÈ¯
+* @ì „: ê²€ìƒ‰í•  ë¬¸ìì—´ì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì±… ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ LinkedList<BookInfo> ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+* @í›„: ëª¨ë“  ë¬¸ìì—´ ì†ì„±ì— ëŒ€í•´ í†µí•© ê²€ìƒ‰ì„ ìˆ˜í–‰í•˜ê³ , ê²€ìƒ‰ì— ì„±ê³µí•˜ë©´ ê²€ìƒ‰ëœ ì±…ì˜ ì •ë³´ë¥¼ LinkedListì— Addí•œë‹¤
+* @ë°˜í™˜: ê²€ìƒ‰ëœ ì±…ì´ í•œ ê¶Œì´ë¼ë„ ìˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
 {
 	BookInfo dummy;
-	mBooks.ResetList();
 	int length = mBooks.GetLength();
 
 	string title, publisher, isbn, author;
@@ -84,10 +83,10 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 	for (int i = 0; i < length; i++)
 	{
 
-		mBooks.GetNextItem(dummy);
+		dummy = mBooks[i];
 		isbn = dummy.GetISBN();
 		author = dummy.GetAuthor();
-		publisher = dummy.GetPublisher(); //getpublisherÇÔ¼ö ±¸ÇöÇÊ¿ä
+		publisher = dummy.GetPublisher();
 		title = dummy.GetTitle();
 
 		if (isbn.find(search) == string:npos)
@@ -107,27 +106,26 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 }
 
 /**
-* @Àü: ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBN°ú ºô¸®°íÀÚ ÇÏ´Â »ç¶÷ÀÇ UserID¸¦ Àü´Ş. ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ¿¹¾àÀÌ ¾ø°Å³ª Àü´ŞµÈ »ç¶÷ÀÇ ¿¹¾àÀÏ °Í.
-* @ÈÄ: Ã¥À» ´ëÃâ
-* @¹İÈ¯: ´ëÃâ¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯
+* @ì „: ë¹Œë¦¬ê³ ì í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë¹Œë¦¬ê³ ì í•˜ëŠ” ì‚¬ëŒì˜ UserIDë¥¼ ì „ë‹¬. ë¹Œë¦¬ê³ ì í•˜ëŠ” ì±…ì˜ ì˜ˆì•½ì´ ì—†ê±°ë‚˜ ì „ë‹¬ëœ ì‚¬ëŒì˜ ì˜ˆì•½ì¼ ê²ƒ.
+* @í›„: ì±…ì„ ëŒ€ì¶œ
+* @ë°˜í™˜: ëŒ€ì¶œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 **/
-
-bool LibraryManager::BorrowBook(std::string isbn, std::string id)
+bool LibraryManager::BorrowBook(std::string isbn, int id)
 {
 	UserInfo curUser;
 	curUser.SetID(id);
-	mUsers.Get(curUser);
+	mUsers.GetItem(curUser);
 
 	char curPenalty = curUser.GetUserPenalty();
 	char curNBorrow = curUser.GetUserNBorrow();
 
 	BookInfo curBook;
 	curBook.SetISBN(isbn);
-	mBooks.Get(curBook);
+	mBooks.GetItem(curBook);
 
 	BorrowInfo newBorrow;
-	newBorrow.SetBookInfo(const curBook);
-	newBorrow.SetUserInfo(const curUser);
+	newBorrow.SetBookInfo(curBook);
+	newBorrow.SetUserInfo(curUser);
 	newBorrow.SetBorrowedDate();
 
 	if (curPenalty>0 || curNBorrow<=0)
@@ -144,9 +142,9 @@ bool LibraryManager::BorrowBook(std::string isbn, std::string id)
 }
 
 /**
-* @Àü: ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBN°ú ºô¸®°íÀÚ ÇÏ´Â »ç¶÷ÀÇ UserID¸¦ Àü´Ş. ºô¸®°íÀÚ ÇÏ´Â Ã¥ÀÇ ¿¹¾àÀÌ ²Ë Â÷ÀÖ°Å³ª ÀÌ¹Ì ¿¹¾àÅ¥¿¡ µé¾îÀÖÁö ¾ÊÀ» °Í. ¸î ¹øÂ° ¿¹¾àÀÎÁö¸¦ ¹İÈ¯¹ŞÀ» int º¯¼ö
-* @ÈÄ: Ã¥ ´ëÃâÀ» ¿¹¾à
-* @¹İÈ¯: ´ëÃâ¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯
+* @ì „: ë¹Œë¦¬ê³ ì í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë¹Œë¦¬ê³ ì í•˜ëŠ” ì‚¬ëŒì˜ UserIDë¥¼ ì „ë‹¬. ë¹Œë¦¬ê³ ì í•˜ëŠ” ì±…ì˜ ì˜ˆì•½ì´ ê½‰ ì°¨ìˆê±°ë‚˜ ì´ë¯¸ ì˜ˆì•½íì— ë“¤ì–´ìˆì§€ ì•Šì„ ê²ƒ. ëª‡ ë²ˆì§¸ ì˜ˆì•½ì¸ì§€ë¥¼ ë°˜í™˜ë°›ì„ int ë³€ìˆ˜
+* @í›„: ì±… ëŒ€ì¶œì„ ì˜ˆì•½
+* @ë°˜í™˜: ëŒ€ì¶œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 **/
 
 bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowedNum)
@@ -180,15 +178,15 @@ bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowed
 }
 
 /**
-* @Àü : ¹İ³³ÇÏ°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBN°ú ¹İ³³ÇÏ°íÀÚ ÇÏ´Â »ç¶÷ÀÇ User ID¸¦ Àü´Ş
-* @ÈÄ : Ã¥À» ¹İ³³
-* @¹İÈ¯ : ¹İ³³¿¡ ¼º°øÇÏ¸é true. Ã¥ÀÌ ¿¬Ã¼µÇ¾úÀ» °æ¿ì ¿¬Ã¼µÇ¾ú´Ù´Â ¸Ş¼¼Áö¸¦ Ãâ·ÂÇÏ°í, ÇØ´ç »ç¶÷ÀÇ penalty¸¦ ¿¬Ã¼³¯Â¥¸¸Å­ Ãß°¡
+* @ì „ : ë°˜ë‚©í•˜ê³ ì í•˜ëŠ” ì±…ì˜ ISBNê³¼ ë°˜ë‚©í•˜ê³ ì í•˜ëŠ” ì‚¬ëŒì˜ User IDë¥¼ ì „ë‹¬
+* @í›„ : ì±…ì„ ë°˜ë‚©
+* @ë°˜í™˜ : ë°˜ë‚©ì— ì„±ê³µí•˜ë©´ true. ì±…ì´ ì—°ì²´ë˜ì—ˆì„ ê²½ìš° ì—°ì²´ë˜ì—ˆë‹¤ëŠ” ë©”ì„¸ì§€ë¥¼ ì¶œë ¥í•˜ê³ , í•´ë‹¹ ì‚¬ëŒì˜ penaltyë¥¼ ì—°ì²´ë‚ ì§œë§Œí¼ ì¶”ê°€
 */
-bool LibraryManager::ReturnBook(std::string isbn, std::string id)
+bool LibraryManager::ReturnBook(std::string isbn, int id)
 {
 	UserInfo curUser;
 	curUser.SetID(id);
-	mUsers.Get(curUser);
+	mUsers.GetItem(curUser);
 
 	char curPenalty = curUser.GetUserPenalty();
 	char curNBorrow = curUser.GetUserNBorrow();
@@ -198,48 +196,72 @@ bool LibraryManager::ReturnBook(std::string isbn, std::string id)
 	mBooks.Get(curBook);
 
 	BorrowInfo newReturn;
-	//template type=borrowInfoÀÏ¶§ Get¿¡¼­ ±âÁØ?
-	//¿¬Ã¼¸¦È®ÀÎÇÏ±â À§ÇØ ³¯Â¥¿¬»êÀÌ °¡´ÉÇÑ ÇÔ¼ö ÇÊ¿ä.
-	
+	BookInfo returnbook;
+
+	int length = mBorrows.GetLength();
+
+	if (/*ì—°ì²´ë˜ì—ˆì„ ë•Œ*/)
+	{
+		//ì˜¤ëŠ˜ë‚ ì§œê³„ì‚°í•¨ìˆ˜?
+	}
+	else
+	{
+		for (int i = 0; i < length; i++)
+		{
+			mBorrows.GetNextItem(newReturn);
+			returnbook = newReturn.GetBookInfo();//ì¼ë‹¨ isbnìœ¼ë¡œ ì„¤ì •
+			if (returnbook == curBook)
+			{
+				mBorrows.Delete(newReturn);
+			}
+		}
+	}
 }
 
 /**
-* @Àü: ¿¬Ã¼µÈ ´ëÃâÀÌ Á¸ÀçÇÒ °Í
-* @ÈÄ: ¿¬Ã¼µÈ ´ëÃâÀ» Ãâ·Â
+* @ì „: ì—°ì²´ëœ ëŒ€ì¶œì´ ì¡´ì¬í•  ê²ƒ
+* @í›„: ì—°ì²´ëœ ëŒ€ì¶œì„ ì¶œë ¥
 **/
 void LibraryManager::DisplayDelayedBooks()
 {
 	BorrowInfo dummy;
 	mBorrows.ResetList();
 	int length = mBorrows.GetLength();
+	BookInfo curbook;
+	UserInfo curuser;
 
 	for (int i = 0; i < length; i++)
 	{
 		mBorrows.GetNextItem(dummy);
 		cout<<"Borrowed Date	:	"<<dummy.GetBorrowedDate();
-		//Ã¥ÀÌ¸§, ºô¸°»ç¶÷À» Ç¥½ÃÇÏ´Â getÇÔ¼ö ÇÊ¿ä.
+		cout << "Book Info	:	" << endl;
+		curbook = dummy.GetBookInfo();
+		curbook.DisplayBookInfo();
+		cout << "User Info	:	" << endl;
+		curuser = dummy.GetUserInfo();
+		curuser.DisplayUserInfo();
 	}
 }
 
 /**
-* @Àü: Ãß°¡ÇÒ UserInfo °´Ã¼ÀÇ Æ÷ÀÎÅÍ¸¦ Àü´ŞÇÑ´Ù.
-* @ÈÄ: UserInfo °´Ã¼°¡ ½Ã½ºÅÛ¿¡ Ãß°¡µÈ´Ù.
+* @ì „: ì¶”ê°€í•  UserInfo ê°ì²´ì˜ í¬ì¸í„°ë¥¼ ì „ë‹¬í•œë‹¤.
+* @í›„: UserInfo ê°ì²´ê°€ ì‹œìŠ¤í…œì— ì¶”ê°€ëœë‹¤.
 **/
 void LibraryManager::AddUser(UserInfo user)
 {
+	user.SetID(mNextUserId);
 	mUsers.Add(user);
 	mUserNum++;
 }
 
 /**
-* @Àü: °Ë»öÇÒ ¹®ÀÚ¿­À» string ÇüÅÂ·Î Àü´Ş¹Ş´Â´Ù. »ç¿ëÀÚ Á¤º¸¸¦ ¹İÈ¯¹ŞÀ» LinkedList<UserInfo> °´Ã¼¸¦ Àü´ŞÇÑ´Ù.
-* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ LinkedList¿¡ Ãß°¡ÇÑ´Ù
-* @¹İÈ¯: °Ë»öµÈ »ç¿ëÀÚ°¡ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹İÈ¯
+* @ì „: ê²€ìƒ‰í•  ë¬¸ìì—´ì„ string í˜•íƒœë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤. ì‚¬ìš©ì ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ LinkedList<UserInfo> ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+* @í›„: ì‚¬ìš©ì ì •ë³´ë¥¼ LinkedListì— ì¶”ê°€í•œë‹¤
+* @ë°˜í™˜: ê²€ìƒ‰ëœ ì‚¬ìš©ìê°€ ìˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInfo>& searchList)
 {
 	UserInfo dummy;
-	mUsers.ResetList();
 	int length = mUsers.GetLength();
 
 	string name, address, id, number;
@@ -247,7 +269,7 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 
 	for (int i = 0; i < length; i++)
 	{
-		mUsers.GetNextItem(dummy);
+		dummy = mUsers[i];
 		name = dummy.GetUserName();
 		address = dummy.GetUserAddress();
 		id = to_string(dummy.GetUserID());
@@ -270,16 +292,16 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 }
 
 /**
-* @Àü: Ã£À» »ç¿ëÀÚÀÇ ID¸¦ Àü´Ş¹Ş´Â´Ù. »ç¿ëÀÚ Á¤º¸¸¦ ¹İÈ¯¹ŞÀ» UserInfo °´Ã¼¸¦ Àü´ŞÇÑ´Ù.
-* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ Ã£À¸¸é UserInfo °´Ã¼¿¡ ³Ö´Â´Ù
-* @¹İÈ¯: °Ë»öµÈ »ç¿ëÀÚ°¡ ÀÖ´Ù¸é true, ¾ø´Ù¸é false¸¦ ¹İÈ¯
+* @ì „: ì°¾ì„ ì‚¬ìš©ìì˜ IDë¥¼ ì „ë‹¬ë°›ëŠ”ë‹¤. ì‚¬ìš©ì ì •ë³´ë¥¼ ë°˜í™˜ë°›ì„ UserInfo ê°ì²´ë¥¼ ì „ë‹¬í•œë‹¤.
+* @í›„: ì‚¬ìš©ì ì •ë³´ë¥¼ ì°¾ìœ¼ë©´ UserInfo ê°ì²´ì— ë„£ëŠ”ë‹¤
+* @ë°˜í™˜: ê²€ìƒ‰ëœ ì‚¬ìš©ìê°€ ìˆë‹¤ë©´ true, ì—†ë‹¤ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
 	UserInfo temp;
 	temp.SetID(id);
 
-	if (mUsers.Get(temp))
+	if (mUsers.GetItem(temp))
 	{
 		user = temp;
 		return true;
@@ -289,9 +311,9 @@ bool LibraryManager::SearchUserById(int id, UserInfo& user)
 }
 
 /**
-* @Àü: Á¦°ÅÇÒ »ç¿ëÀÚÀÇ ID¸¦ Àü´Ş¹Ş´Â´Ù.
-* @ÈÄ: »ç¿ëÀÚ Á¤º¸¸¦ Ã£À¸¸é ½Ã½ºÅÛ¿¡¼­ »èÁ¦ÇÑ´Ù
-* @¹İÈ¯: »èÁ¦¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯
+* @ì „: ì œê±°í•  ì‚¬ìš©ìì˜ IDë¥¼ ì „ë‹¬ë°›ëŠ”ë‹¤.
+* @í›„: ì‚¬ìš©ì ì •ë³´ë¥¼ ì°¾ìœ¼ë©´ ì‹œìŠ¤í…œì—ì„œ ì‚­ì œí•œë‹¤
+* @ë°˜í™˜: ì‚­ì œì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜
 **/
 bool LibraryManager::DeleteUser(int id)
 {
