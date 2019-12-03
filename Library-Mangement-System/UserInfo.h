@@ -8,7 +8,7 @@
 #include <list>
 using namespace std;
 
-enum RelationType {LESS, GREATER, EQUAL};
+enum RelationType;
 
 class UserInfo {
 private:

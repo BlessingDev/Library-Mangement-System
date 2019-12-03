@@ -1,6 +1,5 @@
 #pragma once
-#ifndef _CIRCULARQUEUE_H
-#define _CIRCULARQUEUE_H
+#include <iostream>
 
 using namespace std;
 
@@ -249,4 +248,3 @@ inline T CircularQueueType<T>::getFront()
 
 	return m_pItems[m_iFront];
 }
-#endif
