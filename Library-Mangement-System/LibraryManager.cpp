@@ -58,7 +58,7 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 	BookInfo temp;
 	temp.SetISBN(isbn);
 
-	if (mBooks.Get(temp))
+	if (mBooks.GetItem(temp))
 	{
 		book = temp;
 		return true;
@@ -75,7 +75,6 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
 {
 	BookInfo dummy;
-	mBooks.ResetList();
 	int length = mBooks.GetLength();
 
 	string title, publisher, isbn, author;
@@ -84,7 +83,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 	for (int i = 0; i < length; i++)
 	{
 
-		mBooks.GetNextItem(dummy);
+		dummy = mBooks[i];
 		isbn = dummy.GetISBN();
 		author = dummy.GetAuthor();
 		publisher = dummy.GetPublisher();
@@ -111,22 +110,22 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 * @후: 책을 대출
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::BorrowBook(std::string isbn, std::string id)
+bool LibraryManager::BorrowBook(std::string isbn, int id)
 {
 	UserInfo curUser;
 	curUser.SetID(id);
-	mUsers.Get(curUser);
+	mUsers.GetItem(curUser);
 
 	char curPenalty = curUser.GetUserPenalty();
 	char curNBorrow = curUser.GetUserNBorrow();
 
 	BookInfo curBook;
 	curBook.SetISBN(isbn);
-	mBooks.Get(curBook);
+	mBooks.GetItem(curBook);
 
 	BorrowInfo newBorrow;
-	newBorrow.SetBookInfo(const curBook);
-	newBorrow.SetUserInfo(const curUser);
+	newBorrow.SetBookInfo(curBook);
+	newBorrow.SetUserInfo(curUser);
 	newBorrow.SetBorrowedDate();
 
 	if (curPenalty>0 || curNBorrow<=0)
@@ -158,11 +157,11 @@ bool LibraryManager::ReserveBook(std::string, std::string, int&)
 * @후 : 책을 반납
 * @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
 */
-bool LibraryManager::ReturnBook(std::string isbn, std::string id)
+bool LibraryManager::ReturnBook(std::string isbn, int id)
 {
 	UserInfo curUser;
 	curUser.SetID(id);
-	mUsers.Get(curUser);
+	mUsers.GetItem(curUser);
 
 	char curPenalty = curUser.GetUserPenalty();
 	char curNBorrow = curUser.GetUserNBorrow();
@@ -238,7 +237,6 @@ void LibraryManager::AddUser(UserInfo user)
 bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInfo>& searchList)
 {
 	UserInfo dummy;
-	mUsers.ResetList();
 	int length = mUsers.GetLength();
 
 	string name, address, id, number;
@@ -246,7 +244,7 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 
 	for (int i = 0; i < length; i++)
 	{
-		mUsers.GetNextItem(dummy);
+		dummy = mUsers[i];
 		name = dummy.GetUserName();
 		address = dummy.GetUserAddress();
 		id = to_string(dummy.GetUserID());
@@ -278,7 +276,7 @@ bool LibraryManager::SearchUserById(int id, UserInfo& user)
 	UserInfo temp;
 	temp.SetID(id);
 
-	if (mUsers.Get(temp))
+	if (mUsers.GetItem(temp))
 	{
 		user = temp;
 		return true;

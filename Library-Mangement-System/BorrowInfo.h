@@ -3,8 +3,8 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
-#include "BookInfo"
-#include "UserInfo"
+#include "BookInfo.h"
+#include "UserInfo.h"
 
 using namespace std;
 
