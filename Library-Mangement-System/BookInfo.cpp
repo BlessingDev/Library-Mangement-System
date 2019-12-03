@@ -1,4 +1,5 @@
 #include "BookInfo.h"
+#include "BookInfo.h"
 
 BookInfo::BookInfo()
 	: mBorrowingInfo(10)
@@ -159,3 +160,19 @@ bool BookInfo::GetCurrentBorrowInfo(BorrowedInfo& bInfo)
 		return false;
 	}
 }
+
+bool BookInfo::IsNoReservation()
+{
+	return BorrowedBooks.IsEmpty();
+}
+
+bool BookInfo::IsFullReservation()
+{
+	return BorrowedBooks.IsFull();
+}
+
+int BookInfo::GetNumReservation()
+{
+	return BorrowedBooks.GetLength();
+}
+
