@@ -242,6 +242,11 @@ inline void CircularQueueType<T>::setMaxSize(int num)
 template<typename T>
 inline T CircularQueueType<T>::getFront()
 {
+	if (IsEmpty())
+	{
+		throw EmptyQueue();
+	}
+
 	return m_pItems[m_iFront];
 }
 #endif
