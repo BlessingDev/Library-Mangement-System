@@ -120,6 +120,7 @@
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SortedList.h" />
     <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <ItemGroup>

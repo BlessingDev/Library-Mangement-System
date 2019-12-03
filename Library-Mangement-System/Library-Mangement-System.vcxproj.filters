@@ -19,7 +19,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BorrowedInfo.cpp">
-          <Filter>소스 파일</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="UserInfo.cpp">
       <Filter>소스 파일</Filter>
@@ -27,9 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BorrowedInfo.h">
-          <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="UserInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SortedList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
