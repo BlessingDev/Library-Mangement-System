@@ -3,7 +3,7 @@
 
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
-#include "SortedList.h"
+#include "SortedPointerVector.hpp"
 
 #include "UserInfo.h"
 #include "BookInfo.h"
@@ -12,8 +12,8 @@
 class LibraryManager
 {
 private:
-	SortedList<UserInfo> mUsers;
-	SortedList<BookInfo> mBooks;
+	SortedPointerVector<UserInfo> mUsers;
+	SortedPointerVector<BookInfo> mBooks;
 	SortedLinkedList<BorrowInfo*> mBorrows;
 	int mBookNum;
 	int mUserNum;
@@ -65,7 +65,7 @@ public:
 	* @후: 책을 대출
 	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
 	**/
-	bool BorrowBook(std::string, std::string);
+	bool BorrowBook(std::string, int);
 
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
@@ -79,7 +79,7 @@ public:
 	* @후 : 책을 반납
 	* @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
 	*/
-	bool ReturnBook(std::string, std::string);
+	bool ReturnBook(std::string, int);
 
 	/**
 	* @전: 연체된 대출이 존재할 것
