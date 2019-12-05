@@ -7,85 +7,88 @@
 
 class Application
 {
+public:
+	static TimeForm mAppTime; // 프로그램 시간
+
 private:
 	LibraryManager mLibraryManager;
 	TimeForm mCurrentTime;
 
 public:
 	/**
-	* @���: Application�� ������. ��������� �ʱ�ȭ�Ѵ�.
+	* @요약: Application의 생성자. 멤버변수를 초기화한다.
 	**/
 	Application();
 
 	/**
-	* @���: Application�� �����ϴ� �Լ�
+	* @요약: Application을 실행하는 함수
 	**/
 	void Run();
 
 	/**
-	* @���: ������ �Է¹޴� �Լ�
-	* @��ȯ: �Էµ� ������ ��ȯ
+	* @요약: 명령을 입력받는 함수
+	* @반환: 입력된 명령을 반환
 	**/
 	int GetCommand();
 
 	/**
-	* @���: ������ �Է¹޴� �Լ�
-	* @��: ������ �޴��� �̸��� std::string ���ڷ� ���޹޴´�
-	* @��: �̸��� �ش��ϴ� �޴��� ����Ѵ�.
+	* @요약: 명령을 입력받는 함수
+	* @전: 보여줄 메뉴의 이름을 std::string 인자로 전달받는다
+	* @후: 이름에 해당하는 메뉴를 출력한다.
 	**/
 	void ShowMenu(std::string);
 
 	/**
-	* @���: å�� �߰��ϴ� �Լ�. å�� �߰��ϴµ� �ʿ��� ���� ��ü�� ����Ѵ�.
-	* @��: å�� �߰��Ѵ�.
+	* @요약: 책을 추가하는 함수. 책을 추가하는데 필요한 과정 전체를 담당한다.
+	* @후: 책을 추가한다.
 	**/
 	void AddBook();
 
 	/**
-	* @���: å�� �߰��ϴ� �Լ�. å�� �����ϴ� ���� ��ü�� ����Ѵ�.
-	* @��: å�� �����Ѵ�.
+	* @요약: 책을 추가하는 함수. 책을 삭제하는 과정 전체를 담당한다.
+	* @후: 책을 삭제한다.
 	**/
 	void DeleteBook();
 
 	/**
-	* @���: å�� �����ϴ� �Լ�. å�� �����ϴ� ���� ��ü�� ����Ѵ�.
-	* @��: ����ڰ� å�� �����Ѵ�.
+	* @요약: 책을 대출하는 함수. 책을 대출하는 과정 전체를 담당한다.
+	* @후: 사용자가 책을 대출한다.
 	**/
 	void BorrowBook();
 
 	/**
-	* @���: å ������ �����ϴ� �Լ�.
-	* @��: ����ڰ� å�� �����Ѵ�.
+	* @요약: 책 대출을 예약하는 함수.
+	* @후: 사용자가 책을 예약한다.
 	**/
 	void ReserveBook();
 
 	/**
-	* @���: å�� �˻��ϴ� �Լ�. (ISBN/����)
-	* @��: å�� �˻��� ������ ����Ѵ�.
+	* @요약: 책을 검색하는 함수. (ISBN/통합)
+	* @후: 책을 검색해 정보를 출력한다.
 	**/
 	void SearchBook();
 
 	/**
-	* @���: ����ڸ� �߰��ϴ� �Լ�.
-	* @��: �Էµ� ����ڰ� �߰��ȴ�.
+	* @요약: 사용자를 추가하는 함수.
+	* @후: 입력된 사용자가 추가된다.
 	**/
 	void AddUser();
 
 	/**
-	* @���: ����ڸ� �˻��ϴ� �Լ�.(����� ID/����)
-	* @��: ����ڸ� �˻��Ѵ�.
+	* @요약: 사용자를 검색하는 함수.(사용자 ID/통합)
+	* @후: 사용자를 검색한다.
 	**/
 	void SearchUser();
 
 	/**
-	* @���: ����ڸ� �����ϴ� �Լ�.
-	* @��: �Էµ� ����ڰ� �����ȴ�.
+	* @요약: 사용자를 삭제하는 함수.
+	* @후: 입력된 사용자가 삭제된다.
 	**/
 	void DeleteUser();
 
 	/**
-	* @���: Application�� �ð��� 1�� �ķ� �����ϴ� �Լ�.
-	* @��: currentTime ����� ��¥�� 1�� �����Ѵ�.
+	* @요약: Application의 시간을 1일 후로 변경하는 함수.
+	* @후: currentTime 멤버의 날짜가 1일 증가한다.
 	**/
 	void DayPassed();
 };
