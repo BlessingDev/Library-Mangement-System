@@ -249,7 +249,7 @@ int CircularQueueType<T>::GetLength()
 }
 
 template<typename T>
-inline T CircularQueueType<T>::getFront()
+inline T CircularQueueType<T>::GetFront()
 {
 	if (IsEmpty())
 	{
