@@ -126,7 +126,11 @@
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SortedList.h" />
+    <ClInclude Include="BookInfo.h" />
+    <ClInclude Include="CircularQueue.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="SortedPointerVector.hpp" />
+    <ClInclude Include="TimeForm.h" />
     <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <ItemGroup>
