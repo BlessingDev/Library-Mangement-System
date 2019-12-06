@@ -332,14 +332,24 @@ bool LibraryManager::DeleteUser(int id)
 bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, string attribute)
 {
 	BookInfo dummy;
-	dummy.SetAuthor(search);
 
-	//Author, Publisher, Title, ISBN, CategoryNum
+	//Author, Publisher, Title, ISBN
 	if (attribute == "Author")
 	{
+		dummy.SetAuthor(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
 	}
+
 	else if (attribute == "Publisher")
 	{
+		dummy.SetPublisher(search);
 		BinarySearchTree<BookInfo> BST(CompByPublisher);
 		SPVToBST(mBooks, BST);
 		if (BST.GetItem(dummy))
@@ -349,29 +359,61 @@ bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, stri
 		}
 		return false;
 	}
+
 	else if (attribute == "Title")
 	{
-
+		dummy.SetTitle(search);
+		BinarySearchTree<BookInfo> BST(CompByTitle);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
 	}
 	else if (attribute == "ISBN")
 	{
-
+		dummy.SetISBN(search);
+		BinarySearchTree<BookInfo> BST(CompByISBN);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
 	}
 	else
 	{
 		cout << "잘못된 Attribute" << endl;
 		return false;
 	}
+}
+
+
+bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+
+	if (attribute == "CategoryNum")
+	{
+		dummy.SetCategoryNum(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
 
 	return false;
 }
 
-/**
-* @전: 제거할 사용자의 ID를 전달받는다.
-* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
-* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
-**/
-void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
+
+void LibraryManager::SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
 {
 	for (int i = 0; i < SPV.GetLength(); i++)
 	{
@@ -381,6 +423,16 @@ void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BS
 
 
 //Compare Function
+RelationType CompByAuthor(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetAuthor() == other.GetAuthor())
+		return RelationType::EQUAL;
+	else if (myBook.GetAuthor() > other.GetAuthor())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
 RelationType CompByISBN(BookInfo myBook, BookInfo other)
 {
 	if (myBook.GetISBN() == other.GetISBN())
