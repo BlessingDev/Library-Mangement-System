@@ -386,7 +386,7 @@ bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, stri
 	}
 	else
 	{
-		cout << "잘못된 Attribute" << endl;
+//		cout << "잘못된 Attribute" << endl;
 		return false;
 	}
 }
@@ -399,7 +399,7 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 	if (attribute == "CategoryNum")
 	{
 		dummy.SetCategoryNum(search);
-		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		BinarySearchTree<BookInfo> BST(CompByCategoryNum);
 		SPVToBST(mBooks, BST);
 		if (BST.GetItem(dummy))
 		{
@@ -408,8 +408,11 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 		}
 		return false;
 	}
-
-	return false;
+	else
+	{
+//		cout << "잘못된 Attribute" << endl;
+		return false;
+	}
 }
 
 
