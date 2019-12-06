@@ -181,13 +181,12 @@ public:
 		return false;
 	}
 
-	//수정 해야함
 	void InternalPrint(TreeNode<T>* treePtr) //, ofstream& outFile
 	{
 		if (treePtr != NULL)
 		{
 			InternalPrint(treePtr->mLeft);
-			cout << treePtr->mData.GetAuthor() << " - ";
+			cout << treePtr->mData<< " - ";
 			InternalPrint(treePtr->mRight);
 		}
 	}
