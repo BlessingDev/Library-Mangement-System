@@ -328,3 +328,95 @@ bool LibraryManager::DeleteUser(int id)
 	else
 		return false;
 }
+
+bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+	dummy.SetAuthor(search);
+
+	//Author, Publisher, Title, ISBN, CategoryNum
+	if (attribute == "Author")
+	{
+	}
+	else if (attribute == "Publisher")
+	{
+		BinarySearchTree<BookInfo> BST(CompByPublisher);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else if (attribute == "Title")
+	{
+
+	}
+	else if (attribute == "ISBN")
+	{
+
+	}
+	else
+	{
+		cout << "잘못된 Attribute" << endl;
+		return false;
+	}
+
+	return false;
+}
+
+/**
+* @전: 제거할 사용자의 ID를 전달받는다.
+* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
+* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
+**/
+void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
+{
+	for (int i = 0; i < SPV.GetLength(); i++)
+	{
+		BST.Insert(SPV[i]);
+	}
+}
+
+
+//Compare Function
+RelationType CompByISBN(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetISBN() == other.GetISBN())
+		return RelationType::EQUAL;
+	else if (myBook.GetISBN() > other.GetISBN())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByTitle(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetTitle() == other.GetTitle())
+		return RelationType::EQUAL;
+	else if (myBook.GetTitle() > other.GetTitle())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByPublisher(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetPublisher() == other.GetPublisher())
+		return RelationType::EQUAL;
+	else if (myBook.GetPublisher() > other.GetPublisher())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByCategoryNum(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetCategoryNum() == other.GetCategoryNum())
+		return RelationType::EQUAL;
+	else if (myBook.GetCategoryNum() > other.GetCategoryNum())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
