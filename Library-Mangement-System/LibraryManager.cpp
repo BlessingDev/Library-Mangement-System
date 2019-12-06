@@ -386,7 +386,7 @@ bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, stri
 	}
 	else
 	{
-		cout << "잘못된 Attribute" << endl;
+//		cout << "잘못된 Attribute" << endl;
 		return false;
 	}
 }
@@ -408,8 +408,11 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 		}
 		return false;
 	}
-
-	return false;
+	else
+	{ 
+//		cout << "잘못된 Attribute"<<endl;
+		return false;
+	}
 }
 
 
