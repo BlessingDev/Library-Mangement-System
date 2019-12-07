@@ -99,7 +99,7 @@ public:
 	* @후: 사용자 정보를 LinkedList에 추가한다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserWithString(std::string, LinkedList<UserInfo>&);
+	bool SearchUserWithString(std::string, LinkedList<UserInfo>&,BookInfo& book);
 
 	/**
 	* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.

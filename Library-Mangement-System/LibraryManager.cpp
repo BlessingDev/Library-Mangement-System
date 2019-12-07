@@ -72,7 +72,7 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 * @?? ëª¨ë“  ë¬¸ì???ì„±???€???µí•© ê²€?‰ì„ ?˜í–‰?˜ê³ , ê²€?‰ì— ?±ê³µ?˜ë©´ ê²€?‰ëœ ì±…ì˜ ?•ë³´ë¥?LinkedList??Add?œë‹¤
 * @ë°˜í™˜: ê²€?‰ëœ ì±…ì´ ??ê¶Œì´?¼ë„ ?ˆë‹¤ë©?true, ?†ë‹¤ë©?falseë¥?ë°˜í™˜
 **/
-bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
+bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList, BookInfo& book)
 {
 	BookInfo dummy;
 	int length = mBooks.GetLength();
@@ -96,6 +96,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 						break;
 
 		found = true;
+		book = dummy;
 		searchList.Add(dummy);
 	}
 
@@ -200,7 +201,7 @@ bool LibraryManager::ReturnBook(std::string isbn, int id)
 
 	int length = mBorrows.GetLength();
 
-	if (/*?°ì²´?˜ì—ˆ????/)
+	if (/*?°ì²´?˜ì—ˆ????*/)
 	{
 		//?¤ëŠ˜? ì§œê³„ì‚°?¨ìˆ˜?
 	}
