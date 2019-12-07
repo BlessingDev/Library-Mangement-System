@@ -31,6 +31,9 @@ public:
 	void SetUserName(string name);
 	void SetUserAddress(string address);
 	void SetUserNumber(int number);
+	/*
+	@요약: 사용자의 대출 제한을 입력할 때는 끝나는 날자를 입력한다.
+	*/
 	void SetUserPenalty(TimeForm);
 	void SetUserNReserve(char);
 	void SetUserNBorrow(char);

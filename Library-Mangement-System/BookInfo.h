@@ -58,6 +58,20 @@ public:
 	bool GetCurrentBorrowInfo(BorrowInfo& bInfo);
 
 	/**
+	*	@요약	현재 예약 중인 정보를 대출 중으로 전환합니다.
+	*	@이전	현재 큐의 front에 예약중인 정보가 있어야 합니다.
+	*	@후		front에 있는 예약 중 BorrowInfo가 대출 중으로 전환됩니다.
+	*/
+	bool SetBorrowCurrentInfo();
+
+	/**
+	*	@요약	현재 예약 중인 정보의 날짜를 갱신합니다.
+	*	@이전	현재 큐의 front에 예약중인 정보가 있어야 합니다.
+	*	@후		front에 있는 예약 중 BorrowInfo의 날짜가 갱신됩니다.
+	*/
+	bool SetDateCurrentInfo();
+
+	/**
 	*	@brief if borrowedQ is empty, return true. if not empty, return false.
 	*/
 	bool IsNoReservation();

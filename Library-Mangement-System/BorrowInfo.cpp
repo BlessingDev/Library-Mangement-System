@@ -32,6 +32,11 @@ TimeForm BorrowInfo::GetBorrowDate()
 	return m_borrowedDate;
 }
 
+bool BorrowInfo::IsBorrowing() const
+{
+	return m_borrowed;
+}
+
 void BorrowInfo::Borrow()
 {
 	m_borrowed = true;

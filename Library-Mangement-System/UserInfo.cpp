@@ -40,6 +40,11 @@ void UserInfo::SetUserNumber(int number)
 	m_userNumber = number;
 }
 
+void UserInfo::SetUserPenalty(TimeForm t)
+{
+	m_penalty = t;
+}
+
 void UserInfo::SetUserNBorrow(char nborrow)
 {
 	m_nBorrow = nborrow;

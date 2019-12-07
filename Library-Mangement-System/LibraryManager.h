@@ -25,6 +25,7 @@ private:
 	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID
 	int mBorrowDay;		// 대출 기간
 	int mPossBorrowNum;	// 한 사람이 최대 대출 가능한 권수
+	int mPossResNum;	// 한 사람이 최대 예약 가능한 권수
 
 public:
 
@@ -70,23 +71,35 @@ public:
 	* @후: 책을 대출
 	* @반환:
 	> 1: 대출 성공
-	> 2: 
+	> 2: 책에 대해 예약이 이미 있는 경우
+	> 3: 대출 제한에 걸린 경우(대출 권수, 대출 연체)
 	**/
 	int BorrowBook(std::string, int);
 
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
 	* @후: 책 대출을 예약
-	* @반환: 대출에 성공하면 true, 실패하면 false를 반환
+	* @반환:
+	> 1: 예약 성공
+	> 2: 책의 예약이 가득 찬 경우
+	> 3: 대출 제한, 예약 제한에 걸린 경우
 	**/
-	bool ReserveBook(std::string, int, int&);
+	int ReserveBook(std::string, int, int&);
 
 	/**
 	* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
+	* @매개변수 :
+	> 반납된대출: 반납된 대출 정보를 반환
+	> 예약정보: 예약 정보가 있을 때 예약 정보를 반환
 	* @후 : 책을 반납
-	* @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
+	* @반환 :
+	> 1: 반납 성공, 예약 없음, 연체 안 됨
+	> 2: 반납 성공, 예약 없음, 연체됨
+	> 3: 반납 성공, 예약 있음, 연체 안 됨 
+	> 4: 반납 성공, 예약 있음, 연체됨
+	> 5: 반납 실패
 	*/
-	bool ReturnBook(std::string, int);
+	int ReturnBook(std::string, int, BorrowInfo& 반납된대출, BorrowInfo& 예약정보);
 
 	/**
 	* @전: 연체된 대출이 존재할 것

@@ -161,6 +161,34 @@ bool BookInfo::GetCurrentBorrowInfo(BorrowInfo& bInfo)
 	}
 }
 
+bool BookInfo::SetBorrowCurrentInfo()
+{
+	BorrowInfo* pbi = nullptr;
+	try
+	{
+		mBorrowingInfo.GetFrontPointer(pbi);
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
+	pbi->Borrow();
+}
+
+bool BookInfo::SetDateCurrentInfo()
+{
+	BorrowInfo* pbi = nullptr;
+	try
+	{
+		mBorrowingInfo.GetFrontPointer(pbi);
+	}
+	catch (EmptyQueue e)
+	{
+		return false;
+	}
+	pbi->SetBorrowDate();
+}
+
 bool BookInfo::IsNoReservation()
 {
 	return mBorrowingInfo.IsEmpty();

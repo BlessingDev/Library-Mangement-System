@@ -9,6 +9,7 @@ LibraryManager::LibraryManager()
 	mNextUserId = -1;
 	mBorrowDay = 14;
 	mPossBorrowNum = 5;
+	mPossResNum = 5;
 }
 
 LibraryManager::~LibraryManager(){}
@@ -121,16 +122,6 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 	curBook.SetISBN(isbn);
 	mBooks.GetPointer(pCurBook);
 
-	if (pCurBook->GetNumReservation() >= 1) 
-		// 현재 책을 빌린 사람이 있는지, 예약한 사람이 있는지 확인
-	{
-		pCurBook->GetCurrentBorrowInfo(newBorrow);
-		if (newBorrow.GetUserInfo()->GetUserID() != id)
-		{
-
-		}
-	}
-
 	UserInfo curUser;
 	UserInfo* pCurUser = std::addressof(curUser);
 	curUser.SetID(id);
@@ -139,7 +130,26 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 	TimeForm curPenalty = pCurUser->GetUserPenalty();
 	char curNBorrow = pCurUser->GetUserNBorrow();
 
-
+	if (pCurBook->GetNumReservation() >= 1) 
+		// 현재 책을 빌린 사람이 있는지, 예약한 사람이 있는지 확인
+	{
+		pCurBook->GetCurrentBorrowInfo(newBorrow);
+		if (newBorrow.GetUserInfo()->GetUserID() != id)
+			// 예약한 사람이 있고, 현재 대출하려고 하는 사람이 예약한 사람이 아니다.
+		{
+			return 2;
+		}
+		else
+		{
+			// 현재 대출하려는 사람이 예약한 사람이다.
+			pCurUser->SetUserNBorrow(curNBorrow + 1);
+			pCurUser->SetUserNReserve(pCurUser->GetUserNReserve() - 1); // 예약했던 게 대출로 전환됐으니 예약수는 -1
+			pCurBook->SetBorrowCurrentInfo();
+			pCurBook->GetCurrentBorrowInfo(newBorrow); // 대출로 전환된 정보를 다시 newBorrow에 받아온다.
+			mBorrows.InsertItem(newBorrow);
+			return 1;
+		}
+	}
 
 	newBorrow.SetBookInfo(pCurBook);
 	newBorrow.SetUserInfo(pCurUser);
@@ -147,11 +157,11 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 
 	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum)
 	{
-		return false;
+		return 3;
 	}
 	else
 	{
-		curUser.SetUserNBorrow(curNBorrow + 1);
+		pCurUser->SetUserNBorrow(curNBorrow + 1);
 		mBorrows.InsertItem(newBorrow);
 		return 1;
 	}
@@ -163,37 +173,42 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
 
-bool LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
+int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 {
-	UserInfo curUser;
-	UserInfo* pCurUser = std::addressof(curUser);
-	curUser.SetID(id);
-	mUsers.GetPointer(pCurUser);
-
-	TimeForm curPenalty = pCurUser->GetUserPenalty();
-	char curNBorrow = pCurUser->GetUserNBorrow();
 
 	BookInfo curBook;
 	BookInfo* pCurBook = std::addressof(curBook);
 	curBook.SetISBN(isbn);
 	mBooks.GetPointer(pCurBook);
 
-	BorrowInfo newBorrow;
-	newBorrow.SetBookInfo(curBook);
-	newBorrow.SetUserInfo(curUser);
-	newBorrow.SetBorrowedDate();
+	UserInfo curUser;
+	UserInfo* pCurUser = std::addressof(curUser);
+	curUser.SetID(id);
+	mUsers.GetPointer(pCurUser);
 
-	try
+	TimeForm curPenalty = pCurUser->GetUserPenalty();
+	char curNReserve = pCurUser->GetUserNReserve();
+
+	BorrowInfo newBorrow;
+	newBorrow.SetBookInfo(pCurBook);
+	newBorrow.SetUserInfo(pCurUser);
+	newBorrow.SetBorrowDate();
+
+
+	if (!pCurBook->IsFullReservation())
 	{
-		curUser.SetUserNBorrow(--curNBorrow);
-		curBook.EnQueueBorrowed(newBorrow);
-		borrowedNum = curBook.GetNumReservation();
-		return true;
+		return 2;
 	}
-	catch (exception e)
+	if (curPenalty > Application::mProgramTime || curNReserve >= mPossResNum)
 	{
-		return false;
+		return 3;
 	}
+
+	// 앞서서 아무 문제 없었을 때 예약 프로세스 진행
+	curUser.SetUserNBorrow(curNReserve + 1);
+	pCurBook->EnQueueBorrowed(newBorrow);
+	borrowedNum = pCurBook->GetNumReservation();
+	return 1;
 }
 
 /**
@@ -201,39 +216,75 @@ bool LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 * @후 : 책을 반납
 * @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
 */
-bool LibraryManager::ReturnBook(std::string isbn, int id)
+int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, BorrowInfo& resInfo)
 {
-	UserInfo curUser;
-	curUser.SetID(id);
-	mUsers.GetItem(curUser);
-
-	char curPenalty = curUser.GetUserPenalty();
-	char curNBorrow = curUser.GetUserNBorrow();
-
 	BookInfo curBook;
+	BookInfo* pCurBook = std::addressof(curBook);
 	curBook.SetISBN(isbn);
-	mBooks.Get(curBook);
+	mBooks.GetPointer(pCurBook);
 
-	BorrowInfo newReturn;
-	BookInfo returnbook;
+	UserInfo curUser;
+	UserInfo* pCurUser = std::addressof(curUser);
+	curUser.SetID(id);
+	mUsers.GetPointer(pCurUser);
 
-	int length = mBorrows.GetLength();
+	char curNBorrow = pCurUser->GetUserNBorrow();
 
-	if (/*연체되었을 때*/)
+	BorrowInfo ret;
+
+	pCurBook->GetCurrentBorrowInfo(ret);
+	if (ret.IsBorrowing() && ret.GetUserInfo()->GetUserID() != id)
+		// 반납하려는 정보가 올바른 정보인지 확인
 	{
-		//오늘날짜계산함수?
+		return 5;
+	}
+
+	// 반납에 따른 자료구조 처리
+	int result = mBorrows.Delete(ret);
+	if (result == 0)
+		return 5;
+	result = pCurBook->DeQueueBorrowed(ret);
+	if (result == 0)
+		return 5;
+	pCurUser->SetUserNBorrow(pCurUser->GetUserNBorrow() - 1);
+	//
+
+	retInfo = ret;
+
+	bool reserved = false;
+	if (pCurBook->GetNumReservation() > 0)
+		// 예약 정보가 있다면
+	{
+		pCurBook->SetDateCurrentInfo();
+		BorrowInfo t;
+		pCurBook->GetCurrentBorrowInfo(t);
+		mReservedTop.InsertItem(t);
+		resInfo = t;
+		reserved = true;
+	}
+
+	bool delayed = false;
+	if (Application::mProgramTime > (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay))
+		// 연체가 발생했다면
+	{
+		int delayDay = (Application::mProgramTime - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
+		pCurUser->SetUserPenalty(Application::mProgramTime + delayDay * TimeForm::ONEDAY);
+		delayed = true;
+	}
+
+	if (reserved == false)
+	{
+		if (delayed == false)
+			return 1;
+		else
+			return 2;
 	}
 	else
 	{
-		for (int i = 0; i < length; i++)
-		{
-			mBorrows.GetNextItem(newReturn);
-			returnbook = newReturn.GetBookInfo();//일단 isbn으로 설정
-			if (returnbook == curBook)
-			{
-				mBorrows.Delete(newReturn);
-			}
-		}
+		if (delayed == false)
+			return 3;
+		else
+			return 4;
 	}
 }
 
@@ -252,7 +303,7 @@ void LibraryManager::DisplayDelayedBooks()
 	for (int i = 0; i < length; i++)
 	{
 		mBorrows.GetNextItem(dummy);
-		cout<<"Borrowed Date	:	"<<dummy.GetBorrowedDate();
+		cout<<"Borrowed Date	:	" << dummy.GetBorrowDate();
 		cout << "Book Info	:	" << endl;
 		curbook = dummy.GetBookInfo();
 		curbook.DisplayBookInfo();
@@ -294,10 +345,10 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		id = to_string(dummy.GetUserID());
 		number = to_string(dummy.GetUserNumber());
 
-		if (name.find(search) == string:npos)
-			if (address.find(search == string:npos))
-				if (id.find(search == string:npos))
-					if (number.find(search) == string:npos)
+		if (name.find(search) == string::npos)
+			if (address.find(search) == string::npos)
+				if (id.find(search) == string::npos)
+					if (number.find(search) == string::npos)
 						break;
 
 		found = true;

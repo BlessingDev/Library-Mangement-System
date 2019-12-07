@@ -3,12 +3,13 @@
 #include <string>
 #include <ctime>
 #include <iomanip>
-#include "BookInfo.h"
-#include "UserInfo.h"
 #include "TimeForm.h"
 #include "RelationType.h"
 
 using namespace std;
+
+class BookInfo;
+class UserInfo;
 
 class BorrowInfo
 {
@@ -47,6 +48,8 @@ public:
 
 	BookInfo* GetBookInfo() const;
 
+	bool IsBorrowing() const;
+
 	/**
 	*	@brief	Getting borrowed date.
 	*	@pre	None.
@@ -72,6 +75,12 @@ public:
 			otherwise return EQUAL.
 	*/
 	RelationType CompareByDate(const BorrowInfo& data);
+
+	bool operator==(const BorrowInfo&);
+	bool operator<(const BorrowInfo&);
+	bool operator>(const BorrowInfo&);
+	bool operator<=(const BorrowInfo&);
+	bool operator>=(const BorrowInfo&);
 private:
 	BookInfo* m_bookInfo;
 	UserInfo* m_userInfo;
