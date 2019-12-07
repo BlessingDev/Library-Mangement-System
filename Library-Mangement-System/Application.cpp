@@ -229,65 +229,6 @@ int Application::DisplayDelayedBook()
 	LibraryManager.DispalyDelayedBooks();
 }
 
-void Application::AddBook()
-{
-	BookInfo mbook;
-	mbook.SetBookInfoByKB();
-	mLibraryManager.AddBook(mbook);
-}
-
-void Application::DeleteBook()
-{
-	string isbn;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	if (mLibraryManager.DeleteBook(isbn) == true)
-	{
-		cout << "Successfully deleted!" << endl;
-	}
-	else
-	{
-		cout << "Book with such ISBN doesn't exist." << endl;
-	}
-}
-
-void Application::BorrowBook()
-{
-	string isbn;
-	int id;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	cout << "\tEnter ID : ";
-	cin >> id;
-	if (mLibraryManager.BorrowBook(isbn, id) == true)
-	{
-		cout << "\tBook successfully borrowed!" << endl;
-	}
-	else
-	{
-		cout << "\tBorrow failed." << endl;
-	}
-}
-
-void Application::ReserveBook()
-{
-	string isbn;
-	int id;
-	int borrowedNum;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	cout << "\tEnter ID : ";
-	cin >> id;
-	if (mLibraryManager.ReserveBook(isbn, id, borrowedNum) == true)
-	{
-		cout << "\tBook successfully reserved!" << endl;
-	}
-	else
-	{
-		cout << "\tReservation failed" << endl;
-	}
-}
-
 void Application::SearchBook()
 {
 	BookInfo mbook;
