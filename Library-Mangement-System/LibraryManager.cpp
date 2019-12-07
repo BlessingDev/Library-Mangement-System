@@ -8,7 +8,7 @@ LibraryManager::LibraryManager()
 	mBorrowDay = 14;
 	mPossBorrowNum = 5;
 }
-
+ 
 LibraryManager::~LibraryManager(){}
 /**
 * @?? 초기?�된 Book 리스?? 추�???BookInfo 객체

@@ -1,62 +1,232 @@
 #include "Application.h"
 
-void Application::AddBook()
+Application()
 {
-	BookInfo mbook;
-	mbook.SetBookInfoByKB();
-	mLibraryManager.AddBook(mbook);
+	m_Command = 0;
+	m_Mode = 0;
 }
 
-void Application::DeleteBook()
+
+void Run()
+{
+	while (1)
+	{
+		m_Mode = GetMode();
+
+		switch (m_Mode)
+		{
+		case 1:
+		{
+			m_Command = GetBookCommand();
+
+			switch (m_Command)
+			{
+			case 1:
+				AddBook();
+				break;
+			case 2:
+				DeleteBook();
+				break;
+			case 3:
+				SearchBook();
+				break;
+			case 4:
+				BorrowBook();
+				break;
+			case 5:
+				ReserveBook();
+				break;
+			case 6:
+				ReturnBook();//�����ʿ�
+				break;
+			case 7:
+				DisplayDelayedBook();//�����ʿ�
+				break;
+			case 0:
+				return;
+			default:
+				cout << "\t�߸�� �Է��Դϴ�...\n";
+				break;
+			}
+		}
+			
+		case 2:
+			m_Command = GetUserCommand();
+			switch (m_Command)
+			{
+			case 1:
+				AddUser();
+				break;
+			case 2:
+				DeleteUser();
+				break;
+			case 3:
+				SearchUser();
+				break;
+			case 0:
+				return;
+			default:
+				cout << "\t�߸�� �Է��Դϴ�...\n";
+				break;
+			}
+		case 3:
+			DayPassed();
+		}
+}
+
+int GetMode()
+{
+	int mode;
+	cout << endl << endl;
+	cout << "\t---ID -- Select Mode ----- " << endl;
+	cout << "\t   1 : ���� ��" << endl;
+	cout << "\t   2 : �̿��� ��" << endl;
+	cout << "\t   3 : ��¥ ��" << endl;
+	cout << "\t   0 : ���" << endl;
+
+	cout << endl << "\t Choose a Mode--> ";
+	cin >> mode;
+	cout << endl;
+
+	return mode;
+}
+
+int GetBookCommand()
+{
+	int command;
+	cout << endl << endl;
+	cout << "\t---ID -- Command ----- " << endl;
+	cout << "\t   1 : ���� �߰�" << endl;
+	cout << "\t   2 : ���� ���" << endl;
+	cout << "\t   3 : ���� �˻�" << endl;
+	cout << "\t   4 : ���� �뿩" << endl;
+	cout << "\t   5 : ���� ����" << endl;
+	cout << "\t   6 : ���� �ݳ�" << endl;
+	cout << "\t   7 : ��ü���� ���" << endl;
+	cout << "\t   0 : Quit" << endl;
+
+	cout << endl << "\t Choose a Command--> ";
+	cin >> command;
+	cout << endl;
+
+	return command;
+}
+
+int GetUserCommand()
+{
+	int command;
+	cout << endl << endl;
+	cout << "\t---ID -- Command ----- " << endl;
+	cout << "\t   1 : �̿��� �߰�" << endl;
+	cout << "\t   2 : �̿��� ���" << endl;
+	cout << "\t   3 : �̿��� �˻�" << endl;
+	cout << "\t   0 : Quit" << endl;
+
+	cout << endl << "\t Choose a Command--> ";
+	cin >> command;
+	cout << endl;
+
+	return command;
+}
+
+
+void ShowMenu(std::string)
+{
+
+}
+
+
+int AddBook()
+{
+	BookInfo newbook;
+	newbook.SetBookInfoByKB();
+
+	LibraryManager.AddBook(newbook);
+
+	return 1;
+}
+
+
+int DeleteBook()
 {
 	string isbn;
-	cout << "\tEnter ISBN : ";
+	cout << "����� å�� ISBN �Է�	:	";
 	cin >> isbn;
-	if (mLibraryManager.DeleteBook(isbn) == true)
+
+	if (LibraryManager.DeleteBook(isbn))
 	{
-		cout << "Successfully deleted!" << endl;
+		cout << "��� ����";
+		return 1;
 	}
 	else
 	{
-		cout << "Book with such ISBN doesn't exist." << endl;
+		cout << "��� ����";
+		return 0;
 	}
 }
 
-void Application::BorrowBook()
+
+int BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	cout << "\tEnter ID : ";
+	cout << "����� ID �Է�	:	";
 	cin >> id;
-	if (mLibraryManager.BorrowBook(isbn, id) == true)
+	cout << "ISBN �Է�	:	";
+	cin >> isbn;
+
+	if (LibraryManager.BorrowBook(isbn, id))
 	{
-		cout << "\tBook successfully borrowed!" << endl;
+		cout << "�뿩 ����";
+		return 1;
 	}
 	else
 	{
-		cout << "\tBorrow failed." << endl;
+		cout << "�뿩 ����";
+		return 0;
 	}
 }
 
-void Application::ReserveBook()
+
+int ReserveBook()
 {
 	string isbn;
-	int id;
-	int borrowedNum;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	cout << "\tEnter ID : ";
+	string id;
+	int nReserve = 0;
+
+	cout << "����� ID �Է�	:	";
 	cin >> id;
-	if (mLibraryManager.ReserveBook(isbn, id, borrowedNum) == true)
+	cout << "ISBN	:	";
+	cin >> isbn;
+	
+	//����ó���� �� ���̽� �з� �ʿ�
+	if (LibraryManager.ReserveBook(isbn, id, nReserve))
 	{
-		cout << "\tBook successfully reserved!" << endl;
+		cout << "���� ����" << endl;
+		cout << "���� ��� " << nReserve << "��° �Դϴ�";
+		return 1;
 	}
 	else
 	{
-		cout << "\tReservation failed" << endl;
+		cout << "���� ����! �����ο�� �ʰ��߽�ϴ�" << endl;
 	}
+}
+
+int Application::ReturnBook()
+{
+	string isbn;
+	int id;
+	if (LibraryManager.ReturnBook(isbn, id))
+		return 1;
+	else
+	{
+		cout << "�ݳ� ����! ������ ��ü�Ǿ��ϴ�";
+	}
+}
+
+int Application::DisplayDelayedBook()
+{
+	LibraryManager.DispalyDelayedBooks();
 }
 
 void Application::SearchBook()
