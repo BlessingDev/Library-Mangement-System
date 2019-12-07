@@ -74,7 +74,7 @@ public:
 	* @후: 책 대출을 예약
 	* @반환: 대출에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool ReserveBook(std::string, std::string, int&);
+	bool ReserveBook(std::string,int, int&);
 
 	/**
 	* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
@@ -100,7 +100,7 @@ public:
 	* @후: 사용자 정보를 LinkedList에 추가한다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserWithString(std::string, LinkedList<UserInfo>&);
+	bool SearchUserWithString(std::string, LinkedList<UserInfo>&,BookInfo& book);
 
 
 	/**

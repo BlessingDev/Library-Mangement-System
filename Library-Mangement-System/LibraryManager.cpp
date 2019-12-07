@@ -11,8 +11,8 @@ LibraryManager::LibraryManager()
  
 LibraryManager::~LibraryManager(){}
 /**
-* @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
-* @후: 책 추가
+* @?? 초기?�된 Book 리스?? 추�???BookInfo 객체
+* @?? �?추�?
 **/
 void LibraryManager::AddBook(BookInfo book)
 {
@@ -21,8 +21,8 @@ void LibraryManager::AddBook(BookInfo book)
 }
 
 /**
-* @전: 초기화된 Book 리스트, 검색할 문자열
-* @후: 책 추가
+* @?? 초기?�된 Book 리스?? 검?�할 문자??
+* @?? �?추�?
 **/
 void LibraryManager::AddBookFromWeb(std::string)
 {
@@ -30,9 +30,9 @@ void LibraryManager::AddBookFromWeb(std::string)
 }
 
 /**
-* @전: Book List에 해당 책이 들어있을 것, 책의 ISBN을 알고 있을 것
-* @후: 입력된 ISBN에 해당하는 책을 삭제
-* @반환: 책 삭제에 성공하면 true, 실패하면 false를 반환
+* @?? Book List???�당 책이 ?�어?�을 �? 책의 ISBN???�고 ?�을 �?
+* @?? ?�력??ISBN???�당?�는 책을 ??��
+* @반환: �???��???�공?�면 true, ?�패?�면 false�?반환
 **/
 bool LibraryManager::DeleteBook(std::string isbn)
 {
@@ -49,9 +49,9 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 /**
-* @전: 검색할 isbn을 string 형태로 전달받는다. 책 정보를 반환받을 BookInfo 객체를 전달한다.
-* @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
-* @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
+* @?? 검?�할 isbn??string ?�태�??�달받는?? �??�보�?반환받을 BookInfo 객체�??�달?�다.
+* @?? ISBN 검?�을 ?�행?�고, 검?�에 ?�공?�면 검?�된 책의 ?�보 BookInfo& 객체??집어?�는??
+* @반환: �?검?�에 ?�공?�면 true, ?�패?�면 false�?반환
 **/
 bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
@@ -68,11 +68,11 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 }
 
 /**
-* @전: 검색할 문자열을 string 형태로 전달받는다. 책 정보를 반환받을 LinkedList<BookInfo> 객체를 전달한다.
-* @후: 모든 문자열 속성에 대해 통합 검색을 수행하고, 검색에 성공하면 검색된 책의 정보를 LinkedList에 Add한다
-* @반환: 검색된 책이 한 권이라도 있다면 true, 없다면 false를 반환
+* @?? 검?�할 문자?�을 string ?�태�??�달받는?? �??�보�?반환받을 LinkedList<BookInfo> 객체�??�달?�다.
+* @?? 모든 문자???�성???�???�합 검?�을 ?�행?�고, 검?�에 ?�공?�면 검?�된 책의 ?�보�?LinkedList??Add?�다
+* @반환: 검?�된 책이 ??권이?�도 ?�다�?true, ?�다�?false�?반환
 **/
-bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
+bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList, BookInfo& book)
 {
 	BookInfo dummy;
 	int length = mBooks.GetLength();
@@ -96,6 +96,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 						break;
 
 		found = true;
+		book = dummy;
 		searchList.Add(dummy);
 	}
 
@@ -106,9 +107,9 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 }
 
 /**
-* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
-* @후: 책을 대출
-* @반환: 대출에 성공하면 true, 실패하면 false를 반환
+* @?? 빌리고자 ?�는 책의 ISBN�?빌리고자 ?�는 ?�람??UserID�??�달. 빌리고자 ?�는 책의 ?�약???�거???�달???�람???�약??�?
+* @?? 책을 ?��?
+* @반환: ?�출에 ?�공?�면 true, ?�패?�면 false�?반환
 **/
 bool LibraryManager::BorrowBook(std::string isbn, int id)
 {
@@ -142,12 +143,12 @@ bool LibraryManager::BorrowBook(std::string isbn, int id)
 }
 
 /**
-* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
-* @후: 책 대출을 예약
-* @반환: 대출에 성공하면 true, 실패하면 false를 반환
+* @?? 빌리고자 ?�는 책의 ISBN�?빌리고자 ?�는 ?�람??UserID�??�달. 빌리고자 ?�는 책의 ?�약??�?차있거나 ?��? ?�약?�에 ?�어?��? ?�을 �? �?번째 ?�약?��?�?반환받을 int 변??
+* @?? �??�출을 ?�약
+* @반환: ?�출에 ?�공?�면 true, ?�패?�면 false�?반환
 **/
 
-bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowedNum)
+bool LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 {
 	UserInfo curUser;
 	curUser.SetID(id);
@@ -178,9 +179,9 @@ bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowed
 }
 
 /**
-* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
-* @후 : 책을 반납
-* @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
+* @??: 반납?�고???�는 책의 ISBN�?반납?�고???�는 ?�람??User ID�??�달
+* @??: 책을 반납
+* @반환 : 반납???�공?�면 true. 책이 ?�체?�었??경우 ?�체?�었?�는 메세지�?출력?�고, ?�당 ?�람??penalty�??�체?�짜만큼 추�?
 */
 bool LibraryManager::ReturnBook(std::string isbn, int id)
 {
@@ -200,16 +201,16 @@ bool LibraryManager::ReturnBook(std::string isbn, int id)
 
 	int length = mBorrows.GetLength();
 
-	if (/*연체되었을 때*/)
+	if (/*?�체?�었????*/)
 	{
-		//오늘날짜계산함수?
+		//?�늘?�짜계산?�수?
 	}
 	else
 	{
 		for (int i = 0; i < length; i++)
 		{
 			mBorrows.GetNextItem(newReturn);
-			returnbook = newReturn.GetBookInfo();//일단 isbn으로 설정
+			returnbook = newReturn.GetBookInfo();//?�단 isbn?�로 ?�정
 			if (returnbook == curBook)
 			{
 				mBorrows.Delete(newReturn);
@@ -219,8 +220,8 @@ bool LibraryManager::ReturnBook(std::string isbn, int id)
 }
 
 /**
-* @전: 연체된 대출이 존재할 것
-* @후: 연체된 대출을 출력
+* @?? ?�체???�출이 존재??�?
+* @?? ?�체???�출을 출력
 **/
 void LibraryManager::DisplayDelayedBooks()
 {
@@ -244,8 +245,8 @@ void LibraryManager::DisplayDelayedBooks()
 }
 
 /**
-* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
-* @후: UserInfo 객체가 시스템에 추가된다.
+* @?? 추�???UserInfo 객체???�인?��? ?�달?�다.
+* @?? UserInfo 객체가 ?�스?�에 추�??�다.
 **/
 void LibraryManager::AddUser(UserInfo user)
 {
@@ -255,9 +256,9 @@ void LibraryManager::AddUser(UserInfo user)
 }
 
 /**
-* @전: 검색할 문자열을 string 형태로 전달받는다. 사용자 정보를 반환받을 LinkedList<UserInfo> 객체를 전달한다.
-* @후: 사용자 정보를 LinkedList에 추가한다
-* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
+* @?? 검?�할 문자?�을 string ?�태�??�달받는?? ?�용???�보�?반환받을 LinkedList<UserInfo> 객체�??�달?�다.
+* @?? ?�용???�보�?LinkedList??추�??�다
+* @반환: 검?�된 ?�용?��? ?�다�?true, ?�다�?false�?반환
 **/
 bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInfo>& searchList)
 {
@@ -292,9 +293,9 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 }
 
 /**
-* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.
-* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
-* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
+* @?? 찾을 ?�용?�의 ID�??�달받는?? ?�용???�보�?반환받을 UserInfo 객체�??�달?�다.
+* @?? ?�용???�보�?찾으�?UserInfo 객체???�는??
+* @반환: 검?�된 ?�용?��? ?�다�?true, ?�다�?false�?반환
 **/
 bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
@@ -311,9 +312,9 @@ bool LibraryManager::SearchUserById(int id, UserInfo& user)
 }
 
 /**
-* @전: 제거할 사용자의 ID를 전달받는다.
-* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
-* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
+* @?? ?�거???�용?�의 ID�??�달받는??
+* @?? ?�용???�보�?찾으�??�스?�에????��?�다
+* @반환: ??��???�공?�면 true, ?�패?�면 false�?반환
 **/
 bool LibraryManager::DeleteUser(int id)
 {

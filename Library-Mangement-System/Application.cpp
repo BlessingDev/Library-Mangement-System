@@ -45,7 +45,7 @@ void Run()
 			case 0:
 				return;
 			default:
-				cout << "\t�߸�� �Է��Դϴ�...\n";
+				cout << "\t�߸��?�Է��Դϴ�...\n";
 				break;
 			}
 		}
@@ -66,7 +66,7 @@ void Run()
 			case 0:
 				return;
 			default:
-				cout << "\t�߸�� �Է��Դϴ�...\n";
+				cout << "\t�߸��?�Է��Դϴ�...\n";
 				break;
 			}
 		case 3:
@@ -82,7 +82,7 @@ int GetMode()
 	cout << "\t   1 : ���� ��" << endl;
 	cout << "\t   2 : �̿��� ��" << endl;
 	cout << "\t   3 : ��¥ ��" << endl;
-	cout << "\t   0 : ���" << endl;
+	cout << "\t   0 : ���" << endl;
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
@@ -97,12 +97,12 @@ int GetBookCommand()
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : ���� �߰�" << endl;
-	cout << "\t   2 : ���� ���" << endl;
+	cout << "\t   2 : ���� ���" << endl;
 	cout << "\t   3 : ���� �˻�" << endl;
 	cout << "\t   4 : ���� �뿩" << endl;
 	cout << "\t   5 : ���� ����" << endl;
 	cout << "\t   6 : ���� �ݳ�" << endl;
-	cout << "\t   7 : ��ü���� ���" << endl;
+	cout << "\t   7 : ��ü���� ���" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -118,7 +118,7 @@ int GetUserCommand()
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : �̿��� �߰�" << endl;
-	cout << "\t   2 : �̿��� ���" << endl;
+	cout << "\t   2 : �̿��� ���" << endl;
 	cout << "\t   3 : �̿��� �˻�" << endl;
 	cout << "\t   0 : Quit" << endl;
 
@@ -150,17 +150,17 @@ int AddBook()
 int DeleteBook()
 {
 	string isbn;
-	cout << "����� å�� ISBN �Է�	:	";
+	cout << "�����?å�� ISBN �Է�	:	";
 	cin >> isbn;
 
 	if (LibraryManager.DeleteBook(isbn))
 	{
-		cout << "��� ����";
+		cout << "���?����";
 		return 1;
 	}
 	else
 	{
-		cout << "��� ����";
+		cout << "���?����";
 		return 0;
 	}
 }
@@ -170,7 +170,7 @@ int BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "����� ID �Է�	:	";
+	cout << "�����?ID �Է�	:	";
 	cin >> id;
 	cout << "ISBN �Է�	:	";
 	cin >> isbn;
@@ -194,7 +194,7 @@ int ReserveBook()
 	string id;
 	int nReserve = 0;
 
-	cout << "����� ID �Է�	:	";
+	cout << "�����?ID �Է�	:	";
 	cin >> id;
 	cout << "ISBN	:	";
 	cin >> isbn;
@@ -203,12 +203,12 @@ int ReserveBook()
 	if (LibraryManager.ReserveBook(isbn, id, nReserve))
 	{
 		cout << "���� ����" << endl;
-		cout << "���� ��� " << nReserve << "��° �Դϴ�";
+		cout << "���� ���?" << nReserve << "��° �Դϴ�";
 		return 1;
 	}
 	else
 	{
-		cout << "���� ����! �����ο�� �ʰ��߽�ϴ�" << endl;
+		cout << "���� ����! �����ο��?�ʰ��߽�ϴ�?" << endl;
 	}
 }
 
@@ -220,7 +220,7 @@ int Application::ReturnBook()
 		return 1;
 	else
 	{
-		cout << "�ݳ� ����! ������ ��ü�Ǿ��ϴ�";
+		cout << "�ݳ� ����! ������ ��ü�Ǿ��ϴ�" << endl;
 	}
 }
 
@@ -231,17 +231,18 @@ int Application::DisplayDelayedBook()
 
 void Application::SearchBook()
 {
-	BookInfo mbook;
-	string isbn;
-	cout << "\tEnter ISBN : ";
-	cin >> isbn;
-	if (mLibraryManager.SearchBookWithIsbn(isbn, mbook) == true)
+	LinkedList<BookInfo> searchList;
+	BookInfo book;
+	string search;
+	cout << "\tSearch book by (ISBN, Title, Author, Publisher): ";
+	cin >> search;
+	if (mLibraryManager.SearchBookWithString(search, searchList, book) == true)
 	{
-		mbook.DisplayBookInfo();
+		book.DisplayBookInfo();
 	}
 	else
 	{
-		cout << "Could't find book with such ISBN." << endl;
+		cout << "Search failed." << endl;
 	}
 }
 
