@@ -16,6 +16,7 @@ public:
 	void SetAuthor(string author);
 	void SetTitle(string title);
 	void SetISBN(string  ISBN);
+	void SetPublisher(string Publisher);
 	void SetCategoryNum(int CategoryNum);
 
 	string GetAuthor();

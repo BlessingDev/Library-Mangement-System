@@ -328,3 +328,150 @@ bool LibraryManager::DeleteUser(int id)
 	else
 		return false;
 }
+
+bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+
+	//Author, Publisher, Title, ISBN
+	if (attribute == "Author")
+	{
+		dummy.SetAuthor(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+
+	else if (attribute == "Publisher")
+	{
+		dummy.SetPublisher(search);
+		BinarySearchTree<BookInfo> BST(CompByPublisher);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+
+	else if (attribute == "Title")
+	{
+		dummy.SetTitle(search);
+		BinarySearchTree<BookInfo> BST(CompByTitle);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else if (attribute == "ISBN")
+	{
+		dummy.SetISBN(search);
+		BinarySearchTree<BookInfo> BST(CompByISBN);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else
+	{
+//		cout << "잘못된 Attribute" << endl;
+		return false;
+	}
+}
+
+
+bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+
+	if (attribute == "CategoryNum")
+	{
+		dummy.SetCategoryNum(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else
+	{ 
+//		cout << "잘못된 Attribute"<<endl;
+		return false;
+	}
+}
+
+
+void LibraryManager::SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
+{
+	for (int i = 0; i < SPV.GetLength(); i++)
+	{
+		BST.Insert(SPV[i]);
+	}
+}
+
+
+//Compare Function
+RelationType CompByAuthor(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetAuthor() == other.GetAuthor())
+		return RelationType::EQUAL;
+	else if (myBook.GetAuthor() > other.GetAuthor())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByISBN(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetISBN() == other.GetISBN())
+		return RelationType::EQUAL;
+	else if (myBook.GetISBN() > other.GetISBN())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByTitle(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetTitle() == other.GetTitle())
+		return RelationType::EQUAL;
+	else if (myBook.GetTitle() > other.GetTitle())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByPublisher(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetPublisher() == other.GetPublisher())
+		return RelationType::EQUAL;
+	else if (myBook.GetPublisher() > other.GetPublisher())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByCategoryNum(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetCategoryNum() == other.GetCategoryNum())
+		return RelationType::EQUAL;
+	else if (myBook.GetCategoryNum() > other.GetCategoryNum())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
