@@ -27,10 +27,10 @@
     <ClCompile Include="TimeForm.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BorrowedInfo.cpp">
+    <ClCompile Include="LibraryManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LibraryManager.cpp">
+    <ClCompile Include="BorrowInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
@@ -38,9 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BorrowedInfo.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="UserInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -67,6 +64,15 @@
     <ClInclude Include="SortedPointerVector.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BorrowInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RelationType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editconfig" />
     <ClInclude Include="BinarySearchTree.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

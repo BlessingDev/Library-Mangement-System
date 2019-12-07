@@ -9,19 +9,25 @@
 #include "UserInfo.h"
 #include "BookInfo.h"
 #include "BorrowInfo.h"
+#include "TimeForm.h"
 
 class LibraryManager
 {
+
 private:
 
 	SortedPointerVector<UserInfo> mUsers;
 	SortedPointerVector<BookInfo> mBooks;
 	SortedLinkedList<BorrowInfo> mBorrows;
+	SortedLinkedList<BorrowInfo> mReservedTop;
+	LinkedList<BorrowInfo> mDelayedBorrows;
 	int mBookNum;
 	int mUserNum;
-	int mNextUserId;	// ������ �߰��Ǵ� ����ڿ��� �ο��� ID
-	int mBorrowDay;		// ���� �Ⱓ
-	int mPossBorrowNum;	// �� ����� �ִ� ���� ������ �Ǽ�
+  
+	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID
+	int mBorrowDay;		// 대출 기간
+	int mPossBorrowNum;	// 한 사람이 최대 대출 가능한 권수
+  int mPossResNum;	//  щ 理  媛ν 沅
 
 public:
 
@@ -30,91 +36,102 @@ public:
 	~LibraryManager();
 
 	/**
-	* @��: �ʱ�ȭ�� Book ����Ʈ, �߰��� BookInfo ��ü
-	* @��: å �߰�
+	* @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
+	* @후: 책 추가
 	**/
 	void AddBook(BookInfo);
 
 	/**
-	* @��: �ʱ�ȭ�� Book ����Ʈ, �˻��� ���ڿ�
-	* @��: å �߰�
+	* @전: 초기화된 Book 리스트, 검색할 문자열
+	* @후: 책 추가
 	**/
 	void AddBookFromWeb(std::string);
 
 	/**
-	* @��: Book List�� �ش� å�� ������� ��, å�� ISBN�� �˰� ���� ��
-	* @��: �Էµ� ISBN�� �ش��ϴ� å�� ����
-	* @��ȯ: å ������ �����ϸ� true, �����ϸ� false�� ��ȯ
+	* @전: Book List에 해당 책이 들어있을 것, 책의 ISBN을 알고 있을 것
+	* @후: 입력된 ISBN에 해당하는 책을 삭제
+	* @반환: 책 삭제에 성공하면 true, 실패하면 false를 반환
 	**/
 	bool DeleteBook(std::string);
 
 	/**
-	* @��: �˻��� isbn�� string ���·� ���޹޴´�. å ������ ��ȯ���� BookInfo ��ü�� �����Ѵ�.
-	* @��: ISBN �˻��� �����ϰ�, �˻��� �����ϸ� �˻��� å�� ���� BookInfo& ��ü�� ����ִ´�.
-	* @��ȯ: å �˻��� �����ϸ� true, �����ϸ� false�� ��ȯ
+	* @전: 검색할 isbn을 string 형태로 전달받는다. 책 정보를 반환받을 BookInfo 객체를 전달한다.
+	* @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
+	* @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
 	**/
 	bool SearchBookWithIsbn(std::string, BookInfo&);
 
 	/**
-	* @��: �˻��� ���ڿ��� string ���·� ���޹޴´�. å ������ ��ȯ���� LinkedList<BookInfo> ��ü�� �����Ѵ�.
-	* @��: ��� ���ڿ� �Ӽ��� ���� ���� �˻��� �����ϰ�, �˻��� �����ϸ� �˻��� å�� ������ LinkedList�� Add�Ѵ�
-	* @��ȯ: �˻��� å�� �� ���̶� �ִٸ� true, ���ٸ� false�� ��ȯ
+	* @전: 검색할 문자열을 string 형태로 전달받는다. 책 정보를 반환받을 LinkedList<BookInfo> 객체를 전달한다.
+	* @후: 모든 문자열 속성에 대해 통합 검색을 수행하고, 검색에 성공하면 검색된 책의 정보를 LinkedList에 Add한다
+	* @반환: 검색된 책이 한 권이라도 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchBookWithString(std::string, LinkedList<BookInfo>&);
 
 	/**
-	* @��: �������� �ϴ� å�� ISBN�� �������� �ϴ� ����� UserID�� ����. �������� �ϴ� å�� ������ ���ų� ���޵� ����� ������ ��.
-	* @��: å�� ����
-	* @��ȯ: ���⿡ �����ϸ� true, �����ϸ� false�� ��ȯ. å�� �������� �ϴ� ����� penalty, nbook�� Ȯ���ϰ� ���ǿ� ���� �ʴ´ٸ� �������
+	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
+	* @후: 책을 대출
+	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
 	**/
-	bool BorrowBook(std::string, int);
+	int BorrowBook(std::string, int);
 
 	/**
-	* @��: �������� �ϴ� å�� ISBN�� �������� �ϴ� ����� UserID�� ����. �������� �ϴ� å�� ������ �� ���ְų� �̹� ����ť�� ������� ���� ��. �� ��° ���������� ��ȯ���� int ����
-	* @��: å ������ ����
-	* @��ȯ: ���⿡ �����ϸ� true, �����ϸ� false�� ��ȯ
+	* @�: 鍮由ш�  梨 ISBN怨 鍮由ш�  щ UserID瑜 �. 鍮由ш�  梨 쎌 苑 李⑥嫄곕 대� 쏀 ㅼ댁吏  寃. 紐 踰吏 쎌몄瑜 諛諛 int 蹂
+	* @: 梨 異 
+	* @諛:
+	> 1:  깃났
+	> 2: 梨 쎌 媛 李 寃쎌
+	> 3: 異 �,  � 嫄몃┛ 寃쎌
 	**/
-	bool ReserveBook(std::string,int, int&);
+	int ReserveBook(std::string, int, int&);
 
 	/**
-	* @�� : �ݳ��ϰ��� �ϴ� å�� ISBN�� �ݳ��ϰ��� �ϴ� ����� User ID�� ����
-	* @�� : å�� �ݳ�
-	* @��ȯ : �ݳ��� �����ϸ� true. å�� ��ü�Ǿ��� ��� ��ü�Ǿ��ٴ� �޼����� ����ϰ�, �ش� ����� penalty�� ��ü��¥��ŭ �߰�
+	* @� : 諛⑺怨  梨 ISBN怨 諛⑺怨  щ User ID瑜 �
+	* @留ㅺ蹂 :
+	> 諛⑸異: 諛⑸ 異 �蹂대� 諛
+	> 쎌蹂:  �蹂닿    �蹂대� 諛
+	* @ : 梨 諛
+	* @諛 :
+	> 1: 諛 깃났,  , 곗껜  
+	> 2: 諛 깃났,  , 곗껜
+	> 3: 諛 깃났,  , 곗껜   
+	> 4: 諛 깃났,  , 곗껜
+	> 5: 諛 ㅽ
 	*/
-	bool ReturnBook(std::string, int);
+	int ReturnBook(std::string, int, BorrowInfo& 諛⑸異, BorrowInfo& 쎌蹂);
 
 	/**
-	* @��: ��ü�� ������ ������ ��
-	* @��: ��ü�� ������ ���
+	* @전: 연체된 대출이 존재할 것
+	* @후: 연체된 대출을 출력
 	**/
 	void DisplayDelayedBooks();
 
 	/**
-	* @��: �߰��� UserInfo ��ü�� �����͸� �����Ѵ�.
-	* @��: UserInfo ��ü�� �ý��ۿ� �߰��ȴ�.
+	* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
+	* @후: UserInfo 객체가 시스템에 추가된다.
 	**/
 	void AddUser(UserInfo);
 
 	/**
-	* @��: �˻��� ���ڿ��� string ���·� ���޹޴´�. ����� ������ ��ȯ���� LinkedList<UserInfo> ��ü�� �����Ѵ�.
-	* @��: ����� ������ LinkedList�� �߰��Ѵ�
-	* @��ȯ: �˻��� ����ڰ� �ִٸ� true, ���ٸ� false�� ��ȯ
+	* @전: 검색할 문자열을 string 형태로 전달받는다. 사용자 정보를 반환받을 LinkedList<UserInfo> 객체를 전달한다.
+	* @후: 사용자 정보를 LinkedList에 추가한다
+	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchUserWithString(std::string, LinkedList<UserInfo>&,BookInfo& book);
 
 
 	/**
-	* @��: ã�� ������� ID�� ���޹޴´�. ����� ������ ��ȯ���� UserInfo ��ü�� �����Ѵ�.
-	* @��: ����� ������ ã���� UserInfo ��ü�� �ִ´�
-	* @��ȯ: �˻��� ����ڰ� �ִٸ� true, ���ٸ� false�� ��ȯ
+	* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.
+	* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
+	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchUserById(int, UserInfo&);
 
 	/**
-	* @��: ã�� ������ ��, ���� ������ ��ȯ���� BookInfo ��ü, ���� Attirbute�� �����Ѵ�.
+	* @전: 찾을 도서의 값, 도서 정보를 반환받을 BookInfo 객체, 값의 Attirbute를 전달한다.
 	* @ Attributes : Author, Publisher, Title, ISBN, CategoryNum
-	* @��: ���� ������ ã���� BookInfo ��ü�� �ִ´�
-	* @��ȯ: �˻��� å�� �ִٸ� true, ���ٸ� false�� ��ȯ
+	* @후: 도서 정보를 찾으면 BookInfo 객체에 넣는다
+	* @반환: 검색된 책이 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchBookWithAttribute(string , BookInfo&, string );
 
@@ -127,9 +144,15 @@ public:
 
 
 	/**
-	* @��: ������ ������� ID�� ���޹޴´�.
-	* @��: ����� ������ ã���� �ý��ۿ��� �����Ѵ�
-	* @��ȯ: ������ �����ϸ� true, �����ϸ� false�� ��ȯ
+	* @전: 제거할 사용자의 ID를 전달받는다.
+	* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
+	* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
 	**/
 	bool DeleteUser(int);
+
+	/**
+	* @�: 
+	* @: 猷④ 吏  쇱대쇳 怨곗 ㅽ⑸.
+	**/
+	void DayPassed();
 };

@@ -120,7 +120,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BookInfo.cpp" />
-    <ClCompile Include="BorrowedInfo.cpp" />
+    <ClCompile Include="BorrowInfo.cpp" />
     <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TimeForm.cpp" />
@@ -129,8 +129,10 @@
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BookInfo.h" />
+    <ClInclude Include="BorrowInfo.h" />
     <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="RelationType.h" />
     <ClInclude Include="SortedPointerVector.hpp" />
     <ClInclude Include="TimeForm.h" />
     <ClInclude Include="UserInfo.h" />
@@ -140,7 +142,7 @@
     <ClInclude Include="LinkedList.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BorrowedInfo.h" />
+    <None Include=".editconfig" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

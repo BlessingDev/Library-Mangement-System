@@ -106,8 +106,14 @@ public:
 	*	@brief	Get front item in Q
 	*	@pre	Queue has been initialized.
 	*/
-
 	T GetFront();
+
+
+	/**
+	*	@요약	큐의 가장 위에 있는 원소의 포인터를 얻어온다.
+	*	@pre	Queue has been initialized.
+	*/
+	void GetFrontPointer(T*&);
 
 	/**
 	*	@brief	Print all the items in the queue on screen
@@ -256,5 +262,16 @@ inline T CircularQueueType<T>::GetFront()
 		throw EmptyQueue();
 	}
 
-	return m_pItems[m_iFront];
+	return mPtrItems[miFront];
+}
+
+template <typename T>
+void CircularQueueType<T>::GetFrontPointer(T*& pItem)
+{
+	if (IsEmpty())
+	{
+		throw EmptyQueue();
+	}
+
+	pItem = std::addressof(mPtrItems[miFront]);
 }

@@ -4,9 +4,9 @@
 #include <string>
 #include <cstring>
 
-using namespace std;
+#include "RelationType.h"
 
-enum RelationType { LESS, GREATER, EQUAL };
+using namespace std;
 
 template <typename T>
 class SortedPointerVector

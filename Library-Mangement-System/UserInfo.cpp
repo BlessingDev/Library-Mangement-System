@@ -1,14 +1,16 @@
 #include "UserInfo.h"
 
+
+#include "Application.h"
+
 UserInfo::UserInfo()
+	: m_penalty()
 {
 	m_userID = -1;
 	m_userName = "";
 	m_userAddress = "";
 	m_userNumber = -1;
-	m_borrowedBookList = NULL;
-	
-	m_penalty = 0;
+
 	m_nReserve = 4;
 	m_nBorrow = 5;
 }
@@ -38,9 +40,9 @@ void UserInfo::SetUserNumber(int number)
 	m_userNumber = number;
 }
 
-void UserInfo::SetUserPenalty(char penalty)
+void UserInfo::SetUserPenalty(TimeForm t)
 {
-	m_penalty = penalty;
+	m_penalty = t;
 }
 
 void UserInfo::SetUserNBorrow(char nborrow)
@@ -105,7 +107,7 @@ int UserInfo::GetUserNumber()
 	return m_userNumber;
 }
 
-char UserInfo::GetUserPenalty()
+TimeForm UserInfo::GetUserPenalty()
 {
 	return m_penalty;
 }
@@ -148,6 +150,11 @@ void UserInfo::DisplayUserInfo()
 	DisplayUserNumber();
 }
 
+void UserInfo::StartPenalty()
+{
+	m_penalty = Application::mProgramTime;
+}
+
 int UserInfo::ReadDataFromFile(ifstream& fin)
 {
 	fin >> m_userID;
@@ -172,11 +179,11 @@ int UserInfo::WriteDataToFile(ofstream& fout)
 RelationType UserInfo::CompareByID(const UserInfo& info)
 {
 	if (this->m_userID > info.m_userID)
-		return GREATER;
+		return RelationType::GREATER;
 	else if (this->m_userID < info.m_userID)
-		return LESS;
+		return RelationType::LESS;
 	else
-		return EQUAL;
+		return RelationType::EQUAL;
 }
 
 bool UserInfo::operator<(const UserInfo& comp)
