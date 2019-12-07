@@ -37,15 +37,15 @@ void Run()
 				ReserveBook();
 				break;
 			case 6:
-				ReturnBook();//±¸ÇöÇÊ¿ä
+				ReturnBook();//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
 				break;
 			case 7:
-				DisplayDelayedBook();//±¸ÇöÇÊ¿ä
+				DisplayDelayedBook();//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
 				break;
 			case 0:
 				return;
 			default:
-				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+				cout << "\tï¿½ß¸ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ô´Ï´ï¿½...\n";
 				break;
 			}
 		}
@@ -66,7 +66,7 @@ void Run()
 			case 0:
 				return;
 			default:
-				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+				cout << "\tï¿½ß¸ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ô´Ï´ï¿½...\n";
 				break;
 			}
 		case 3:
@@ -79,10 +79,10 @@ int GetMode()
 	int mode;
 	cout << endl << endl;
 	cout << "\t---ID -- Select Mode ----- " << endl;
-	cout << "\t   1 : µµ¼­ °ü¸®" << endl;
-	cout << "\t   2 : ÀÌ¿ëÀÚ °ü¸®" << endl;
-	cout << "\t   3 : ³¯Â¥ °ü¸®" << endl;
-	cout << "\t   0 : Á¾·á" << endl;
+	cout << "\t   1 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½" << endl;
+	cout << "\t   2 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½" << endl;
+	cout << "\t   3 : ï¿½ï¿½Â¥ ï¿½ï¿½" << endl;
+	cout << "\t   0 : ï¿½ï¿½ï¿½" << endl;
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
@@ -96,13 +96,13 @@ int GetBookCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : µµ¼­ Ãß°¡" << endl;
-	cout << "\t   2 : µµ¼­ »èÁ¦" << endl;
-	cout << "\t   3 : µµ¼­ °Ë»ö" << endl;
-	cout << "\t   4 : µµ¼­ ´ë¿©" << endl;
-	cout << "\t   5 : µµ¼­ ¿¹¾à" << endl;
-	cout << "\t   6 : µµ¼­ ¹Ý³³" << endl;
-	cout << "\t   7 : ¿¬Ã¼µµ¼­ ¸ñ·Ï" << endl;
+	cout << "\t   1 : ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½" << endl;
+	cout << "\t   2 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½" << endl;
+	cout << "\t   3 : ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½" << endl;
+	cout << "\t   4 : ï¿½ï¿½ï¿½ï¿½ ï¿½ë¿©" << endl;
+	cout << "\t   5 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" << endl;
+	cout << "\t   6 : ï¿½ï¿½ï¿½ï¿½ ï¿½Ý³ï¿½" << endl;
+	cout << "\t   7 : ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -117,9 +117,9 @@ int GetUserCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ÀÌ¿ëÀÚ Ãß°¡" << endl;
-	cout << "\t   2 : ÀÌ¿ëÀÚ »èÁ¦" << endl;
-	cout << "\t   3 : ÀÌ¿ëÀÚ °Ë»ö" << endl;
+	cout << "\t   1 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ß°ï¿½" << endl;
+	cout << "\t   2 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½" << endl;
+	cout << "\t   3 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -150,17 +150,17 @@ int AddBook()
 int DeleteBook()
 {
 	string isbn;
-	cout << "»èÁ¦ÇÒ Ã¥ÀÇ ISBN ÀÔ·Â	:	";
+	cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¥ï¿½ï¿½ ISBN ï¿½Ô·ï¿½	:	";
 	cin >> isbn;
 
 	if (LibraryManager.DeleteBook(isbn))
 	{
-		cout << "»èÁ¦ ¼º°ø";
+		cout << "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
 		return 1;
 	}
 	else
 	{
-		cout << "»èÁ¦ ½ÇÆÐ";
+		cout << "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
 		return 0;
 	}
 }
@@ -170,19 +170,19 @@ int BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
+	cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ ID ï¿½Ô·ï¿½	:	";
 	cin >> id;
-	cout << "ISBN ÀÔ·Â	:	";
+	cout << "ISBN ï¿½Ô·ï¿½	:	";
 	cin >> isbn;
 
 	if (LibraryManager.BorrowBook(isbn, id))
 	{
-		cout << "´ë¿© ¼º°ø";
+		cout << "ï¿½ë¿© ï¿½ï¿½ï¿½ï¿½";
 		return 1;
 	}
 	else
 	{
-		cout << "´ë¿© ½ÇÆÐ";
+		cout << "ï¿½ë¿© ï¿½ï¿½ï¿½ï¿½";
 		return 0;
 	}
 }
@@ -194,21 +194,21 @@ int ReserveBook()
 	string id;
 	int nReserve = 0;
 
-	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
+	cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ ID ï¿½Ô·ï¿½	:	";
 	cin >> id;
 	cout << "ISBN	:	";
 	cin >> isbn;
 	
-	//¿¹¿ÜÃ³¸®¿¡ µû¸¥ ÄÉÀÌ½º ºÐ·ù ÇÊ¿ä
+	//ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½Ð·ï¿½ ï¿½Ê¿ï¿½
 	if (LibraryManager.ReserveBook(isbn, id, nReserve))
 	{
-		cout << "¿¹¾à ¼º°ø" << endl;
-		cout << "¿¹¾à ¼øÀ§ " << nReserve << "¹øÂ° ÀÔ´Ï´Ù";
+		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" << endl;
+		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ " << nReserve << "ï¿½ï¿½Â° ï¿½Ô´Ï´ï¿½";
 		return 1;
 	}
 	else
 	{
-		cout << "¿¹¾à ½ÇÆÐ! ¿¹¾àÀÎ¿øÀ» ÃÊ°úÇß½À´Ï´Ù" << endl;
+		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ß½ï¿½Ï´ï¿½" << endl;
 	}
 }
 
@@ -220,11 +220,133 @@ int Application::ReturnBook()
 		return 1;
 	else
 	{
-		cout << "¹Ý³³ ½ÇÆÐ! µµ¼­°¡ ¿¬Ã¼µÇ¾ú½À´Ï´Ù";
+		cout << "ï¿½Ý³ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ç¾ï¿½ï¿½Ï´ï¿½";
 	}
 }
 
 int Application::DisplayDelayedBook()
 {
 	LibraryManager.DispalyDelayedBooks();
+}
+
+void Application::AddBook()
+{
+	BookInfo mbook;
+	mbook.SetBookInfoByKB();
+	mLibraryManager.AddBook(mbook);
+}
+
+void Application::DeleteBook()
+{
+	string isbn;
+	cout << "\tEnter ISBN : ";
+	cin >> isbn;
+	if (mLibraryManager.DeleteBook(isbn) == true)
+	{
+		cout << "Successfully deleted!" << endl;
+	}
+	else
+	{
+		cout << "Book with such ISBN doesn't exist." << endl;
+	}
+}
+
+void Application::BorrowBook()
+{
+	string isbn;
+	int id;
+	cout << "\tEnter ISBN : ";
+	cin >> isbn;
+	cout << "\tEnter ID : ";
+	cin >> id;
+	if (mLibraryManager.BorrowBook(isbn, id) == true)
+	{
+		cout << "\tBook successfully borrowed!" << endl;
+	}
+	else
+	{
+		cout << "\tBorrow failed." << endl;
+	}
+}
+
+void Application::ReserveBook()
+{
+	string isbn;
+	int id;
+	int borrowedNum;
+	cout << "\tEnter ISBN : ";
+	cin >> isbn;
+	cout << "\tEnter ID : ";
+	cin >> id;
+	if (mLibraryManager.ReserveBook(isbn, id, borrowedNum) == true)
+	{
+		cout << "\tBook successfully reserved!" << endl;
+	}
+	else
+	{
+		cout << "\tReservation failed" << endl;
+	}
+}
+
+void Application::SearchBook()
+{
+	BookInfo mbook;
+	string isbn;
+	cout << "\tEnter ISBN : ";
+	cin >> isbn;
+	if (mLibraryManager.SearchBookWithIsbn(isbn, mbook) == true)
+	{
+		mbook.DisplayBookInfo();
+	}
+	else
+	{
+		cout << "Could't find book with such ISBN." << endl;
+	}
+}
+
+void Application::AddUser()
+{
+	UserInfo user;
+	mLibraryManager.AddUser(user);
+}
+
+void Application::SearchUser()
+{
+	UserInfo user;
+	int id;
+	cout << "\tEnter ID : ";
+	cin >> id;
+	if (mLibraryManager.SearchUserById(id, user) == true)
+	{
+		user.DisplayUserInfo();
+	}
+	else
+	{
+		cout << "\tCould't find user with such ID." << endl;
+	}
+}
+
+void Application::DeleteUser()
+{
+	int id;
+	cout << "\tEnter ID : ";
+	cin >> id;
+	if (mLibraryManager.DeleteUser(id) == true)
+	{
+		cout << "\tUser successfully deleted!" << endl;
+	}
+	else
+	{
+		cout << "\tDelete failed." << endl;
+	}
+}
+
+void Application::DayPassed()
+{
+	TimeForm nextDay;
+	string time;
+	cout << "Enter date (yyyyMMddhhmmss) : ";
+	cin >> time;
+	nextDay.FromString(time);
+	mCurrentTime.operator+(nextDay);
 }
