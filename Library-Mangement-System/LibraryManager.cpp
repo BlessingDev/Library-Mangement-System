@@ -11,11 +11,11 @@ LibraryManager::LibraryManager()
 	mPossBorrowNum = 5;
 	mPossResNum = 5;
 }
-
+ 
 LibraryManager::~LibraryManager(){}
 /**
-* @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
-* @후: 책 추가
+* @?? ì´ˆê¸°?”ëœ Book ë¦¬ìŠ¤?? ì¶”ê???BookInfo ê°ì²´
+* @?? ì±?ì¶”ê?
 **/
 void LibraryManager::AddBook(BookInfo book)
 {
@@ -24,8 +24,8 @@ void LibraryManager::AddBook(BookInfo book)
 }
 
 /**
-* @전: 초기화된 Book 리스트, 검색할 문자열
-* @후: 책 추가
+* @?? ì´ˆê¸°?”ëœ Book ë¦¬ìŠ¤?? ê²€?‰í•  ë¬¸ìž??
+* @?? ì±?ì¶”ê?
 **/
 void LibraryManager::AddBookFromWeb(std::string)
 {
@@ -33,9 +33,9 @@ void LibraryManager::AddBookFromWeb(std::string)
 }
 
 /**
-* @전: Book List에 해당 책이 들어있을 것, 책의 ISBN을 알고 있을 것
-* @후: 입력된 ISBN에 해당하는 책을 삭제
-* @반환: 책 삭제에 성공하면 true, 실패하면 false를 반환
+* @?? Book List???´ë‹¹ ì±…ì´ ?¤ì–´?ˆì„ ê²? ì±…ì˜ ISBN???Œê³  ?ˆì„ ê²?
+* @?? ?…ë ¥??ISBN???´ë‹¹?˜ëŠ” ì±…ì„ ?? œ
+* @ë°˜í™˜: ì±??? œ???±ê³µ?˜ë©´ true, ?¤íŒ¨?˜ë©´ falseë¥?ë°˜í™˜
 **/
 bool LibraryManager::DeleteBook(std::string isbn)
 {
@@ -52,9 +52,9 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 /**
-* @전: 검색할 isbn을 string 형태로 전달받는다. 책 정보를 반환받을 BookInfo 객체를 전달한다.
-* @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
-* @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
+* @?? ê²€?‰í•  isbn??string ?•íƒœë¡??„ë‹¬ë°›ëŠ”?? ì±??•ë³´ë¥?ë°˜í™˜ë°›ì„ BookInfo ê°ì²´ë¥??„ë‹¬?œë‹¤.
+* @?? ISBN ê²€?‰ì„ ?˜í–‰?˜ê³ , ê²€?‰ì— ?±ê³µ?˜ë©´ ê²€?‰ëœ ì±…ì˜ ?•ë³´ BookInfo& ê°ì²´??ì§‘ì–´?£ëŠ”??
+* @ë°˜í™˜: ì±?ê²€?‰ì— ?±ê³µ?˜ë©´ true, ?¤íŒ¨?˜ë©´ falseë¥?ë°˜í™˜
 **/
 bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
@@ -71,11 +71,11 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 }
 
 /**
-* @전: 검색할 문자열을 string 형태로 전달받는다. 책 정보를 반환받을 LinkedList<BookInfo> 객체를 전달한다.
-* @후: 모든 문자열 속성에 대해 통합 검색을 수행하고, 검색에 성공하면 검색된 책의 정보를 LinkedList에 Add한다
-* @반환: 검색된 책이 한 권이라도 있다면 true, 없다면 false를 반환
+* @?? ê²€?‰í•  ë¬¸ìž?´ì„ string ?•íƒœë¡??„ë‹¬ë°›ëŠ”?? ì±??•ë³´ë¥?ë°˜í™˜ë°›ì„ LinkedList<BookInfo> ê°ì²´ë¥??„ë‹¬?œë‹¤.
+* @?? ëª¨ë“  ë¬¸ìž???ì„±???€???µí•© ê²€?‰ì„ ?˜í–‰?˜ê³ , ê²€?‰ì— ?±ê³µ?˜ë©´ ê²€?‰ëœ ì±…ì˜ ?•ë³´ë¥?LinkedList??Add?œë‹¤
+* @ë°˜í™˜: ê²€?‰ëœ ì±…ì´ ??ê¶Œì´?¼ë„ ?ˆë‹¤ë©?true, ?†ë‹¤ë©?falseë¥?ë°˜í™˜
 **/
-bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
+bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList, BookInfo& book)
 {
 	BookInfo dummy;
 	int length = mBooks.GetLength();
@@ -99,6 +99,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 						break;
 
 		found = true;
+		book = dummy;
 		searchList.Add(dummy);
 	}
 
@@ -109,9 +110,9 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 }
 
 /**
-* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
-* @후: 책을 대출
-* @반환: 대출에 성공하면 true, 실패하면 false를 반환
+* @?? ë¹Œë¦¬ê³ ìž ?˜ëŠ” ì±…ì˜ ISBNê³?ë¹Œë¦¬ê³ ìž ?˜ëŠ” ?¬ëžŒ??UserIDë¥??„ë‹¬. ë¹Œë¦¬ê³ ìž ?˜ëŠ” ì±…ì˜ ?ˆì•½???†ê±°???„ë‹¬???¬ëžŒ???ˆì•½??ê²?
+* @?? ì±…ì„ ?€ì¶?
+* @ë°˜í™˜: ?€ì¶œì— ?±ê³µ?˜ë©´ true, ?¤íŒ¨?˜ë©´ falseë¥?ë°˜í™˜
 **/
 int LibraryManager::BorrowBook(std::string isbn, int id)
 {
@@ -131,21 +132,21 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 	char curNBorrow = pCurUser->GetUserNBorrow();
 
 	if (pCurBook->GetNumReservation() >= 1) 
-		// 현재 책을 빌린 사람이 있는지, 예약한 사람이 있는지 확인
+		// í˜„ìž¬ ì±…ì„ ë¹Œë¦° ì‚¬ëžŒì´ ìžˆëŠ”ì§€, ì˜ˆì•½í•œ ì‚¬ëžŒì´ ìžˆëŠ”ì§€ í™•ì¸
 	{
 		pCurBook->GetCurrentBorrowInfo(newBorrow);
 		if (newBorrow.GetUserInfo()->GetUserID() != id)
-			// 예약한 사람이 있고, 현재 대출하려고 하는 사람이 예약한 사람이 아니다.
+			// ì˜ˆì•½í•œ ì‚¬ëžŒì´ ìžˆê³ , í˜„ìž¬ ëŒ€ì¶œí•˜ë ¤ê³  í•˜ëŠ” ì‚¬ëžŒì´ ì˜ˆì•½í•œ ì‚¬ëžŒì´ ì•„ë‹ˆë‹¤.
 		{
 			return 2;
 		}
 		else
 		{
-			// 현재 대출하려는 사람이 예약한 사람이다.
+			// í˜„ìž¬ ëŒ€ì¶œí•˜ë ¤ëŠ” ì‚¬ëžŒì´ ì˜ˆì•½í•œ ì‚¬ëžŒì´ë‹¤.
 			pCurUser->SetUserNBorrow(curNBorrow + 1);
-			pCurUser->SetUserNReserve(pCurUser->GetUserNReserve() - 1); // 예약했던 게 대출로 전환됐으니 예약수는 -1
+			pCurUser->SetUserNReserve(pCurUser->GetUserNReserve() - 1); // ì˜ˆì•½í–ˆë˜ ê²Œ ëŒ€ì¶œë¡œ ì „í™˜ëìœ¼ë‹ˆ ì˜ˆì•½ìˆ˜ëŠ” -1
 			pCurBook->SetBorrowCurrentInfo();
-			pCurBook->GetCurrentBorrowInfo(newBorrow); // 대출로 전환된 정보를 다시 newBorrow에 받아온다.
+			pCurBook->GetCurrentBorrowInfo(newBorrow); // ëŒ€ì¶œë¡œ ì „í™˜ëœ ì •ë³´ë¥¼ ë‹¤ì‹œ newBorrowì— ë°›ì•„ì˜¨ë‹¤.
 			mBorrows.InsertItem(newBorrow);
 			return 1;
 		}
@@ -168,10 +169,11 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 }
 
 /**
-* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
-* @후: 책 대출을 예약
-* @반환: 대출에 성공하면 true, 실패하면 false를 반환
+* @?? ë¹Œë¦¬ê³ ìž ?˜ëŠ” ì±…ì˜ ISBNê³?ë¹Œë¦¬ê³ ìž ?˜ëŠ” ?¬ëžŒ??UserIDë¥??„ë‹¬. ë¹Œë¦¬ê³ ìž ?˜ëŠ” ì±…ì˜ ?ˆì•½??ê½?ì°¨ìžˆê±°ë‚˜ ?´ë? ?ˆì•½?ì— ?¤ì–´?ˆì? ?Šì„ ê²? ëª?ë²ˆì§¸ ?ˆì•½?¸ì?ë¥?ë°˜í™˜ë°›ì„ int ë³€??
+* @?? ì±??€ì¶œì„ ?ˆì•½
+* @ë°˜í™˜: ?€ì¶œì— ?±ê³µ?˜ë©´ true, ?¤íŒ¨?˜ë©´ falseë¥?ë°˜í™˜
 **/
+
 
 int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 {
@@ -204,7 +206,7 @@ int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 		return 3;
 	}
 
-	// 앞서서 아무 문제 없었을 때 예약 프로세스 진행
+	// ì•žì„œì„œ ì•„ë¬´ ë¬¸ì œ ì—†ì—ˆì„ ë•Œ ì˜ˆì•½ í”„ë¡œì„¸ìŠ¤ ì§„í–‰
 	curUser.SetUserNBorrow(curNReserve + 1);
 	pCurBook->EnQueueBorrowed(newBorrow);
 	borrowedNum = pCurBook->GetNumReservation();
@@ -212,9 +214,9 @@ int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 }
 
 /**
-* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
-* @후 : 책을 반납
-* @반환 : 반납에 성공하면 true. 책이 연체되었을 경우 연체되었다는 메세지를 출력하고, 해당 사람의 penalty를 연체날짜만큼 추가
+* @??: ë°˜ë‚©?˜ê³ ???˜ëŠ” ì±…ì˜ ISBNê³?ë°˜ë‚©?˜ê³ ???˜ëŠ” ?¬ëžŒ??User IDë¥??„ë‹¬
+* @??: ì±…ì„ ë°˜ë‚©
+* @ë°˜í™˜ : ë°˜ë‚©???±ê³µ?˜ë©´ true. ì±…ì´ ?°ì²´?˜ì—ˆ??ê²½ìš° ?°ì²´?˜ì—ˆ?¤ëŠ” ë©”ì„¸ì§€ë¥?ì¶œë ¥?˜ê³ , ?´ë‹¹ ?¬ëžŒ??penaltyë¥??°ì²´? ì§œë§Œí¼ ì¶”ê?
 */
 int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, BorrowInfo& resInfo)
 {
@@ -234,12 +236,12 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 
 	pCurBook->GetCurrentBorrowInfo(ret);
 	if (ret.IsBorrowing() && ret.GetUserInfo()->GetUserID() != id)
-		// 반납하려는 정보가 올바른 정보인지 확인
+		// ë°˜ë‚©í•˜ë ¤ëŠ” ì •ë³´ê°€ ì˜¬ë°”ë¥¸ ì •ë³´ì¸ì§€ í™•ì¸
 	{
 		return 5;
 	}
 
-	// 반납에 따른 자료구조 처리
+	// ë°˜ë‚©ì— ë”°ë¥¸ ìžë£Œêµ¬ì¡° ì²˜ë¦¬
 	int result = mBorrows.Delete(ret);
 	if (result == 0)
 		return 5;
@@ -253,7 +255,7 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 
 	bool reserved = false;
 	if (pCurBook->GetNumReservation() > 0)
-		// 예약 정보가 있다면
+		// ì˜ˆì•½ ì •ë³´ê°€ ìžˆë‹¤ë©´
 	{
 		pCurBook->SetDateCurrentInfo();
 		BorrowInfo t;
@@ -265,7 +267,7 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 
 	bool delayed = false;
 	if (Application::mProgramTime > (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay))
-		// 연체가 발생했다면
+		// ì—°ì²´ê°€ ë°œìƒí–ˆë‹¤ë©´
 	{
 		int delayDay = (Application::mProgramTime - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
 		pCurUser->SetUserPenalty(Application::mProgramTime + delayDay * TimeForm::ONEDAY);
@@ -289,8 +291,8 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 }
 
 /**
-* @전: 연체된 대출이 존재할 것
-* @후: 연체된 대출을 출력
+* @?? ?°ì²´???€ì¶œì´ ì¡´ìž¬??ê²?
+* @?? ?°ì²´???€ì¶œì„ ì¶œë ¥
 **/
 void LibraryManager::DisplayDelayedBooks()
 {
@@ -314,8 +316,8 @@ void LibraryManager::DisplayDelayedBooks()
 }
 
 /**
-* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
-* @후: UserInfo 객체가 시스템에 추가된다.
+* @?? ì¶”ê???UserInfo ê°ì²´???¬ì¸?°ë? ?„ë‹¬?œë‹¤.
+* @?? UserInfo ê°ì²´ê°€ ?œìŠ¤?œì— ì¶”ê??œë‹¤.
 **/
 void LibraryManager::AddUser(UserInfo user)
 {
@@ -325,9 +327,9 @@ void LibraryManager::AddUser(UserInfo user)
 }
 
 /**
-* @전: 검색할 문자열을 string 형태로 전달받는다. 사용자 정보를 반환받을 LinkedList<UserInfo> 객체를 전달한다.
-* @후: 사용자 정보를 LinkedList에 추가한다
-* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
+* @?? ê²€?‰í•  ë¬¸ìž?´ì„ string ?•íƒœë¡??„ë‹¬ë°›ëŠ”?? ?¬ìš©???•ë³´ë¥?ë°˜í™˜ë°›ì„ LinkedList<UserInfo> ê°ì²´ë¥??„ë‹¬?œë‹¤.
+* @?? ?¬ìš©???•ë³´ë¥?LinkedList??ì¶”ê??œë‹¤
+* @ë°˜í™˜: ê²€?‰ëœ ?¬ìš©?ê? ?ˆë‹¤ë©?true, ?†ë‹¤ë©?falseë¥?ë°˜í™˜
 **/
 bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInfo>& searchList)
 {
@@ -362,9 +364,9 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 }
 
 /**
-* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.
-* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
-* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
+* @?? ì°¾ì„ ?¬ìš©?ì˜ IDë¥??„ë‹¬ë°›ëŠ”?? ?¬ìš©???•ë³´ë¥?ë°˜í™˜ë°›ì„ UserInfo ê°ì²´ë¥??„ë‹¬?œë‹¤.
+* @?? ?¬ìš©???•ë³´ë¥?ì°¾ìœ¼ë©?UserInfo ê°ì²´???£ëŠ”??
+* @ë°˜í™˜: ê²€?‰ëœ ?¬ìš©?ê? ?ˆë‹¤ë©?true, ?†ë‹¤ë©?falseë¥?ë°˜í™˜
 **/
 bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
@@ -381,9 +383,9 @@ bool LibraryManager::SearchUserById(int id, UserInfo& user)
 }
 
 /**
-* @전: 제거할 사용자의 ID를 전달받는다.
-* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
-* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
+* @?? ?œê±°???¬ìš©?ì˜ IDë¥??„ë‹¬ë°›ëŠ”??
+* @?? ?¬ìš©???•ë³´ë¥?ì°¾ìœ¼ë©??œìŠ¤?œì—???? œ?œë‹¤
+* @ë°˜í™˜: ?? œ???±ê³µ?˜ë©´ true, ?¤íŒ¨?˜ë©´ falseë¥?ë°˜í™˜
 **/
 bool LibraryManager::DeleteUser(int id)
 {
@@ -397,4 +399,151 @@ bool LibraryManager::DeleteUser(int id)
 	}
 	else
 		return false;
+}
+
+bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+
+	//Author, Publisher, Title, ISBN
+	if (attribute == "Author")
+	{
+		dummy.SetAuthor(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+
+	else if (attribute == "Publisher")
+	{
+		dummy.SetPublisher(search);
+		BinarySearchTree<BookInfo> BST(CompByPublisher);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+
+	else if (attribute == "Title")
+	{
+		dummy.SetTitle(search);
+		BinarySearchTree<BookInfo> BST(CompByTitle);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else if (attribute == "ISBN")
+	{
+		dummy.SetISBN(search);
+		BinarySearchTree<BookInfo> BST(CompByISBN);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else
+	{
+//		cout << "ìž˜ëª»ëœ Attribute" << endl;
+		return false;
+	}
+}
+
+
+bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string attribute)
+{
+	BookInfo dummy;
+
+	if (attribute == "CategoryNum")
+	{
+		dummy.SetCategoryNum(search);
+		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		SPVToBST(mBooks, BST);
+		if (BST.GetItem(dummy))
+		{
+			book = dummy;
+			return true;
+		}
+		return false;
+	}
+	else
+	{ 
+//		cout << "ìž˜ëª»ëœ Attribute"<<endl;
+		return false;
+	}
+}
+
+
+void LibraryManager::SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
+{
+	for (int i = 0; i < SPV.GetLength(); i++)
+	{
+		BST.Insert(SPV[i]);
+	}
+}
+
+
+//Compare Function
+RelationType CompByAuthor(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetAuthor() == other.GetAuthor())
+		return RelationType::EQUAL;
+	else if (myBook.GetAuthor() > other.GetAuthor())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByISBN(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetISBN() == other.GetISBN())
+		return RelationType::EQUAL;
+	else if (myBook.GetISBN() > other.GetISBN())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByTitle(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetTitle() == other.GetTitle())
+		return RelationType::EQUAL;
+	else if (myBook.GetTitle() > other.GetTitle())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByPublisher(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetPublisher() == other.GetPublisher())
+		return RelationType::EQUAL;
+	else if (myBook.GetPublisher() > other.GetPublisher())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
+}
+
+RelationType CompByCategoryNum(BookInfo myBook, BookInfo other)
+{
+	if (myBook.GetCategoryNum() == other.GetCategoryNum())
+		return RelationType::EQUAL;
+	else if (myBook.GetCategoryNum() > other.GetCategoryNum())
+		return RelationType::GREATER;
+	else
+		return RelationType::LESS;
 }

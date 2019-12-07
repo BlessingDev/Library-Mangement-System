@@ -4,6 +4,7 @@
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
 #include "SortedPointerVector.hpp"
+#include "BinarySearchTree.h"
 
 #include "UserInfo.h"
 #include "BookInfo.h"
@@ -22,10 +23,11 @@ private:
 	LinkedList<BorrowInfo> mDelayedBorrows;
 	int mBookNum;
 	int mUserNum;
+  
 	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID
 	int mBorrowDay;		// 대출 기간
 	int mPossBorrowNum;	// 한 사람이 최대 대출 가능한 권수
-	int mPossResNum;	// 한 사람이 최대 예약 가능한 권수
+  int mPossResNum;	//  щ 理  媛ν 沅
 
 public:
 
@@ -69,37 +71,34 @@ public:
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
 	* @후: 책을 대출
-	* @반환:
-	> 1: 대출 성공
-	> 2: 책에 대해 예약이 이미 있는 경우
-	> 3: 대출 제한에 걸린 경우(대출 권수, 대출 연체)
+	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
 	**/
 	int BorrowBook(std::string, int);
 
 	/**
-	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
-	* @후: 책 대출을 예약
-	* @반환:
-	> 1: 예약 성공
-	> 2: 책의 예약이 가득 찬 경우
-	> 3: 대출 제한, 예약 제한에 걸린 경우
+	* @�: 鍮由ш�  梨 ISBN怨 鍮由ш�  щ UserID瑜 �. 鍮由ш�  梨 쎌 苑 李⑥嫄곕 대� 쏀 ㅼ댁吏  寃. 紐 踰吏 쎌몄瑜 諛諛 int 蹂
+	* @: 梨 異 
+	* @諛:
+	> 1:  깃났
+	> 2: 梨 쎌 媛 李 寃쎌
+	> 3: 異 �,  � 嫄몃┛ 寃쎌
 	**/
 	int ReserveBook(std::string, int, int&);
 
 	/**
-	* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
-	* @매개변수 :
-	> 반납된대출: 반납된 대출 정보를 반환
-	> 예약정보: 예약 정보가 있을 때 예약 정보를 반환
-	* @후 : 책을 반납
-	* @반환 :
-	> 1: 반납 성공, 예약 없음, 연체 안 됨
-	> 2: 반납 성공, 예약 없음, 연체됨
-	> 3: 반납 성공, 예약 있음, 연체 안 됨 
-	> 4: 반납 성공, 예약 있음, 연체됨
-	> 5: 반납 실패
+	* @� : 諛⑺怨  梨 ISBN怨 諛⑺怨  щ User ID瑜 �
+	* @留ㅺ蹂 :
+	> 諛⑸異: 諛⑸ 異 �蹂대� 諛
+	> 쎌蹂:  �蹂닿    �蹂대� 諛
+	* @ : 梨 諛
+	* @諛 :
+	> 1: 諛 깃났,  , 곗껜  
+	> 2: 諛 깃났,  , 곗껜
+	> 3: 諛 깃났,  , 곗껜   
+	> 4: 諛 깃났,  , 곗껜
+	> 5: 諛 ㅽ
 	*/
-	int ReturnBook(std::string, int, BorrowInfo& 반납된대출, BorrowInfo& 예약정보);
+	int ReturnBook(std::string, int, BorrowInfo& 諛⑸異, BorrowInfo& 쎌蹂);
 
 	/**
 	* @전: 연체된 대출이 존재할 것
@@ -118,7 +117,8 @@ public:
 	* @후: 사용자 정보를 LinkedList에 추가한다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserWithString(std::string, LinkedList<UserInfo>&);
+	bool SearchUserWithString(std::string, LinkedList<UserInfo>&,BookInfo& book);
+
 
 	/**
 	* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.
@@ -128,6 +128,22 @@ public:
 	bool SearchUserById(int, UserInfo&);
 
 	/**
+	* @전: 찾을 도서의 값, 도서 정보를 반환받을 BookInfo 객체, 값의 Attirbute를 전달한다.
+	* @ Attributes : Author, Publisher, Title, ISBN, CategoryNum
+	* @후: 도서 정보를 찾으면 BookInfo 객체에 넣는다
+	* @반환: 검색된 책이 있다면 true, 없다면 false를 반환
+	**/
+	bool SearchBookWithAttribute(string , BookInfo&, string );
+
+	bool SearchBookWithAttribute(int , BookInfo&, string );
+
+	/**
+	* @brief: Convert SPV to BST
+	**/
+	void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST);
+
+
+	/**
 	* @전: 제거할 사용자의 ID를 전달받는다.
 	* @후: 사용자 정보를 찾으면 시스템에서 삭제한다
 	* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
@@ -135,8 +151,8 @@ public:
 	bool DeleteUser(int);
 
 	/**
-	* @전: 
-	* @후: 하루가 지날 때 일어나야하는 계산을 실행합니다.
+	* @�: 
+	* @: 猷④ 吏  쇱대쇳 怨곗 ㅽ⑸.
 	**/
 	void DayPassed();
 };

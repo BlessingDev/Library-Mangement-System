@@ -32,6 +32,11 @@ void BookInfo::SetISBN(string ISBN)
 	m_ISBN = ISBN;
 }
 
+void BookInfo::SetPublisher(string Publisher)
+{
+	m_Publisher = Publisher;
+}
+
 void BookInfo::SetCategoryNum(int CategoryNum)
 {
 	m_CategoryNum = CategoryNum;
