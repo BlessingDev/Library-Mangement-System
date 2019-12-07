@@ -8,14 +8,18 @@
 #include "UserInfo.h"
 #include "BookInfo.h"
 #include "BorrowInfo.h"
+#include "TimeForm.h"
 
 class LibraryManager
 {
+
 private:
 
 	SortedPointerVector<UserInfo> mUsers;
 	SortedPointerVector<BookInfo> mBooks;
 	SortedLinkedList<BorrowInfo> mBorrows;
+	SortedLinkedList<BorrowInfo> mReservedTop;
+	LinkedList<BorrowInfo> mDelayedBorrows;
 	int mBookNum;
 	int mUserNum;
 	int mNextUserId;	// 다음에 추가되는 사용자에게 부여할 ID
@@ -64,16 +68,18 @@ public:
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
 	* @후: 책을 대출
-	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
+	* @반환:
+	> 1: 대출 성공
+	> 2: 
 	**/
-	bool BorrowBook(std::string, int);
+	int BorrowBook(std::string, int);
 
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 꽉 차있거나 이미 예약큐에 들어있지 않을 것. 몇 번째 예약인지를 반환받을 int 변수
 	* @후: 책 대출을 예약
 	* @반환: 대출에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool ReserveBook(std::string, std::string, int&);
+	bool ReserveBook(std::string, int, int&);
 
 	/**
 	* @전 : 반납하고자 하는 책의 ISBN과 반납하고자 하는 사람의 User ID를 전달
@@ -114,4 +120,10 @@ public:
 	* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
 	**/
 	bool DeleteUser(int);
+
+	/**
+	* @전: 
+	* @후: 하루가 지날 때 일어나야하는 계산을 실행합니다.
+	**/
+	void DayPassed();
 };

@@ -5,10 +5,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <list>
-using namespace std;
 
-enum RelationType;
+#include "RelationType.h"
+#include "TimeForm.h"
+
+using namespace std;
 
 class UserInfo {
 private:
@@ -18,7 +19,7 @@ private:
 	int m_userNumber;
 	//list<BorrowedBookList>* m_borrowedBookList;
 
-	char m_penalty;
+	TimeForm m_penalty;
 	char m_nReserve;
 	char m_nBorrow;
 
@@ -30,7 +31,7 @@ public:
 	void SetUserName(string name);
 	void SetUserAddress(string address);
 	void SetUserNumber(int number);
-	void SetUserPenalty(char);
+	void SetUserPenalty(TimeForm);
 	void SetUserNReserve(char);
 	void SetUserNBorrow(char);
 
@@ -44,7 +45,7 @@ public:
 	string GetUserName();
 	string GetUserAddress();
 	int GetUserNumber();
-	char GetUserPenalty();
+	TimeForm GetUserPenalty();
 	char GetUserNReserve();
 	char GetUserNBorrow();
 
@@ -53,6 +54,8 @@ public:
 	void DisplayUserAddress();
 	void DisplayUserNumber();
 	void DisplayUserInfo();
+
+	void StartPenalty();
 
 	int ReadDataFromFile(ifstream& fin);
 	int WriteDataToFile(ofstream& fout);

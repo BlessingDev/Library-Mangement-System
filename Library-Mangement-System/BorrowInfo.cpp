@@ -2,48 +2,54 @@
 #include <iostream>
 #include <string>
 
-
-//Setting borrowed date.
-void BorrowInfo::SetBorrowedDate()
-{
-	time_t rawtime;
-	struct tm* timeinfo;
-	char buffer[80];
-
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-
-	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
-	string str(buffer);
-	m_borrowedDate = str;
-}
+#include "Application.h"
 
 //Setting book info.
-void BorrowInfo::SetBookInfo(const BookInfo& book)
+void BorrowInfo::SetBookInfo(BookInfo* book)
 {
 	m_bookInfo = book;
 }
 
 //Setting user info.
-void BorrowInfo::SetUserInfo(const UserInfo& user)
+void BorrowInfo::SetUserInfo(UserInfo* user)
 {
 	m_userInfo = user;
 }
 
-//Returns borrowed date.
-string BorrowInfo::GetBorrowedDate()
-{
-	return m_borrowedDate;
-}
-
-BookInfo BorrowInfo::GetBookInfo()
-{
-	return m_bookInfo;
-}
-
-UserInfo BorrowInfo::GetUserInfo()
+UserInfo* BorrowInfo::GetUserInfo() const
 {
 	return m_userInfo;
 }
 
+BookInfo* BorrowInfo::GetBookInfo() const
+{
+	return m_bookInfo;
+}
+
+//Returns borrowed date.
+TimeForm BorrowInfo::GetBorrowDate()
+{
+	return m_borrowedDate;
+}
+
+void BorrowInfo::Borrow()
+{
+	m_borrowed = true;
+	SetBorrowDate();
+}
+
+void BorrowInfo::SetBorrowDate()
+{
+	m_borrowedDate = Application::mProgramTime;
+}
+
+RelationType BorrowInfo::CompareByDate(const BorrowInfo& data)
+{
+	if (this->m_borrowedDate > data.m_borrowedDate)
+		return RelationType::GREATER;
+	else if (this->m_borrowedDate < data.m_borrowedDate)
+		return RelationType::LESS;
+	else
+		return RelationType::EQUAL;
+}
 

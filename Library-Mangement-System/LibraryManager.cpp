@@ -1,5 +1,7 @@
 #include "LibraryManager.h"
 
+#include "Application.h"
+
 LibraryManager::LibraryManager()
 {
 	mBookNum = 0;
@@ -89,10 +91,10 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 		publisher = dummy.GetPublisher();
 		title = dummy.GetTitle();
 
-		if (isbn.find(search) == string:npos)
-			if (author.find(search) == string:npos)
-				if (publisher.find(search) == string:npos)
-					if (title.find(search) == string:npos)
+		if (isbn.find(search) == string::npos)
+			if (author.find(search) == string::npos)
+				if (publisher.find(search) == string::npos)
+					if (title.find(search) == string::npos)
 						break;
 
 		found = true;
@@ -110,34 +112,48 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 * @후: 책을 대출
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
-bool LibraryManager::BorrowBook(std::string isbn, int id)
+int LibraryManager::BorrowBook(std::string isbn, int id)
 {
-	UserInfo curUser;
-	curUser.SetID(id);
-	mUsers.GetItem(curUser);
-
-	char curPenalty = curUser.GetUserPenalty();
-	char curNBorrow = curUser.GetUserNBorrow();
+	BorrowInfo newBorrow;
 
 	BookInfo curBook;
+	BookInfo* pCurBook = std::addressof(curBook);
 	curBook.SetISBN(isbn);
-	mBooks.GetItem(curBook);
+	mBooks.GetPointer(pCurBook);
 
-	BorrowInfo newBorrow;
-	newBorrow.SetBookInfo(curBook);
-	newBorrow.SetUserInfo(curUser);
-	newBorrow.SetBorrowedDate();
-
-	if (curPenalty>0 || curNBorrow<=0)
+	if (pCurBook->GetNumReservation() >= 1) 
+		// 현재 책을 빌린 사람이 있는지, 예약한 사람이 있는지 확인
 	{
-		cout << "Borrow Failed";
+		pCurBook->GetCurrentBorrowInfo(newBorrow);
+		if (newBorrow.GetUserInfo()->GetUserID() != id)
+		{
+
+		}
+	}
+
+	UserInfo curUser;
+	UserInfo* pCurUser = std::addressof(curUser);
+	curUser.SetID(id);
+	mUsers.GetPointer(pCurUser);
+
+	TimeForm curPenalty = pCurUser->GetUserPenalty();
+	char curNBorrow = pCurUser->GetUserNBorrow();
+
+
+
+	newBorrow.SetBookInfo(pCurBook);
+	newBorrow.SetUserInfo(pCurUser);
+	newBorrow.SetBorrowDate();
+
+	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum)
+	{
 		return false;
 	}
 	else
 	{
-		curUser.SetUserNBorrow(--curNBorrow);
+		curUser.SetUserNBorrow(curNBorrow + 1);
 		mBorrows.InsertItem(newBorrow);
-		return true;
+		return 1;
 	}
 }
 
@@ -147,31 +163,34 @@ bool LibraryManager::BorrowBook(std::string isbn, int id)
 * @반환: 대출에 성공하면 true, 실패하면 false를 반환
 **/
 
-bool LibraryManager::ReserveBook(std::string isbn, std::string id, int& borrowedNum)
+bool LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 {
 	UserInfo curUser;
+	UserInfo* pCurUser = std::addressof(curUser);
 	curUser.SetID(id);
-	mUsers.Get(curUser);
+	mUsers.GetPointer(pCurUser);
 
-	char curNBorrow = curUser.GetUserNBorrow();
+	TimeForm curPenalty = pCurUser->GetUserPenalty();
+	char curNBorrow = pCurUser->GetUserNBorrow();
 
 	BookInfo curBook;
+	BookInfo* pCurBook = std::addressof(curBook);
 	curBook.SetISBN(isbn);
-	mBooks.Get(curBook);
+	mBooks.GetPointer(pCurBook);
 
 	BorrowInfo newBorrow;
-	newBorrow.SetBookInfo(const curBook);
-	newBorrow.SetUserInfo(const curUser);
+	newBorrow.SetBookInfo(curBook);
+	newBorrow.SetUserInfo(curUser);
 	newBorrow.SetBorrowedDate();
 
 	try
 	{
 		curUser.SetUserNBorrow(--curNBorrow);
 		curBook.EnQueueBorrowed(newBorrow);
-		borrowedNum = curBook.GetNumReservation()
+		borrowedNum = curBook.GetNumReservation();
 		return true;
 	}
-	catch
+	catch (exception e)
 	{
 		return false;
 	}

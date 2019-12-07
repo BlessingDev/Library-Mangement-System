@@ -122,7 +122,7 @@ void BookInfo::DisplayBookInfo()
 	DisplayCategoryNum();
 }
 
-bool BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
+bool BookInfo::EnQueueBorrowed(BorrowInfo bInfo)
 {
 	try
 	{
@@ -135,7 +135,7 @@ bool BookInfo::EnQueueBorrowed(BorrowedInfo bInfo)
 	}
 }
 
-bool BookInfo::DeQueueBorrowed(BorrowedInfo& bInfo)
+bool BookInfo::DeQueueBorrowed(BorrowInfo& bInfo)
 {
 	try
 	{
@@ -148,11 +148,11 @@ bool BookInfo::DeQueueBorrowed(BorrowedInfo& bInfo)
 	}
 }
 
-bool BookInfo::GetCurrentBorrowInfo(BorrowedInfo& bInfo)
+bool BookInfo::GetCurrentBorrowInfo(BorrowInfo& bInfo)
 {
 	try
 	{
-		bInfo = mBorrowingInfo.getFront();
+		bInfo = mBorrowingInfo.GetFront();
 		return true;
 	}
 	catch (EmptyQueue e)
@@ -163,16 +163,16 @@ bool BookInfo::GetCurrentBorrowInfo(BorrowedInfo& bInfo)
 
 bool BookInfo::IsNoReservation()
 {
-	return BorrowedBooks.IsEmpty();
+	return mBorrowingInfo.IsEmpty();
 }
 
 bool BookInfo::IsFullReservation()
 {
-	return BorrowedBooks.IsFull();
+	return mBorrowingInfo.IsFull();
 }
 
 int BookInfo::GetNumReservation()
 {
-	return BorrowedBooks.GetLength();
+	return mBorrowingInfo.GetLength();
 }
 

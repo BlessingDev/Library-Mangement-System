@@ -7,6 +7,9 @@
 
 class Application
 {
+public:
+	static TimeForm mProgramTime;
+
 private:
 	LibraryManager mLibraryManager;
 	TimeForm mCurrentTime;
