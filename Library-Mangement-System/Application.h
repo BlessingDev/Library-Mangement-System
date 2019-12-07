@@ -13,6 +13,8 @@ public:
 private:
 	LibraryManager mLibraryManager;
 	TimeForm mCurrentTime;
+	int m_Command;
+	int m_Mode;
 
 public:
 	/**
@@ -42,31 +44,35 @@ public:
 	* @요약: 책을 추가하는 함수. 책을 추가하는데 필요한 과정 전체를 담당한다.
 	* @후: 책을 추가한다.
 	**/
-	void AddBook();
+	int AddBook();
 
 	/**
 	* @요약: 책을 추가하는 함수. 책을 삭제하는 과정 전체를 담당한다.
 	* @후: 책을 삭제한다.
 	**/
-	void DeleteBook();
+	int DeleteBook();
 
 	/**
 	* @요약: 책을 대출하는 함수. 책을 대출하는 과정 전체를 담당한다.
 	* @후: 사용자가 책을 대출한다.
 	**/
-	void BorrowBook();
+	int BorrowBook();
 
 	/**
 	* @요약: 책 대출을 예약하는 함수.
 	* @후: 사용자가 책을 예약한다.
 	**/
-	void ReserveBook();
+	int ReserveBook();
 
 	/**
 	* @요약: 책을 검색하는 함수. (ISBN/통합)
 	* @후: 책을 검색해 정보를 출력한다.
 	**/
-	void SearchBook();
+	int SearchBook();
+
+	int ReturnBook();
+
+	int DisplayDelayedBook();
 
 	/**
 	* @요약: 사용자를 추가하는 함수.
