@@ -1,13 +1,13 @@
 #include "Application.h"
 
-Application()
+Application::Application()
 {
 	m_Command = 0;
 	m_Mode = 0;
 }
 
 
-void Run()
+void Application::Run()
 {
 	while (1)
 	{
@@ -37,19 +37,19 @@ void Run()
 				ReserveBook();
 				break;
 			case 6:
-				ReturnBook();//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
+				ReturnBook();
 				break;
 			case 7:
-				DisplayDelayedBook();//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
+				DisplayDelayedBook();
 				break;
 			case 0:
 				return;
 			default:
-				cout << "\tï¿½ß¸ï¿½ï¿?ï¿½Ô·ï¿½ï¿½Ô´Ï´ï¿½...\n";
+				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
 				break;
 			}
 		}
-			
+
 		case 2:
 			m_Command = GetUserCommand();
 			switch (m_Command)
@@ -66,12 +66,13 @@ void Run()
 			case 0:
 				return;
 			default:
-				cout << "\tï¿½ß¸ï¿½ï¿?ï¿½Ô·ï¿½ï¿½Ô´Ï´ï¿½...\n";
+				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
 				break;
 			}
 		case 3:
 			DayPassed();
 		}
+	}
 }
 
 int GetMode()
@@ -79,10 +80,10 @@ int GetMode()
 	int mode;
 	cout << endl << endl;
 	cout << "\t---ID -- Select Mode ----- " << endl;
-	cout << "\t   1 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½" << endl;
-	cout << "\t   2 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½" << endl;
-	cout << "\t   3 : ï¿½ï¿½Â¥ ï¿½ï¿½" << endl;
-	cout << "\t   0 : ï¿½ï¿½ï¿" << endl;
+	cout << "\t   1 : µµ¼­ °ü¸®" << endl;
+	cout << "\t   2 : ÀÌ¿ëÀÚ °ü¸®" << endl;
+	cout << "\t   3 : ³¯Â¥ °ü¸®" << endl;
+	cout << "\t   0 : Á¾·á" << endl;
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
@@ -96,13 +97,13 @@ int GetBookCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½" << endl;
-	cout << "\t   2 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿" << endl;
-	cout << "\t   3 : ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½" << endl;
-	cout << "\t   4 : ï¿½ï¿½ï¿½ï¿½ ï¿½ë¿©" << endl;
-	cout << "\t   5 : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" << endl;
-	cout << "\t   6 : ï¿½ï¿½ï¿½ï¿½ ï¿½Ý³ï¿½" << endl;
-	cout << "\t   7 : ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿" << endl;
+	cout << "\t   1 : µµ¼­ Ãß°¡" << endl;
+	cout << "\t   2 : µµ¼­ »èÁ¦" << endl;
+	cout << "\t   3 : µµ¼­ °Ë»ö" << endl;
+	cout << "\t   4 : µµ¼­ ´ë¿©" << endl;
+	cout << "\t   5 : µµ¼­ ¿¹¾à" << endl;
+	cout << "\t   6 : µµ¼­ ¹Ý³³" << endl;
+	cout << "\t   7 : ¿¬Ã¼µµ¼­ ¸ñ·Ï" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -117,9 +118,9 @@ int GetUserCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ß°ï¿½" << endl;
-	cout << "\t   2 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿" << endl;
-	cout << "\t   3 : ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½" << endl;
+	cout << "\t   1 : ÀÌ¿ëÀÚ Ãß°¡" << endl;
+	cout << "\t   2 : ÀÌ¿ëÀÚ »èÁ¦" << endl;
+	cout << "\t   3 : ÀÌ¿ëÀÚ °Ë»ö" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -130,85 +131,79 @@ int GetUserCommand()
 }
 
 
-void ShowMenu(std::string)
-{
-
-}
-
-
-int AddBook()
+int Application::AddBook()
 {
 	BookInfo newbook;
 	newbook.SetBookInfoByKB();
 
-	LibraryManager.AddBook(newbook);
+	mLibraryManager.AddBook(newbook);
 
 	return 1;
 }
 
 
-int DeleteBook()
+int Application::DeleteBook()
 {
 	string isbn;
-	cout << "ï¿½ï¿½ï¿½ï¿½ï¿?Ã¥ï¿½ï¿½ ISBN ï¿½Ô·ï¿½	:	";
+	cout << "»èÁ¦ÇÒ Ã¥ÀÇ ISBN ÀÔ·Â	:	";
 	cin >> isbn;
 
-	if (LibraryManager.DeleteBook(isbn))
+	if (mLibraryManager.DeleteBook(isbn))
 	{
-		cout << "ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½";
+		cout << "»èÁ¦ ¼º°ø";
 		return 1;
 	}
 	else
 	{
-		cout << "ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½";
+		cout << "»èÁ¦ ½ÇÆÐ";
 		return 0;
 	}
 }
 
 
-int BorrowBook()
+int Application::BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "ï¿½ï¿½ï¿½ï¿½ï¿?ID ï¿½Ô·ï¿½	:	";
+	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
 	cin >> id;
-	cout << "ISBN ï¿½Ô·ï¿½	:	";
+	cout << "ISBN ÀÔ·Â	:	";
 	cin >> isbn;
 
-	if (LibraryManager.BorrowBook(isbn, id))
+	if (mLibraryManager.BorrowBook(isbn, id))
 	{
-		cout << "ï¿½ë¿© ï¿½ï¿½ï¿½ï¿½";
+		cout << "´ë¿© ¼º°ø";
 		return 1;
 	}
 	else
 	{
-		cout << "ï¿½ë¿© ï¿½ï¿½ï¿½ï¿½";
+		cout << "´ë¿© ¼º°ø";
 		return 0;
 	}
 }
 
 
-int ReserveBook()
+int Application::ReserveBook()
 {
 	string isbn;
 	string id;
 	int nReserve = 0;
 
-	cout << "ï¿½ï¿½ï¿½ï¿½ï¿?ID ï¿½Ô·ï¿½	:	";
+	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
 	cin >> id;
 	cout << "ISBN	:	";
 	cin >> isbn;
 	
-	//ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½Ð·ï¿½ ï¿½Ê¿ï¿½
-	if (LibraryManager.ReserveBook(isbn, id, nReserve))
+	//¿¹¿ÜÃ³¸®¿¡ µû¸¥ ÄÉÀÌ½º ºÐ·ù ÇÊ¿ä
+	if (mLibraryManager.ReserveBook(isbn, id, nReserve))
 	{
-		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" << endl;
-		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?" << nReserve << "ï¿½ï¿½Â° ï¿½Ô´Ï´ï¿½";
+		cout << "¿¹¾à ¼º°ø" << endl;
+		cout << "¿¹¾à ¼øÀ§ " << nReserve << "¹øÂ° ÀÔ´Ï´Ù";
 		return 1;
 	}
 	else
 	{
-		cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿?ï¿½Ê°ï¿½ï¿½ß½ï¿½Ï´ï¿?" << endl;
+		cout << "¿¹¾à ½ÇÆÐ! ¿¹¾àÀÎ¿øÀ» ÃÊ°úÇß½À´Ï´Ù" << endl;
 	}
 }
 
@@ -216,17 +211,17 @@ int Application::ReturnBook()
 {
 	string isbn;
 	int id;
-	if (LibraryManager.ReturnBook(isbn, id))
+	if (mLibraryManager.ReturnBook(isbn, id))
 		return 1;
 	else
 	{
-		cout << "ï¿½Ý³ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ç¾ï¿½ï¿½Ï´ï¿½" << endl;
+		cout << "¹Ý³³ ½ÇÆÐ! µµ¼­°¡ ¿¬Ã¼µÇ¾ú½À´Ï´Ù";
 	}
 }
 
 int Application::DisplayDelayedBook()
 {
-	LibraryManager.DispalyDelayedBooks();
+	mLibraryManager.DisplayDelayedBooks();
 }
 
 void Application::SearchBook()
