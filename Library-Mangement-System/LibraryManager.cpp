@@ -8,7 +8,7 @@ LibraryManager::LibraryManager()
 	mBorrowDay = 14;
 	mPossBorrowNum = 5;
 }
-
+ 
 LibraryManager::~LibraryManager(){}
 /**
 * @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
