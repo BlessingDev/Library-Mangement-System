@@ -4,6 +4,7 @@
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
 #include "SortedPointerVector.hpp"
+#include "BinarySearchTree.h"
 
 #include "UserInfo.h"
 #include "BookInfo.h"
@@ -101,12 +102,29 @@ public:
 	**/
 	bool SearchUserWithString(std::string, LinkedList<UserInfo>&,BookInfo& book);
 
+
 	/**
 	* @전: 찾을 사용자의 ID를 전달받는다. 사용자 정보를 반환받을 UserInfo 객체를 전달한다.
 	* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchUserById(int, UserInfo&);
+
+	/**
+	* @전: 찾을 도서의 값, 도서 정보를 반환받을 BookInfo 객체, 값의 Attirbute를 전달한다.
+	* @ Attributes : Author, Publisher, Title, ISBN, CategoryNum
+	* @후: 도서 정보를 찾으면 BookInfo 객체에 넣는다
+	* @반환: 검색된 책이 있다면 true, 없다면 false를 반환
+	**/
+	bool SearchBookWithAttribute(string , BookInfo&, string );
+
+	bool SearchBookWithAttribute(int , BookInfo&, string );
+
+	/**
+	* @brief: Convert SPV to BST
+	**/
+	void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST);
+
 
 	/**
 	* @전: 제거할 사용자의 ID를 전달받는다.
