@@ -71,27 +71,34 @@ public:
 	**/
 	int SearchBook();
 
+	int SearchBookWithISBN(BookInfo&);
+	int SearchBookWithString(BookInfo&, LinkedList<BookInfo>&);
+	int SearchBookWithAttribute(BookInfo&);
+
+
 	int ReturnBook();
 
 	int DisplayDelayedBook();
+	int DisplayBookList();
+	int DisplayUserList();
 
 	/**
 	* @요약: 사용자를 추가하는 함수.
 	* @후: 입력된 사용자가 추가된다.
 	**/
-	void AddUser();
+	int AddUser();
 
 	/**
 	* @요약: 사용자를 검색하는 함수.(사용자 ID/통합)
 	* @후: 사용자를 검색한다.
 	**/
-	void SearchUser();
+	int SearchUser();
 
 	/**
 	* @요약: 사용자를 삭제하는 함수.
 	* @후: 입력된 사용자가 삭제된다.
 	**/
-	void DeleteUser();
+	int DeleteUser();
 
 	/**
 	* @요약: Application의 시간을 1일 후로 변경하는 함수.
