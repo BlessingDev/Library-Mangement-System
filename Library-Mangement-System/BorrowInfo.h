@@ -44,6 +44,8 @@ public:
 	*/
 	void SetUserInfo(UserInfo* user);
 
+	void DisplayInfo() const;
+
 	UserInfo* GetUserInfo() const;
 
 	BookInfo* GetBookInfo() const;
