@@ -61,7 +61,7 @@ bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 }
 
 
-bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList, BookInfo& book)
+bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInfo>& searchList)
 {
 	BookInfo dummy;
 	int length = mBooks.GetLength();
@@ -85,7 +85,6 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 						break;
 
 		found = true;
-		book = dummy;
 		searchList.Add(dummy);
 	}
 
@@ -236,12 +235,13 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 		reserved = true;
 	}
 
-	bool delayed = false;
-	if (Application::mProgramTime > (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay))
+	bool delayed = mDelayedBorrows.Get(ret);
+	if (delayed)
 		// 연체가 발생했다면
 	{
 		int delayDay = (Application::mProgramTime - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
 		pCurUser->SetUserPenalty(Application::mProgramTime + delayDay * TimeForm::ONEDAY);
+		mDelayedBorrows.Delete(ret);
 		delayed = true;
 	}
 
@@ -436,8 +436,24 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 	}
 }
 
+void LibraryManager::DayPassed()
+{
+	int length = mBorrows.GetLength();
+	mBorrows.ResetList();
+	for (int i = 0; i < length; ++i)
+	{
+		BorrowInfo t;
+		mBorrows.GetNextItem(t);
 
-void LibraryManager::SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
+		if (TimeForm(t.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay) < Application::mProgramTime)
+		{
+			mDelayedBorrows.Add(t);
+			mBorrows.Delete(t);
+		}
+	}
+}
+
+void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST)
 {
 	for (int i = 0; i < SPV.GetLength(); i++)
 	{

@@ -117,6 +117,12 @@ public:
 	void DisplayDelayedBooks();
 
 	/**
+	* @전: 
+	* @후: 현재 리스트에 있는 책이 출력됩니다.
+	**/
+	void DisplayBooks();
+
+	/**
 	* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
 	* @후: UserInfo 객체가 시스템에 추가된다.
 	**/
@@ -127,7 +133,7 @@ public:
 	* @후: 사용자 정보를 LinkedList에 추가한다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserWithString(std::string, LinkedList<UserInfo>&, BookInfo& book);
+	bool SearchUserWithString(std::string, LinkedList<UserInfo>&);
 
 
 	/**
@@ -145,12 +151,7 @@ public:
 	**/
 	bool SearchBookWithAttribute(string , BookInfo&, string );
 
-	bool SearchBookWithAttribute(int , BookInfo&, string );
-
-	/**
-	* @brief: Convert SPV to BST
-	**/
-	void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST);
+	bool SearchBookWithAttribute(int , BookInfo&, string);
 
 
 	/**
@@ -159,6 +160,27 @@ public:
 	* @반환: 삭제에 성공하면 true, 실패하면 false를 반환
 	**/
 	bool DeleteUser(int);
+
+	/**
+	* @전:
+	* @후: 현재 리스트에 있는 사용자가 출력됩니다.
+	**/
+	void DisplayUser();
+
+	/**
+	* @전: 
+	* @후: 파일에 저장된 데이터를 불러옵니다.
+	* @반환: 불러오기에 성공하면 true, 실패하면 false를 반환
+	**/
+	bool ImportData();
+
+	/**
+	* @전:
+	* @후: 파일에 데이터를 저장합니다.
+	* @반환: 저장에 성공하면 true, 실패하면 false를 반환
+	**/
+	bool ExportData();
+
 
 	void DayPassed();
 };
