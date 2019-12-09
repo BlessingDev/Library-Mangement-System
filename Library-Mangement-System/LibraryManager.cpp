@@ -449,6 +449,168 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 	}
 }
 
+bool LibraryManager::ImportBookInfo()
+{
+	ifstream fin;
+	try
+	{
+		fin.open("BookInfo_in.txt");
+		char achar;
+		std::string astr;
+		int flag = 0;
+		BookInfo dummy;
+		
+		while (fin.get(achar))
+		{
+
+			if (achar == '\n') continue;
+
+			if (achar == ',') //딜리미터 
+			{
+				switch (flag)
+				{
+				case(0):
+					dummy.SetAuthor(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(1):
+					dummy.SetPublisher(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(2):
+					dummy.SetTitle(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(3):
+					dummy.SetISBN(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(4):
+					int num = stoi(astr);
+					dummy.SetCategoryNum(num);
+					mBooks.Add(dummy);
+					astr.clear();
+					flag = 0;
+					continue;
+				}
+			}
+			else 	astr += achar;
+		}
+		return true;
+	}
+	catch (exception)
+	{
+		return false;
+	}
+}
+
+bool LibraryManager::ImportUserInfo()
+{
+	ifstream fin;
+	try 
+	{
+		fin.open("UserInfo_in.txt");
+		char achar;
+		std::string astr;
+		int flag = 0;
+		UserInfo dummy;
+
+		while (fin.get(achar))
+		{
+
+			if (achar == '\n') continue;
+
+			if (achar == ',') //딜리미터 
+			{
+				switch (flag)
+				{
+				case(0):
+					dummy.SetUserID(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(1):
+					dummy.SetUserName(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(2):
+					dummy.SetUserAddress(astr);
+					astr.clear();
+					flag++;
+					continue;
+
+				case(3):
+					int num = stoi(astr);
+					dummy.SetUserNumber(num);
+					mUsers.Add(dummy);
+					astr.clear();
+					flag++;
+					continue;
+				}
+			}
+			else 	astr += achar;
+		}
+		return true;
+	}
+
+	catch (exception)
+	{
+		return false;
+	}
+}
+
+bool LibraryManager::ExportBookInfo()
+{
+	BookInfo dummy;
+	ofstream fout;
+	try
+	{
+		fout.open("BookInfo_out.txt");
+		for (int i = 0; i < mBooks.GetLength(); i++)
+		{
+			dummy = mBooks[0];
+			fout << dummy.GetAuthor<<"," << dummy.GetPublisher << ","<< dummy.GetTitle << ","<<dummy.GetISBN<< "," << dummy.GetCategoryNum<<endl;
+		}
+		return true;
+	}
+	catch (exception)
+	{
+		return false;
+	}
+}
+
+bool LibraryManager::ExportUserInfo()
+{
+	UserInfo dummy;
+	ofstream fout;
+	try
+	{
+		fout.open("UserInfo_out.txt");
+		for (int i = 0; i < mBooks.GetLength(); i++)
+		{
+			dummy = mUsers[0];
+			fout << dummy.GetUserID << "," << dummy.GetUserName<< "," << dummy.GetUserAddress << "," << dummy.GetUserNumber << endl;
+		}
+		return true;
+	}
+	catch (exception)
+	{
+		return false;
+	}
+}
+
+
 void LibraryManager::DayPassed(LinkedList<BorrowInfo>& delayedList, LinkedList<BorrowInfo>& expiredResList)
 {
 	int length = mBorrows.GetLength();

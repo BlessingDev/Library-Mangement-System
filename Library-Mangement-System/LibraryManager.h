@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <iostream>
 #include "LinkedList.h"
 #include "SortedLinkedList.hpp"
 #include "SortedPointerVector.hpp"
@@ -168,18 +168,33 @@ public:
 	void DisplayUser();
 
 	/**
-	* @전: 
-	* @후: 파일에 저장된 데이터를 불러옵니다.
+	* @전: BookInfo_in.txt 파일에 bookinfo들이 저장되어 있음. bookinfo들의 요소들은 ',' 로 구분, bookinfo 끼리는 '\n'으로 구분
+	* @후: 파일에 저장된 bookinfo 데이터를 mbooks에 추가합니다.
 	* @반환: 불러오기에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool ImportData();
+	bool ImportBookInfo();
 
 	/**
-	* @전:
-	* @후: 파일에 데이터를 저장합니다.
-	* @반환: 저장에 성공하면 true, 실패하면 false를 반환
+	* @전: UserInfo_in.txt 파일에 userinfo들이 저장되어 있음. userinfo들의 요소들은 ',' 로 구분, userinfo 끼리는 '\n'으로 구분
+	* @후: 파일에 저장된 bookinfo 데이터를 mbooks에 추가합니다.
+	* @반환: 불러오기에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool ExportData();
+	bool ImportUserInfo();
+
+
+	/**
+	* @전: mBooks 에 bookinfo들이 저장되어 있음.
+	* @후: 파일에 bookinfo 데이터를 저장합니다. bookinfo들의 요소들은 ',' 로 구분, bookinfo 끼리는 '\n'으로 구분
+	* @반환: 저장 성공하면 true, 실패하면 false를 반환
+	**/
+	bool ExportBookInfo();
+
+	/**
+	* @전: mUsers 에 userinfo들이 저장되어 있음.
+	* @후: 파일에 userinfo 데이터를 저장합니다. userinfo들의 요소들은 ',' 로 구분, userinfo 끼리는 '\n'으로 구분
+	* @반환: 저장 성공하면 true, 실패하면 false를 반환
+	**/
+	bool ExportUserInfo();
 
 
 	void DayPassed(LinkedList<BorrowInfo>& 연체된대출, LinkedList<BorrowInfo>& 만료된예약);
