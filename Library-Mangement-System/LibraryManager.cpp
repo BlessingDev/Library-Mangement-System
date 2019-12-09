@@ -280,6 +280,14 @@ void LibraryManager::DisplayDelayedBooks()
 	}
 }
 
+void LibraryManager::DisplayBooks()
+{
+	for (int i = 0; i < mBookNum; ++i)
+	{
+		mBooks[i].DisplayBookInfo();
+		std::cout << "------" << std::endl;
+	}
+}
 
 void LibraryManager::AddUser(UserInfo user)
 {
@@ -347,6 +355,14 @@ bool LibraryManager::DeleteUser(int id)
 	}
 	else
 		return false;
+}
+
+void LibraryManager::DisplayUser()
+{
+	for (int i = 0; i < mUserNum; ++i)
+	{
+		mUsers[i].DisplayUserInfo();
+	}
 }
 
 bool LibraryManager::SearchBookWithAttribute(string search, BookInfo& book, string attribute)

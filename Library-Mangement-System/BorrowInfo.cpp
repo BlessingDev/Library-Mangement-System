@@ -67,3 +67,30 @@ RelationType BorrowInfo::CompareByDate(const BorrowInfo& data)
 		return RelationType::EQUAL;
 }
 
+
+bool BorrowInfo::operator==(const BorrowInfo& other)
+{
+	return (CompareByDate(other) == RelationType::EQUAL &&
+		this->m_bookInfo->GetISBN() == other.m_bookInfo->GetISBN() &&
+		this->m_userInfo->GetUserID() == other.m_userInfo->GetUserID());
+}
+
+bool BorrowInfo::operator<(const BorrowInfo& other)
+{
+	return (CompareByDate(other) == RelationType::LESS);
+}
+
+bool BorrowInfo::operator>(const BorrowInfo& other)
+{
+	return (CompareByDate(other) == RelationType::GREATER);
+}
+
+bool BorrowInfo::operator<=(const BorrowInfo& other)
+{
+	return ((*this) == other || (*this) < other);
+}
+
+bool BorrowInfo::operator>=(const BorrowInfo& other)
+{
+	return ((*this) == other || (*this) > other);
+}

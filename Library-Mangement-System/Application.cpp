@@ -81,7 +81,7 @@ void Application::Run()
 	}
 }
 
-int Application::GetMode()
+int GetMode()
 {
 	int mode;
 	cout << endl << endl;
@@ -98,7 +98,7 @@ int Application::GetMode()
 	return mode;
 }
 
-int Application::GetBookCommand()
+int GetBookCommand()
 {
 	int command;
 	cout << endl << endl;
@@ -120,7 +120,7 @@ int Application::GetBookCommand()
 	return command;
 }
 
-int Application::GetUserCommand()
+int GetUserCommand()
 {
 	int command;
 	cout << endl << endl;
@@ -269,6 +269,8 @@ int Application::ReturnBook()
 int Application::DisplayDelayedBook()
 {
 	mLibraryManager.DisplayDelayedBooks();
+
+	return 1;
 }
 
 int Application::DisplayBookList()
@@ -366,7 +368,7 @@ int Application::SearchBookWithAttribute(BookInfo& curbook)
 	cout << "\t   ISBN		:	ISBN 검색" << endl;
 	cin >> attribute;
 
-	cout << "검색 내용을 입력하세요";
+	cout << "검색 내용을 입력하세요	:	";
 	cin >> search;
 
 	if (mLibraryManager.SearchBookWithAttribute(search, curbook, attribute))
@@ -395,22 +397,33 @@ int Application::SearchUser()
 	cin >> command;
 
 	UserInfo curUser;
+	UserInfo dummy;
 	LinkedList<UserInfo> searchList;
+	string search;
 	bool check;
+	int id;
+	int index;
 
 	switch (command)
 	{
 	case 1:
-		int id;
 		cout << "검색할 ID를 입력하세요	:	";
 		cin >> id;
 		check = mLibraryManager.SearchUserById(id, curUser);
+		curUser.DisplayUserInfo();
 		break;
 	case 2:
-		string search;
 		cout << "검색 내용을 입력하세요	:	";
 		cin >> search;
 		check = mLibraryManager.SearchUserWithString(search, searchList);
+
+		searchList.ResetList();
+		index = searchList.GetNextItem(dummy);
+		while (index)
+		{
+			dummy.DisplayBookInfo();
+			index = searchList.GetNextItem(dummy);
+		}
 	default:
 		cout << "\t잘못된 입력입니다...\n";
 		return 0;
