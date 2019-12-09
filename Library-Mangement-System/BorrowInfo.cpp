@@ -16,6 +16,15 @@ void BorrowInfo::SetUserInfo(UserInfo* user)
 	m_userInfo = user;
 }
 
+void BorrowInfo::DisplayInfo() const
+{
+	cout << "Borrowed Date	:	" << m_borrowedDate;
+	cout << "Book Info	:	" << endl;
+	m_bookInfo->DisplayBookInfo();
+	cout << "User Info	:	" << endl;
+	m_userInfo->DisplayUserInfo();
+}
+
 UserInfo* BorrowInfo::GetUserInfo() const
 {
 	return m_userInfo;

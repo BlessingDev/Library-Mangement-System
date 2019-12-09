@@ -312,6 +312,7 @@ int SortedLinkedList<T>::Delete(T item)
 					delete m_pCurPointer;
 				}
 
+				m_pCurPointer = pre;
 				m_nLength--;
 				return 1;
 			}

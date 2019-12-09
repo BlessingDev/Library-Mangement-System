@@ -339,7 +339,7 @@ int Application::SearchBookWithString(BookInfo& curbook, LinkedList<BookInfo>& s
 	string search;
 	cout << "검색할 내용을 입력하세요	:	";
 	cin >> search;
-	if (mLibraryManager.SearchBookWithString(search, searchList, curbook))
+	if (mLibraryManager.SearchBookWithString(search, searchList))
 	{
 		BookInfo dummy;
 		searchList.ResetList();
@@ -444,10 +444,39 @@ int Application::DeleteUser()
 
 void Application::DayPassed()
 {
-	TimeForm nextDay;
-	string time;
-	cout << "Enter date (yyyyMMddhhmmss) : ";
+	int time = 1;
+	cout << "몇일 넘기시겠습니까? : ";
 	cin >> time;
-	nextDay.FromString(time);
-	mCurrentTime.operator+(nextDay);
+	mProgramTime = mProgramTime.timeStamp() + TimeForm::ONEDAY * time;
+
+	LinkedList<BorrowInfo> delayed;
+	LinkedList<BorrowInfo> expired;
+	mLibraryManager.DayPassed(delayed, expired);
+
+	std::cout << "이하의 대출이 연체되었습니다." << std::endl;
+	delayed.ResetList();
+	int length = delayed.GetLength();
+	for (int i = 0; i < length; ++i)
+	{
+		BorrowInfo t;
+		delayed.GetNextItem(t);
+		t.DisplayInfo();
+		std::cout << "----------" << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+	std::cout << "이하의 예약이 만료되었습니다." << std::endl;
+	expired.ResetList();
+	int length = expired.GetLength();
+	for (int i = 0; i < length; ++i)
+	{
+		BorrowInfo t;
+		expired.GetNextItem(t);
+		t.DisplayInfo();
+		std::cout << "-----" << std::endl;
+		std::cout << "위 책에 대한 다음 예약자입니다." << std::endl;
+		t.GetBookInfo()->GetCurrentBorrowInfo(t);
+		t.DisplayInfo();
+		std::cout << "----------" << std::endl;
+	}
+	std::cout << std::endl << std::endl;
 }

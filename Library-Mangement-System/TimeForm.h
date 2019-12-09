@@ -53,6 +53,8 @@ public:
 	*/
 	std::time_t operator-(const TimeForm&);
 	std::time_t operator+(const TimeForm&);
+
+	friend std::ostream& operator<<(std::ostream&, const TimeForm&);
 };
 
 

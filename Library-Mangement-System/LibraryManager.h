@@ -18,9 +18,9 @@ private:
 
 	SortedPointerVector<UserInfo> mUsers;
 	SortedPointerVector<BookInfo> mBooks;
-	SortedLinkedList<BorrowInfo> mBorrows;
-	SortedLinkedList<BorrowInfo> mReservedTop;
-	LinkedList<BorrowInfo> mDelayedBorrows;
+	SortedLinkedList<BorrowInfo> mBorrows;		// 연체된 것을 제외한 대출
+	SortedLinkedList<BorrowInfo> mReservedTop;	// 예약 정보 중 대출되지 않은 것
+	LinkedList<BorrowInfo> mDelayedBorrows;		// 연체된 대출
 	int mBookNum;
 	int mUserNum;
   
@@ -182,5 +182,5 @@ public:
 	bool ExportData();
 
 
-	void DayPassed();
+	void DayPassed(LinkedList<BorrowInfo>& 연체된대출, LinkedList<BorrowInfo>& 만료된예약);
 };

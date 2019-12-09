@@ -212,10 +212,23 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 	}
 
 	// 반납에 따른 자료구조 처리
-	int result = mBorrows.Delete(ret);
-	if (result == 0)
-		return 5;
-	result = pCurBook->DeQueueBorrowed(ret);
+	bool delayed = mDelayedBorrows.Get(ret);
+
+	if (!delayed)
+	{
+		int result = mBorrows.Delete(ret);
+		if (result == 0)
+			return 5;
+	}
+	else
+		// 연체가 발생했다면
+	{
+		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
+		pCurUser->SetUserPenalty(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
+		mDelayedBorrows.Delete(ret);
+		delayed = true;
+	}
+	int result = pCurBook->DeQueueBorrowed(ret);
 	if (result == 0)
 		return 5;
 	pCurUser->SetUserNBorrow(pCurUser->GetUserNBorrow() - 1);
@@ -233,16 +246,6 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 		mReservedTop.InsertItem(t);
 		resInfo = t;
 		reserved = true;
-	}
-
-	bool delayed = mDelayedBorrows.Get(ret);
-	if (delayed)
-		// 연체가 발생했다면
-	{
-		int delayDay = (Application::mProgramTime - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
-		pCurUser->SetUserPenalty(Application::mProgramTime + delayDay * TimeForm::ONEDAY);
-		mDelayedBorrows.Delete(ret);
-		delayed = true;
 	}
 
 	if (reserved == false)
@@ -265,21 +268,15 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 void LibraryManager::DisplayDelayedBooks()
 {
 	BorrowInfo dummy;
-	mBorrows.ResetList();
-	int length = mBorrows.GetLength();
-	BookInfo curbook;
-	UserInfo curuser;
+	mDelayedBorrows.ResetList();
+	int length = mDelayedBorrows.GetLength();
+	BookInfo* curbook;
+	UserInfo* curuser;
 
 	for (int i = 0; i < length; i++)
 	{
-		mBorrows.GetNextItem(dummy);
-		cout<<"Borrowed Date	:	" << dummy.GetBorrowDate();
-		cout << "Book Info	:	" << endl;
-		curbook = dummy.GetBookInfo();
-		curbook.DisplayBookInfo();
-		cout << "User Info	:	" << endl;
-		curuser = dummy.GetUserInfo();
-		curuser.DisplayUserInfo();
+		mDelayedBorrows.GetNextItem(dummy);
+		dummy.DisplayInfo();
 	}
 }
 
@@ -436,7 +433,7 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 	}
 }
 
-void LibraryManager::DayPassed()
+void LibraryManager::DayPassed(LinkedList<BorrowInfo>& delayedList, LinkedList<BorrowInfo>& expiredResList)
 {
 	int length = mBorrows.GetLength();
 	mBorrows.ResetList();
@@ -449,6 +446,42 @@ void LibraryManager::DayPassed()
 		{
 			mDelayedBorrows.Add(t);
 			mBorrows.Delete(t);
+			delayedList.Add(t);
+		}
+		else
+		{
+			// Sorted된 리스트이기 때문에 연체되지 않았다면 그 밑으로는 연체된 대출이 없다.
+			break;
+		}
+	}
+
+	mReservedTop.ResetList();
+	length = mReservedTop.GetLength();
+	for (int i = 0; i < length; ++i)
+	{
+		BorrowInfo t;
+		mReservedTop.GetNextItem(t);
+
+		// 예약 유효기간 7일
+		if (TimeForm(t.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * 7) < Application::mProgramTime)
+		{
+			mReservedTop.Delete(t);
+			auto pCurBook = t.GetBookInfo();
+			pCurBook->DeQueueBorrowed(t);
+			if (pCurBook->GetNumReservation() > 0)
+				// 예약 정보가 있다면
+			{
+				BorrowInfo nextInfo;
+				pCurBook->SetDateCurrentInfo();
+				pCurBook->GetCurrentBorrowInfo(nextInfo);
+				mReservedTop.InsertItem(nextInfo);
+			}
+			// 예약 만료를 출력하고, 다음 예약을 출력하는 작업이 필요
+			expiredResList.Add(t);
+		}
+		else
+		{
+			break;
 		}
 	}
 }
