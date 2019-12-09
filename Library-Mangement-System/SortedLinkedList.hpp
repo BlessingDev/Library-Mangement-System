@@ -2,11 +2,7 @@
 #include <functional>
 
 #include "LinkedList.h"
-
-/**
-*	Relation between two items.
-*/
-enum RelationType { LESS, GREATER, EQUAL };
+#include "RelationType.h"
 
 /**
 *	Simple unsorted list class for managing items.
@@ -79,7 +75,7 @@ public:
 	int GetNextItem(T& item);
 
 private:
-	std::function<RelationType(const T&, const T&)> mCompFunc;
+	std::function<RelationType(T&, T&)> mCompFunc;
 	NodeType<T>* m_pList;	///< Pointer for pointing a first node.
 	NodeType<T>* m_pCurPointer;	///< Node pointer for pointing current node to use iteration.
 	int m_nLength;	///< Number of node in the list.
@@ -92,7 +88,7 @@ SortedLinkedList<T>::SortedLinkedList()
 	m_nLength = 0;
 	m_pList = nullptr;
 	m_pCurPointer = nullptr;
-	mCompFunc = [](const T& a, const T&b)->RelationType {
+	mCompFunc = [](T& a, T&b)->RelationType {
 		if (a == b)
 			return RelationType::EQUAL;
 		else if (a > b)

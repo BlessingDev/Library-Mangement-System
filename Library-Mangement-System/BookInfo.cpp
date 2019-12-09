@@ -178,6 +178,8 @@ bool BookInfo::SetBorrowCurrentInfo()
 		return false;
 	}
 	pbi->Borrow();
+
+	return true;
 }
 
 bool BookInfo::SetDateCurrentInfo()
@@ -192,6 +194,8 @@ bool BookInfo::SetDateCurrentInfo()
 		return false;
 	}
 	pbi->SetBorrowDate();
+	
+	return true;
 }
 
 bool BookInfo::IsNoReservation()
@@ -207,5 +211,20 @@ bool BookInfo::IsFullReservation()
 int BookInfo::GetNumReservation()
 {
 	return mBorrowingInfo.GetLength();
+}
+
+bool BookInfo::operator==(const BookInfo& other)
+{
+	return (this->m_ISBN == other.m_ISBN);
+}
+
+bool BookInfo::operator<(const BookInfo& other)
+{
+	return (this->m_ISBN < other.m_ISBN);
+}
+
+bool BookInfo::operator>(const BookInfo& other)
+{
+	return (this->m_ISBN > other.m_ISBN);
 }
 

@@ -10,6 +10,7 @@
 #include "BookInfo.h"
 #include "BorrowInfo.h"
 #include "TimeForm.h"
+#include "RelationType.h"
 
 class LibraryManager
 {
@@ -71,13 +72,6 @@ public:
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
 	* @후: 책을 대출
-	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
-	**/
-	int BorrowBook(std::string, int);
-
-	/**
-	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
-	* @후: 책을 대출
 	* @반환:
 	> 1: 대출 성공
 	> 2: 책에 대해 예약이 이미 있는 경우
@@ -108,7 +102,7 @@ public:
 	> 4: 반납 성공, 예약 있음, 연체됨
 	> 5: 반납 실패
 	*/
-	int ReturnBook(std::string, int, BorrowInfo& 반납된대출, BorrowInfo& 예약정보);
+	int ReturnBook(std::string, int, BorrowInfo& returned, BorrowInfo& resInfo);
 
 	/**
 	* @전: 연체된 대출이 존재할 것
@@ -197,5 +191,13 @@ public:
 	bool ExportUserInfo();
 
 
-	void DayPassed(LinkedList<BorrowInfo>& 연체된대출, LinkedList<BorrowInfo>& 만료된예약);
+	void DayPassed(LinkedList<BorrowInfo>& delayed, LinkedList<BorrowInfo>& expired);
 };
+
+void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST);
+
+RelationType CompByAuthor(BookInfo myBook, BookInfo other);
+RelationType CompByISBN(BookInfo myBook, BookInfo other);
+RelationType CompByTitle(BookInfo myBook, BookInfo other);
+RelationType CompByPublisher(BookInfo myBook, BookInfo other);
+RelationType CompByCategoryNum(BookInfo myBook, BookInfo other);

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Application.h"
+#include "RelationType.h"
 
 //Setting book info.
 void BorrowInfo::SetBookInfo(BookInfo* book)

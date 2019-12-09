@@ -1,5 +1,7 @@
 #include "Application.h"
 
+TimeForm Application::mProgramTime = TimeForm();
+
 Application::Application()
 {
 	m_Command = 0;
@@ -199,7 +201,7 @@ int Application::BorrowBook()
 int Application::ReserveBook()
 {
 	string isbn;
-	string id;
+	int id;
 	int nReserve = 0;
 
 	cout << "사용자 ID 입력	:	";
@@ -275,12 +277,14 @@ int Application::DisplayDelayedBook()
 
 int Application::DisplayBookList()
 {
-
+	mLibraryManager.DisplayBooks();
+	return 1;
 }
 
 int Application::DisplayUserList()
 {
-
+	mLibraryManager.DisplayUser();
+	return 1;
 }
 
 int Application::SearchBook()
@@ -421,7 +425,7 @@ int Application::SearchUser()
 		index = searchList.GetNextItem(dummy);
 		while (index)
 		{
-			dummy.DisplayBookInfo();
+			dummy.DisplayUserInfo();
 			index = searchList.GetNextItem(dummy);
 		}
 	default:
@@ -479,7 +483,7 @@ void Application::DayPassed()
 	std::cout << std::endl << std::endl;
 	std::cout << "이하의 예약이 만료되었습니다." << std::endl;
 	expired.ResetList();
-	int length = expired.GetLength();
+	length = expired.GetLength();
 	for (int i = 0; i < length; ++i)
 	{
 		BorrowInfo t;

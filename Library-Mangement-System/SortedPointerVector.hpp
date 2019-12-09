@@ -23,7 +23,7 @@ public:
 
 		memset(m_Array, 0, sizeof(T*) * cap);
 
-		mCompFunc = [](const T& a, const T&b)->RelationType {
+		mCompFunc = [](T& a, T& b)->RelationType {
 			if (a == b)
 				return RelationType::EQUAL;
 			else if (a > b)
@@ -33,7 +33,7 @@ public:
 		};
 	}
 
-	SortedPointerVector(std::function<RelationType(const T&, const T&)> comp)
+	SortedPointerVector(std::function<RelationType(T&, T&)> comp)
 		: mCompFunc(comp)
 	{
 		cap = 10;
@@ -238,7 +238,7 @@ private:
 	int m_Length;		///< number of elements in list.
 	int cap;		    ///< capacity of array.
 	int m_CurPointer;   ///< iterator pointer.
-	std::function<RelationType(const T&, const T&)> mCompFunc;
+	std::function<RelationType(T&, T&)> mCompFunc;
 
 
 

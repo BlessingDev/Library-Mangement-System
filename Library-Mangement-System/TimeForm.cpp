@@ -132,3 +132,9 @@ std::time_t TimeForm::operator+(const TimeForm& other)
 	std::time_t sum = this->timeStamp() + other.timeStamp();
 	return sum;
 }
+
+std::ostream& operator<<(std::ostream& o, const TimeForm& tf)
+{
+	o << tf.year() << "-" << tf.month() << "-" << tf.day() << " " << tf.hour() << ":" << tf.minute() << ":" << tf.second();
+	return o;
+}
