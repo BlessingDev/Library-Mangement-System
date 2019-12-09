@@ -531,7 +531,7 @@ bool LibraryManager::ImportUserInfo()
 				switch (flag)
 				{
 				case(0):
-					dummy.SetUserID(astr);
+					dummy.SetID(stoi(astr));
 					astr.clear();
 					flag++;
 					continue;
@@ -578,7 +578,7 @@ bool LibraryManager::ExportBookInfo()
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mBooks[0];
-			fout << dummy.GetAuthor<<"," << dummy.GetPublisher << ","<< dummy.GetTitle << ","<<dummy.GetISBN<< "," << dummy.GetCategoryNum<<endl;
+			fout << dummy.GetAuthor() <<"," << dummy.GetPublisher() << ","<< dummy.GetTitle() << ","<<dummy.GetISBN() << "," << dummy.GetCategoryNum() <<endl;
 		}
 		return true;
 	}
@@ -598,7 +598,7 @@ bool LibraryManager::ExportUserInfo()
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mUsers[0];
-			fout << dummy.GetUserID << "," << dummy.GetUserName<< "," << dummy.GetUserAddress << "," << dummy.GetUserNumber << endl;
+			fout << dummy.GetUserID() << "," << dummy.GetUserName() << "," << dummy.GetUserAddress() << "," << dummy.GetUserNumber() << endl;
 		}
 		return true;
 	}
