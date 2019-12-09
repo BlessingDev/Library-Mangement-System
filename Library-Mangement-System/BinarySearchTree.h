@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
+#include "RelationType.h"
 
 #include <functional>
 using namespace std;
-enum RelationType { LESS, GREATER, EQUAL };
 
 
 template <typename T>

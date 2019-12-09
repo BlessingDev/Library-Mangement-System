@@ -106,3 +106,9 @@ public:
 	**/
 	void DayPassed();
 };
+
+int GetUserCommand();
+
+int GetMode();
+
+int GetBookCommand();

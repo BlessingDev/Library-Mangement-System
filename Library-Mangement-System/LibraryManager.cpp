@@ -223,7 +223,7 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 	else
 		// 연체가 발생했다면
 	{
-		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
+		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
 		pCurUser->SetUserPenalty(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
 		mDelayedBorrows.Delete(ret);
 		delayed = true;
@@ -270,8 +270,6 @@ void LibraryManager::DisplayDelayedBooks()
 	BorrowInfo dummy;
 	mDelayedBorrows.ResetList();
 	int length = mDelayedBorrows.GetLength();
-	BookInfo* curbook;
-	UserInfo* curuser;
 
 	for (int i = 0; i < length; i++)
 	{

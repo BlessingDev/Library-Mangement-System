@@ -243,12 +243,6 @@ void CircularQueueType<T>::Print()
 }
 
 template<typename T>
-T CircularQueueType<T>::GetFront()
-{
-	return mPtrItems[miFront];
-}
-
-template<typename T>
 int CircularQueueType<T>::GetLength()
 {
 	return mQLength;
