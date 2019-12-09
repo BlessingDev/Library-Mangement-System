@@ -20,14 +20,14 @@ class BinarySearchTree
 {
 private:
 	TreeNode<T>* mRoot;
-	std::function<RelationType(const T&, const T&)> mCompFunc;
+	std::function<RelationType(T&, T&)> mCompFunc;
 
 
 public:
 	BinarySearchTree()
 	{
 		mRoot = NULL;
-		mCompFunc = [](const T& a, const T& b)->RelationType {
+		mCompFunc = [](T& a, T& b)->RelationType {
 			if (a == b)
 				return RelationType::EQUAL;
 			else if (a > b)
@@ -37,7 +37,7 @@ public:
 		};
 	}
 
-	BinarySearchTree(std::function<RelationType(const T&, const T&)> comp)
+	BinarySearchTree(std::function<RelationType(T&, T&)> comp)
 		: mCompFunc(comp)
 	{
 		mRoot = NULL;

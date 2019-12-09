@@ -71,9 +71,9 @@ public:
 	**/
 	int SearchBook();
 
-	int SearchBookWithISBN(BookInfo&);
-	int SearchBookWithString(BookInfo&, LinkedList<BookInfo>&);
-	int SearchBookWithAttribute(BookInfo&);
+	int SearchBookWithISBN();
+	int SearchBookWithString();
+	int SearchBookWithAttribute();
 
 
 	int ReturnBook();

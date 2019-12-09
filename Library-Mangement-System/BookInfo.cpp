@@ -14,7 +14,7 @@ BookInfo::BookInfo()
 
 BookInfo::~BookInfo()
 {
-	//	delete[] BorrowedBooks;
+	//delete[] BorrowedBooks;
 }
 
 void BookInfo::SetAuthor(string author)
@@ -69,19 +69,19 @@ int BookInfo::GetCategoryNum()
 
 void BookInfo::SetAuthorByKB()
 {
-	cout << "Input Author:	";
+	cout << "Input Author: ";
 	cin >> m_Author;
 }
 
 void BookInfo::SetTitleByKB()
 {
-	cout << "Input Title:	";
+	cout << "Input Title: ";
 	cin>>m_Title;
 }
 
 void BookInfo::SetISBNByKB()
 {
-	cout << "Input ISBN:	";
+	cout << "Input ISBN: ";
 	cin >> m_ISBN;
 }
 
