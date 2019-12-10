@@ -18,7 +18,7 @@ LibraryManager::~LibraryManager(){}
 * @전:
 * @후: 하루가 지날 때 일어나야하는 계산을 실행합니다.
 **/
-void LibraryManager::AddBook(BookInfo book)
+void LibraryManager::AddBook(BookInfo& book)
 {
 	mBooks.Add(book);
 	mBookNum++;
@@ -46,14 +46,12 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 
-bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
+bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo*& book)
 {
-	BookInfo temp;
-	temp.SetISBN(isbn);
+	book->SetISBN(isbn);
 
-	if (mBooks.GetItem(temp))
+	if (mBooks.GetItem(book))
 	{
-		book = temp;
 		return true;
 	}
 	else
@@ -327,14 +325,12 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		return false;
 }
 
-bool LibraryManager::SearchUserById(int id, UserInfo& user)
+bool LibraryManager::SearchUserById(int id, UserInfo*& user)
 {
-	UserInfo temp;
-	temp.SetID(id);
+	user->SetID(id);
 
-	if (mUsers.GetItem(temp))
+	if (mUsers.GetItem(user))
 	{
-		user = temp;
 		return true;
 	}
 	else

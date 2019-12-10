@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -58,6 +59,8 @@ public:
 	*	@post	Member of items points the allocated array.
 	*/
 	CircularQueueType(int max);
+
+	CircularQueueType(CircularQueueType& other);
 
 	/**
 	*	@brief	Destruct the object. Free the array dynamically allocated.
@@ -146,6 +149,7 @@ CircularQueueType<T>::CircularQueueType()
 	miRear = mMaxQueue - 1;
 	mQLength = 0;
 	mPtrItems = new T[mMaxQueue];
+	memset(mPtrItems, 0, sizeof(T) * mMaxQueue);
 }
 
 
@@ -157,6 +161,18 @@ CircularQueueType<T>::CircularQueueType(int max)
 	miRear = mMaxQueue - 1;
 	mQLength = 0;
 	mPtrItems = new T[mMaxQueue];
+	memset(mPtrItems, 0, sizeof(T) * mMaxQueue);
+}
+
+template <typename T>
+CircularQueueType<T>::CircularQueueType(CircularQueueType& other)
+{
+	mMaxQueue = other.mMaxQueue;
+	miFront = mMaxQueue - 1;
+	miRear = mMaxQueue - 1;
+	mQLength = 0;
+	mPtrItems = new T[mMaxQueue];
+	memcpy(this->mPtrItems, other.mPtrItems, sizeof(T) * mMaxQueue);
 }
 
 template<typename T>

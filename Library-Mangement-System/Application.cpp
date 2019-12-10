@@ -18,7 +18,6 @@ void Application::Run()
 		switch (m_Mode)
 		{
 		case 1:
-		{
 			m_Command = GetBookCommand();
 
 			switch (m_Command)
@@ -53,8 +52,7 @@ void Application::Run()
 				cout << "\t잘못된 입력입니다...\n";
 				break;
 			}
-		}
-
+			break;
 		case 2:
 			m_Command = GetUserCommand();
 			switch (m_Command)
@@ -77,8 +75,10 @@ void Application::Run()
 				cout << "\t잘못된 입력입니다...\n";
 				break;
 			}
+			break;
 		case 3:
 			DayPassed();
+			break;
 		}
 	}
 }
@@ -297,20 +297,18 @@ int Application::SearchBook()
 	cout << "\t   3 : 속성 검색" << endl;
 	cin >> command;
 
-	LinkedList<BookInfo> searchList;
-	BookInfo curbook;
 	int check;
 
 	switch (command)
 	{
 	case 1:
-		check=SearchBookWithISBN(curbook);
+		check=SearchBookWithISBN();
 		break;
 	case 2:
-		check = SearchBookWithString(curbook, searchList);
+		check = SearchBookWithString();
 		break;
 	case 3:
-		check = SearchBookWithAttribute(curbook);
+		check = SearchBookWithAttribute();
 		break;
 	default:				
 		cout << "\t잘못된 입력입니다...\n";
@@ -326,22 +324,26 @@ int Application::SearchBook()
 		return 1;
 }
 
-int Application::SearchBookWithISBN(BookInfo& curbook)
+int Application::SearchBookWithISBN()
 {
+	BookInfo curbook;
+	BookInfo* pCurBook = std::addressof(curbook);
 	string isbn;
 	cout << "검색할 책의 ISBN을 입력하세요	:	";
 	cin >> isbn;
-	if (mLibraryManager.SearchBookWithIsbn(isbn, curbook))
+	if (mLibraryManager.SearchBookWithIsbn(isbn, pCurBook))
 	{
-		curbook.DisplayBookInfo();
+		pCurBook->DisplayBookInfo();
+		delete pCurBook;
 		return 1;
 	}
 	else
 		return 0;
 }
 
-int Application::SearchBookWithString(BookInfo& curbook, LinkedList<BookInfo>& searchList)
+int Application::SearchBookWithString()
 {
+	LinkedList<BookInfo> searchList;
 	string search;
 	cout << "검색할 내용을 입력하세요	:	";
 	cin >> search;
@@ -361,8 +363,9 @@ int Application::SearchBookWithString(BookInfo& curbook, LinkedList<BookInfo>& s
 		return 0;
 }
 
-int Application::SearchBookWithAttribute(BookInfo& curbook)
+int Application::SearchBookWithAttribute()
 {
+	BookInfo curbook;
 	string search;
 	string attribute;
 	cout << "검색 방법을 입력하세요" << endl;
@@ -401,6 +404,7 @@ int Application::SearchUser()
 	cin >> command;
 
 	UserInfo curUser;
+	UserInfo* pCurUser = std::addressof(curUser);
 	UserInfo dummy;
 	LinkedList<UserInfo> searchList;
 	string search;
@@ -413,8 +417,9 @@ int Application::SearchUser()
 	case 1:
 		cout << "검색할 ID를 입력하세요	:	";
 		cin >> id;
-		check = mLibraryManager.SearchUserById(id, curUser);
-		curUser.DisplayUserInfo();
+		check = mLibraryManager.SearchUserById(id, pCurUser);
+		pCurUser->DisplayUserInfo();
+		delete pCurUser;
 		break;
 	case 2:
 		cout << "검색 내용을 입력하세요	:	";
@@ -465,6 +470,8 @@ void Application::DayPassed()
 	cout << "몇일 넘기시겠습니까? : ";
 	cin >> time;
 	mProgramTime = mProgramTime.timeStamp() + TimeForm::ONEDAY * time;
+
+	std::cout << "오늘 날짜는 " << mProgramTime << "입니다.\n";
 
 	LinkedList<BorrowInfo> delayed;
 	LinkedList<BorrowInfo> expired;
