@@ -80,7 +80,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 			if (author.find(search) == string::npos)
 				if (publisher.find(search) == string::npos)
 					if (title.find(search) == string::npos)
-						break;
+						continue;
 
 		found = true;
 		searchList.Add(dummy);
@@ -313,7 +313,7 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 			if (address.find(search) == string::npos)
 				if (id.find(search) == string::npos)
 					if (number.find(search) == string::npos)
-						break;
+						continue;
 
 		found = true;
 		searchList.Add(dummy);

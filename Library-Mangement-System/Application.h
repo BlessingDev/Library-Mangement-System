@@ -105,6 +105,9 @@ public:
 	* @후: currentTime 멤버의 날짜가 1일 증가한다.
 	**/
 	void DayPassed();
+
+	int Save();
+	int Load();
 };
 
 int GetUserCommand();
