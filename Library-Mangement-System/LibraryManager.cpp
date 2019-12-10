@@ -46,9 +46,9 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 
-bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo*& book)
+bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
-	book->SetISBN(isbn);
+	book.SetISBN(isbn);
 
 	if (mBooks.GetItem(book))
 	{
@@ -325,9 +325,9 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		return false;
 }
 
-bool LibraryManager::SearchUserById(int id, UserInfo*& user)
+bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
-	user->SetID(id);
+	user.SetID(id);
 
 	if (mUsers.GetItem(user))
 	{

@@ -327,14 +327,12 @@ int Application::SearchBook()
 int Application::SearchBookWithISBN()
 {
 	BookInfo curbook;
-	BookInfo* pCurBook = std::addressof(curbook);
 	string isbn;
 	cout << "검색할 책의 ISBN을 입력하세요	:	";
 	cin >> isbn;
-	if (mLibraryManager.SearchBookWithIsbn(isbn, pCurBook))
+	if (mLibraryManager.SearchBookWithIsbn(isbn, curbook))
 	{
-		pCurBook->DisplayBookInfo();
-		delete pCurBook;
+		curbook.DisplayBookInfo();
 		return 1;
 	}
 	else
@@ -404,7 +402,6 @@ int Application::SearchUser()
 	cin >> command;
 
 	UserInfo curUser;
-	UserInfo* pCurUser = std::addressof(curUser);
 	UserInfo dummy;
 	LinkedList<UserInfo> searchList;
 	string search;
@@ -417,9 +414,8 @@ int Application::SearchUser()
 	case 1:
 		cout << "검색할 ID를 입력하세요	:	";
 		cin >> id;
-		check = mLibraryManager.SearchUserById(id, pCurUser);
-		pCurUser->DisplayUserInfo();
-		delete pCurUser;
+		check = mLibraryManager.SearchUserById(id, curUser);
+		curUser.DisplayUserInfo();
 		break;
 	case 2:
 		cout << "검색 내용을 입력하세요	:	";

@@ -90,14 +90,13 @@ public:
 		if (m_Length >= cap - 1) {
 			expand();
 		}
-		T* t = &elem;
-		bool result = this->GetItem(t);
+		T getT(elem);
+		bool result = this->GetItem(getT);
 
 		T* node = new T(elem);
 
 		if (result)
 		{
-			delete t;
 			for (int i = m_CurPointer + 1; i <= m_Length; i++)
 			{
 				m_Array[i] = m_Array[i - 1];
@@ -144,13 +143,11 @@ public:
 	*/
 	int Delete(T item)
 	{
-		T* temp;
-		bool result = this->GetItem(temp);
+		bool result = this->GetItem(item);
 
 		if (result)
 		{
-			delete temp;
-			delete[] m_Array[m_CurPointer];
+			delete m_Array[m_CurPointer];
 			for (int i = m_CurPointer; i < m_Length; i++)
 			{
 				m_Array[i] = m_Array[i + 1];
@@ -173,7 +170,7 @@ public:
 	*			동적할당된 item의 포인터를 반환한다.
 	*	@return	key가 맞는 아이템을 찾았는지에 대한 여부를 반환.
 	*/
-	bool GetItem(T*& item)
+	bool GetItem(T& item)
 	{
 		int first = 0;
 		int last = m_Length - 1;
@@ -185,22 +182,22 @@ public:
 		{
 			m_CurPointer = (first + last) / 2;
 			T val = (*m_Array[m_CurPointer]);
-			if (mCompFunc((*item), val) == RelationType::LESS)
+			if (mCompFunc(item, val) == RelationType::LESS)
 			{
 				last = m_CurPointer - 1;
 				moreToSearch = (first <= last);
 				continue;
 			}
-			if (mCompFunc((*item), val) == RelationType::GREATER)
+			if (mCompFunc(item, val) == RelationType::GREATER)
 			{
 				first = m_CurPointer + 1;
 				moreToSearch = (first <= last);
 				continue;
 			}
-			if (mCompFunc((*item), val) == RelationType::EQUAL)
+			if (mCompFunc(item, val) == RelationType::EQUAL)
 			{
 				found = true;
-				item = new T(val);
+				item = val;
 				break;
 			}
 		}
@@ -217,12 +214,11 @@ public:
 	*/
 	bool GetPointer(T*& item)
 	{
-		T* key = item;
+		T pItem(*item);
 
-		bool result = this->GetItem(key);
+		bool result = this->GetItem(pItem);
 		if (result)
 		{
-			delete key;
 			item = m_Array[m_CurPointer];
 		}
 
