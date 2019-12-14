@@ -71,61 +71,76 @@ int BookInfo::GetCategoryNum()
 
 void BookInfo::SetAuthorByKB()
 {
-	cout << "Input Author: ";
-	cin >> m_Author;
+	cout << "작가: ";
+	std::getline(std::cin, m_Author);
 }
 
 void BookInfo::SetTitleByKB()
 {
-	cout << "Input Title: ";
-	cin>>m_Title;
+	cout << "제목: ";
+	std::getline(std::cin, m_Title);
 }
 
 void BookInfo::SetISBNByKB()
 {
-	cout << "Input ISBN: ";
+	cout << "ISBN: ";
 	cin >> m_ISBN;
+	cin.ignore();
 }
 
 void BookInfo::SetCategoryNumByKB()
 {
-	cout << "Input CategoryNum:	";
+	cout << "분류번호: ";
 	cin >> m_CategoryNum;
+	cin.ignore();
+}
+
+void BookInfo::SetPublisherByKB()
+{
+	cout << "출판사: ";
+	std::getline(std::cin, m_Publisher);
 }
 
 void BookInfo::SetBookInfoByKB()
 {
-	SetAuthorByKB();
-	SetTitleByKB();
 	SetISBNByKB();
+	SetTitleByKB();
+	SetAuthorByKB();
+	SetPublisherByKB();
 	SetCategoryNumByKB();
 }
 
 void BookInfo::DisplayAuthor()
 {
-	cout << m_Author << endl;
+	cout << "작가:" << m_Author << endl;
 }
 
 void BookInfo::DisplayTitle()
 {
-	cout << m_Title<<endl;
+	cout << "제목:" << m_Title<<endl;
 }
 
 void BookInfo::DisplayISBN()
 {
-	cout << m_ISBN << endl;
+	cout << "ISBN:" << m_ISBN << endl;
 }
 
 void BookInfo::DisplayCategoryNum()
 {
-	cout << m_CategoryNum<<endl;
+	cout << "분류번호:" << m_CategoryNum<<endl;
+}
+
+void BookInfo::DisplayPublisher()
+{
+	cout << "출판사:" << m_Publisher << endl;
 }
 
 void BookInfo::DisplayBookInfo()
 {
-	DisplayAuthor();
-	DisplayTitle();
 	DisplayISBN();
+	DisplayTitle();
+	DisplayAuthor();
+	DisplayPublisher();
 	DisplayCategoryNum();
 }
 

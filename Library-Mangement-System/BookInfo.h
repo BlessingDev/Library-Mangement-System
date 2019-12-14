@@ -29,12 +29,14 @@ public:
 	void SetTitleByKB();
 	void SetISBNByKB();
 	void SetCategoryNumByKB();
+	void SetPublisherByKB();
 	void SetBookInfoByKB();
 
 	void DisplayAuthor();
 	void DisplayTitle();
 	void DisplayISBN();
 	void DisplayCategoryNum();
+	void DisplayPublisher();
 	void DisplayBookInfo();
 
 	/**

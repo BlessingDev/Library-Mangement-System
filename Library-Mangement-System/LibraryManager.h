@@ -120,7 +120,7 @@ public:
 	* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
 	* @후: UserInfo 객체가 시스템에 추가된다.
 	**/
-	void AddUser(UserInfo);
+	void AddUser(UserInfo&);
 
 	/**
 	* @전: 검색할 문자열을 string 형태로 전달받는다. 사용자 정보를 반환받을 LinkedList<UserInfo> 객체를 전달한다.

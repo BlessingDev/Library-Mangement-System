@@ -1,5 +1,6 @@
 #include "LibraryManager.h"
 
+#include <sstream>
 #include "Application.h"
 
 RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
@@ -20,7 +21,7 @@ LibraryManager::LibraryManager()
 {
 	mBookNum = 0;
 	mUserNum = 0;
-	mNextUserId = -1;
+	mNextUserId = 1;
 	mBorrowDay = 14;
 	mPossBorrowNum = 5;
 	mPossResNum = 5;
@@ -299,11 +300,12 @@ void LibraryManager::DisplayBooks()
 	}
 }
 
-void LibraryManager::AddUser(UserInfo user)
+void LibraryManager::AddUser(UserInfo& user)
 {
 	user.SetID(mNextUserId);
 	mUsers.Add(user);
-	mUserNum++;
+	++mUserNum;
+	++mNextUserId;
 }
 
 
@@ -460,57 +462,60 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 bool LibraryManager::ImportBookInfo()
 {
 	ifstream fin;
+	mBooks.MakeEmpty();
 	try
 	{
-		fin.open("BookInfo_in.txt");
-		char achar;
+		fin.open("BookInfo.txt");
+		char achar[200];
 		std::string astr;
 		int flag = 0;
 		BookInfo dummy;
 		
-		while (fin.get(achar))
+		while (fin.getline(achar, 200, '\n'))
 		{
 
-			if (achar == '\n') continue;
+			std::stringstream objectStream(achar);
 
-			if (achar == ',') //딜리미터 
+			while (objectStream.getline(achar, 200, ','))
 			{
+				astr = achar;
+
 				switch (flag)
 				{
 				case(0):
 					dummy.SetAuthor(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(1):
 					dummy.SetPublisher(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(2):
 					dummy.SetTitle(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(3):
 					dummy.SetISBN(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(4):
 					int num = stoi(astr);
 					dummy.SetCategoryNum(num);
-					mBooks.Add(dummy);
 					astr.clear();
-					flag = 0;
-					continue;
+					break;
 				}
 			}
-			else 	astr += achar;
+
+			AddBook(dummy);
+			flag = 0;
 		}
 		return true;
 	}
@@ -525,19 +530,21 @@ bool LibraryManager::ImportUserInfo()
 	ifstream fin;
 	try 
 	{
-		fin.open("UserInfo_in.txt");
-		char achar;
+		fin.open("UserInfo.txt");
+		char achar[200];
 		std::string astr;
 		int flag = 0;
 		UserInfo dummy;
 
-		while (fin.get(achar))
+		while (fin.getline(achar, 200, '\n'))
 		{
 
-			if (achar == '\n') continue;
+			std::stringstream objectStream(achar);
 
-			if (achar == ',') //딜리미터 
+			while (objectStream.getline(achar, 200, ','))
 			{
+				astr = achar;
+
 				switch (flag)
 				{
 				case(0):
@@ -561,13 +568,12 @@ bool LibraryManager::ImportUserInfo()
 				case(3):
 					int num = stoi(astr);
 					dummy.SetUserNumber(num);
-					mUsers.Add(dummy);
 					astr.clear();
-					flag++;
 					continue;
 				}
 			}
-			else 	astr += achar;
+			AddUser(dummy);
+			flag = 0;
 		}
 		return true;
 	}
@@ -584,7 +590,7 @@ bool LibraryManager::ExportBookInfo()
 	ofstream fout;
 	try
 	{
-		fout.open("BookInfo_out.txt");
+		fout.open("BookInfo.txt");
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mBooks[0];
@@ -604,7 +610,7 @@ bool LibraryManager::ExportUserInfo()
 	ofstream fout;
 	try
 	{
-		fout.open("UserInfo_out.txt");
+		fout.open("UserInfo.txt");
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mUsers[0];

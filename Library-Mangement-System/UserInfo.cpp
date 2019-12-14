@@ -1,5 +1,5 @@
 #include "UserInfo.h"
-
+#include <sstream>
 
 #include "Application.h"
 
@@ -57,31 +57,34 @@ void UserInfo::SetUserNReserve(char nreserve)
 
 void UserInfo::SetIDByKB()
 {
-	cout << "Input User ID	:	";
+	cout << "Input User ID: ";
 	cin >> m_userID;
+	cin.ignore();
 }
 
 void UserInfo::SetUserNameByKB()
 {
-	cout << "Input User Name	:	";
-	cin >> m_userName;
+
+	cout << "이름: ";
+	std::getline(std::cin, m_userName);
 }
 
 void UserInfo::SetUserAddressByKB()
 {
-	cout << "Input User Address	:	";
-	cin >> m_userAddress;
+
+	cout << "주소: ";
+	std::getline(std::cin, m_userAddress);
 }
 
 void UserInfo::SetUserNumberByKB()
 {
-	cout << "Input User Number	:	";
+	cout << "전화번호: ";
 	cin >> m_userNumber;
+	cin.ignore();
 }
 
 void UserInfo::SetRecordByKB()
 {
-	SetIDByKB();
 	SetUserNameByKB();
 	SetUserAddressByKB();
 	SetUserNumberByKB();
@@ -124,22 +127,22 @@ char UserInfo::GetUserNBorrow()
 
 void UserInfo::DisplayUserID()
 {
-	cout << "User ID	:	" << m_userID << endl;
+	cout << "사용자 ID: " << m_userID << endl;
 }
 
 void UserInfo::DisplayUserName()
 {
-	cout << "User Name	:	" << m_userName << endl;
+	cout << "이름: " << m_userName << endl;
 }
 
 void UserInfo::DisplayUserAddress()
 {
-	cout << "User Address	:	" << m_userAddress << endl;
+	cout << "주소: " << m_userAddress << endl;
 }
 
 void UserInfo::DisplayUserNumber()
 {
-	cout << "User Number	:	" << m_userNumber << endl;
+	cout << "전화번호: " << m_userNumber << endl;
 }
 
 void UserInfo::DisplayUserInfo()

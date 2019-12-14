@@ -83,7 +83,11 @@ void Application::Run()
 			Save();
 			break;
 		case 5:
-			Load();
+			if (Load() == 1)
+			{
+				mLibraryManager.DisplayBooks();
+				mLibraryManager.DisplayUser();
+			}
 			break;
 		case 0:
 			return;
@@ -108,6 +112,7 @@ int GetMode()
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
+	cin.ignore();
 	cout << endl;
 
 	return mode;
@@ -130,6 +135,7 @@ int GetBookCommand()
 
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
+	cin.ignore();
 	cout << endl;
 
 	return command;
@@ -148,6 +154,7 @@ int GetUserCommand()
 
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
+	cin.ignore();
 	cout << endl;
 
 	return command;
@@ -170,6 +177,7 @@ int Application::DeleteBook()
 	string isbn;
 	cout << "삭제할 책의 ISBN 입력	:	";
 	cin >> isbn;
+	cin.ignore();
 
 	if (mLibraryManager.DeleteBook(isbn))
 	{
@@ -192,6 +200,7 @@ int Application::BorrowBook()
 	cin >> id;
 	cout << "ISBN 입력	:	";
 	cin >> isbn;
+	cin.ignore();
 
 	switch (mLibraryManager.BorrowBook(isbn, id))
 	{
@@ -221,6 +230,7 @@ int Application::ReserveBook()
 	cin >> id;
 	cout << "ISBN	:	";
 	cin >> isbn;
+	cin.ignore();
 	
 	switch (mLibraryManager.ReserveBook(isbn, id, nReserve))
 	{
@@ -250,6 +260,7 @@ int Application::ReturnBook()
 	cin >> id;
 	cout << "반납하고자 하는 책의 ISBN을 입력하세요	:	";
 	cin >> isbn;
+	cin.ignore();
 
 	UserInfo* next;
 	switch (mLibraryManager.ReturnBook(isbn, id, retInfo, resInfo))
@@ -309,6 +320,7 @@ int Application::SearchBook()
 	cout << "\t   2 : 통합 검색" << endl;
 	cout << "\t   3 : 속성 검색" << endl;
 	cin >> command;
+	cin.ignore();
 
 	int check;
 
@@ -343,6 +355,8 @@ int Application::SearchBookWithISBN()
 	string isbn;
 	cout << "검색할 책의 ISBN을 입력하세요	:	";
 	cin >> isbn;
+	cin.ignore();
+
 	if (mLibraryManager.SearchBookWithIsbn(isbn, curbook))
 	{
 		curbook.DisplayBookInfo();
@@ -358,6 +372,8 @@ int Application::SearchBookWithString()
 	string search;
 	cout << "검색할 내용을 입력하세요	:	";
 	cin >> search;
+	cin.ignore();
+
 	if (mLibraryManager.SearchBookWithString(search, searchList))
 	{
 		BookInfo dummy;
@@ -388,6 +404,7 @@ int Application::SearchBookWithAttribute()
 
 	cout << "검색 내용을 입력하세요	:	";
 	cin >> search;
+	cin.ignore();
 
 	if (mLibraryManager.SearchBookWithAttribute(search, curbook, attribute))
 	{
@@ -401,7 +418,12 @@ int Application::SearchBookWithAttribute()
 int Application::AddUser()
 {
 	UserInfo user;
+	user.SetRecordByKB();
 	mLibraryManager.AddUser(user);
+
+	std::cout << "사용자가 추가되었습니다.\n";
+	user.DisplayUserInfo();
+
 	return 1;
 }
 
@@ -413,6 +435,7 @@ int Application::SearchUser()
 	cout << "\t   1 : ID 검색" << endl;
 	cout << "\t   2 : 통합 검색" << endl;
 	cin >> command;
+	cin.ignore();
 
 	UserInfo curUser;
 	UserInfo dummy;
@@ -427,21 +450,24 @@ int Application::SearchUser()
 	case 1:
 		cout << "검색할 ID를 입력하세요	:	";
 		cin >> id;
+		cin.ignore();
 		check = mLibraryManager.SearchUserById(id, curUser);
 		curUser.DisplayUserInfo();
 		break;
 	case 2:
 		cout << "검색 내용을 입력하세요	:	";
 		cin >> search;
+		cin.ignore();
 		check = mLibraryManager.SearchUserWithString(search, searchList);
 
 		searchList.ResetList();
-		index = searchList.GetNextItem(dummy);
-		while (index)
+		index = searchList.GetLength();
+		for (int i = 0; i < index; ++i)
 		{
+			searchList.GetNextItem(dummy);
 			dummy.DisplayUserInfo();
-			index = searchList.GetNextItem(dummy);
 		}
+		break;
 	default:
 		cout << "\t잘못된 입력입니다...\n";
 		return 0;
@@ -461,6 +487,8 @@ int Application::DeleteUser()
 	int id;
 	cout << "\t삭제할 ID를 입력하세요	:	";
 	cin >> id;
+	cin.ignore();
+
 	if (mLibraryManager.DeleteUser(id) == true)
 	{
 		cout << "\t삭제 성공" << endl;
@@ -478,6 +506,8 @@ void Application::DayPassed()
 	int time = 1;
 	cout << "몇일 넘기시겠습니까? : ";
 	cin >> time;
+	cin.ignore();
+
 	mProgramTime = mProgramTime.timeStamp() + TimeForm::ONEDAY * time;
 
 	std::cout << "오늘 날짜는 " << mProgramTime << "입니다.\n";
@@ -516,16 +546,16 @@ void Application::DayPassed()
 
 int Application::Save()
 {
-	if (!mLibraryManager.ExportBookInfo() && !mLibraryManager.ExportUserInfo())
-		return 0;
-	else
+	if (mLibraryManager.ExportBookInfo() && mLibraryManager.ExportUserInfo())
 		return 1;
+	else
+		return 0;
 }
 
 int Application::Load()
 {
-	if (!mLibraryManager.ImportBookInfo() && !mLibraryManager.ImportUserInfo())
-		return 0;
-	else
+	if (mLibraryManager.ImportBookInfo() && mLibraryManager.ImportUserInfo())
 		return 1;
+	else
+		return 0;
 }
