@@ -20,7 +20,7 @@ public:
 	*	@요약	비교 함수를 이용한 생성자
 	*	@전		첫번째 인자를 기준으로 비교를 수행하여 RelationType을 반환하는 함수를 전달할 것
 	*/
-	SortedLinkedList(std::function<RelationType(const T&, const T&)>);
+	SortedLinkedList(std::function<RelationType(T&, T&)>);
 
 	/**
 	*	destructor.
@@ -99,12 +99,12 @@ SortedLinkedList<T>::SortedLinkedList()
 }
 
 template <typename T>
-SortedLinkedList<T>::SortedLinkedList(std::function<RelationType(const T&, const T&)> func)
+SortedLinkedList<T>::SortedLinkedList(std::function<RelationType(T&, T&)> func)
+	: mCompFunc(func)
 {
 	m_nLength = 0;
 	m_pList = nullptr;
 	m_pCurPointer = nullptr;
-	mCompFunc = func;
 }
 
 // Class destructor

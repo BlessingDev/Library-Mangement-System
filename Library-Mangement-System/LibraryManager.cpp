@@ -2,7 +2,21 @@
 
 #include "Application.h"
 
+RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
+{
+	auto difA = Application::mProgramTime - a.GetBorrowDate();
+	auto difB = Application::mProgramTime - b.GetBorrowDate();
+
+	if (difA > difB)
+		return RelationType::GREATER;
+	else if (difA < difB)
+		return RelationType::LESS;
+	else
+		return RelationType::EQUAL;
+}
+
 LibraryManager::LibraryManager()
+	: mBorrows(SortByProgramTime), mReservedTop(SortByProgramTime)
 {
 	mBookNum = 0;
 	mUserNum = 0;
