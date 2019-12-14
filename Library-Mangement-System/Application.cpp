@@ -47,7 +47,7 @@ void Application::Run()
 				DisplayBookList();
 				break;
 			case 0:
-				return;
+				break;
 			default:
 				cout << "\t잘못된 입력입니다...\n";
 				break;
@@ -70,7 +70,7 @@ void Application::Run()
 				DisplayUserList();
 				break;
 			case 0:
-				return;
+				break;
 			default:
 				cout << "\t잘못된 입력입니다...\n";
 				break;
@@ -78,6 +78,17 @@ void Application::Run()
 			break;
 		case 3:
 			DayPassed();
+			break;
+		case 4:
+			Save();
+			break;
+		case 5:
+			Load();
+			break;
+		case 0:
+			return;
+		default:
+			cout << "\t잘못된 입력입니다...\n";
 			break;
 		}
 	}
@@ -91,6 +102,8 @@ int GetMode()
 	cout << "\t   1 : 도서 관리" << endl;
 	cout << "\t   2 : 이용자 관리" << endl;
 	cout << "\t   3 : 날짜 관리" << endl;
+	cout << "\t   4 : 현재 정보 저장" << endl;
+	cout << "\t   5 : 이전 정보 불러오기" << endl;
 	cout << "\t   0 : 종료" << endl;
 
 	cout << endl << "\t Choose a Mode--> ";
@@ -503,4 +516,20 @@ void Application::DayPassed()
 		std::cout << "----------" << std::endl;
 	}
 	std::cout << std::endl << std::endl;
+}
+
+int Application::Save()
+{
+	if (!mLibraryManager.ExportBookInfo() && !mLibraryManager.ExportUserInfo())
+		return 0;
+	else
+		return 1;
+}
+
+int Application::Load()
+{
+	if (!mLibraryManager.ImportBookInfo() && !mLibraryManager.ImportUserInfo())
+		return 0;
+	else
+		return 1;
 }
