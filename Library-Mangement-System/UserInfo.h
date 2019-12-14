@@ -16,10 +16,11 @@ private:
 	int m_userID;
 	string m_userName;
 	string m_userAddress;
-	int m_userNumber;
+	string m_userNumber;
 	//list<BorrowedBookList>* m_borrowedBookList;
 
-	TimeForm m_penalty;
+	TimeForm mPaneltyEndDay;
+	int mDelayedNum;	// 이 사용자의 연체된 책 권수
 	char m_nReserve;
 	char m_nBorrow;
 
@@ -30,13 +31,14 @@ public:
 	void SetID(int ID);
 	void SetUserName(string name);
 	void SetUserAddress(string address);
-	void SetUserNumber(int number);
+	void SetUserNumber(string number);
 	/*
 	@요약: 사용자의 대출 제한을 입력할 때는 끝나는 날자를 입력한다.
 	*/
-	void SetUserPenalty(TimeForm);
+	void SetPenaltyDay(TimeForm);
 	void SetUserNReserve(char);
 	void SetUserNBorrow(char);
+	void AddDelayedNum(int);
 
 	void SetIDByKB();
 	void SetUserNameByKB();
@@ -47,10 +49,11 @@ public:
 	int GetUserID();
 	string GetUserName();
 	string GetUserAddress();
-	int GetUserNumber();
+	string GetUserNumber();
 	TimeForm GetUserPenalty();
 	char GetUserNReserve();
 	char GetUserNBorrow();
+	bool IsDelayed() const;
 
 	void DisplayUserID();
 	void DisplayUserName();

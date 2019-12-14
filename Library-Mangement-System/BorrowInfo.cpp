@@ -19,10 +19,10 @@ void BorrowInfo::SetUserInfo(UserInfo* user)
 
 void BorrowInfo::DisplayInfo() const
 {
-	cout << "Borrowed Date	:	" << m_borrowedDate;
-	cout << "Book Info	:	" << endl;
+	cout << "Borrowed Date:	" << m_borrowedDate << endl;
+	cout << "Book Info:	" << endl;
 	m_bookInfo->DisplayBookInfo();
-	cout << "User Info	:	" << endl;
+	cout << "User Info:	" << endl;
 	m_userInfo->DisplayUserInfo();
 }
 

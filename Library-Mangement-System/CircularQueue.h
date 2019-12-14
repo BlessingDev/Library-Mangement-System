@@ -292,7 +292,8 @@ inline T CircularQueueType<T>::GetFront()
 		throw EmptyQueue();
 	}
 
-	return mPtrItems[miFront];
+	int frontIdx = (miFront + 1) % mMaxQueue;
+	return mPtrItems[frontIdx];
 }
 
 template <typename T>
@@ -303,5 +304,6 @@ void CircularQueueType<T>::GetFrontPointer(T*& pItem)
 		throw EmptyQueue();
 	}
 
-	pItem = std::addressof(mPtrItems[miFront]);
+	int frontIdx = (miFront + 1) % mMaxQueue;
+	pItem = std::addressof(mPtrItems[frontIdx]);
 }

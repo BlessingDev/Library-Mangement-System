@@ -8,9 +8,9 @@ RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
 	auto difA = Application::mProgramTime - a.GetBorrowDate();
 	auto difB = Application::mProgramTime - b.GetBorrowDate();
 
-	if (difA > difB)
+	if (difA < difB)
 		return RelationType::GREATER;
-	else if (difA < difB)
+	else if (difA > difB)
 		return RelationType::LESS;
 	else
 		return RelationType::EQUAL;
@@ -137,6 +137,11 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 		else
 		{
 			// 현재 대출하려는 사람이 예약한 사람이다.
+			if (newBorrow.IsBorrowing())
+				// 혹은 현재 대출 중이다.
+			{
+				return 2;
+			}
 			pCurUser->SetUserNBorrow(curNBorrow + 1);
 			pCurUser->SetUserNReserve(pCurUser->GetUserNReserve() - 1); // 예약했던 게 대출로 전환됐으니 예약수는 -1
 			pCurBook->SetBorrowCurrentInfo();
@@ -148,15 +153,17 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 
 	newBorrow.SetBookInfo(pCurBook);
 	newBorrow.SetUserInfo(pCurUser);
-	newBorrow.SetBorrowDate();
+	newBorrow.Borrow();
 
-	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum)
+	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum
+		|| pCurUser->IsDelayed())
 	{
 		return 3;
 	}
 	else
 	{
 		pCurUser->SetUserNBorrow(curNBorrow + 1);
+		pCurBook->EnQueueBorrowed(newBorrow);
 		mBorrows.InsertItem(newBorrow);
 		return 1;
 	}
@@ -184,11 +191,12 @@ int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 	newBorrow.SetBorrowDate();
 
 
-	if (!pCurBook->IsFullReservation())
+	if (pCurBook->IsFullReservation())
 	{
 		return 2;
 	}
-	if (curPenalty > Application::mProgramTime || curNReserve >= mPossResNum)
+	if (curPenalty > Application::mProgramTime || curNReserve >= mPossResNum
+		|| pCurUser->IsDelayed())
 	{
 		return 3;
 	}
@@ -237,8 +245,9 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 		// 연체가 발생했다면
 	{
 		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
-		pCurUser->SetUserPenalty(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
+		pCurUser->SetPenaltyDay(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
 		mDelayedBorrows.Delete(ret);
+		pCurUser->AddDelayedNum(-1);
 		delayed = true;
 	}
 	int result = pCurBook->DeQueueBorrowed(ret);
@@ -322,14 +331,12 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		dummy = mUsers[i];
 		name = dummy.GetUserName();
 		address = dummy.GetUserAddress();
-		id = to_string(dummy.GetUserID());
-		number = to_string(dummy.GetUserNumber());
+		number = dummy.GetUserNumber();
 
 		if (name.find(search) == string::npos)
 			if (address.find(search) == string::npos)
-				if (id.find(search) == string::npos)
-					if (number.find(search) == string::npos)
-						continue;
+				if (number.find(search) == string::npos)
+					continue;
 
 		found = true;
 		searchList.Add(dummy);
@@ -566,8 +573,7 @@ bool LibraryManager::ImportUserInfo()
 					continue;
 
 				case(3):
-					int num = stoi(astr);
-					dummy.SetUserNumber(num);
+					dummy.SetUserNumber(astr);
 					astr.clear();
 					continue;
 				}
@@ -636,6 +642,7 @@ void LibraryManager::DayPassed(LinkedList<BorrowInfo>& delayedList, LinkedList<B
 
 		if (TimeForm(t.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay) < Application::mProgramTime)
 		{
+			t.GetUserInfo()->AddDelayedNum(1);
 			mDelayedBorrows.Add(t);
 			mBorrows.Delete(t);
 			delayedList.Add(t);
