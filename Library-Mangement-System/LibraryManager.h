@@ -60,7 +60,7 @@ public:
 	* @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
 	* @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool SearchBookWithIsbn(std::string, BookInfo*&);
+	bool SearchBookWithIsbn(std::string, BookInfo&);
 
 	/**
 	* @전: 검색할 문자열을 string 형태로 전달받는다. 책 정보를 반환받을 LinkedList<BookInfo> 객체를 전달한다.
@@ -120,7 +120,7 @@ public:
 	* @전: 추가할 UserInfo 객체의 포인터를 전달한다.
 	* @후: UserInfo 객체가 시스템에 추가된다.
 	**/
-	void AddUser(UserInfo);
+	void AddUser(UserInfo&);
 
 	/**
 	* @전: 검색할 문자열을 string 형태로 전달받는다. 사용자 정보를 반환받을 LinkedList<UserInfo> 객체를 전달한다.
@@ -135,7 +135,7 @@ public:
 	* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserById(int, UserInfo*&);
+	bool SearchUserById(int, UserInfo&);
 
 	/**
 	* @전: 찾을 도서의 값, 도서 정보를 반환받을 BookInfo 객체, 값의 Attirbute를 전달한다.

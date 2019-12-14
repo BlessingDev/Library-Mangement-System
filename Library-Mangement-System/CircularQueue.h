@@ -62,6 +62,8 @@ public:
 
 	CircularQueueType(CircularQueueType& other);
 
+	CircularQueueType& operator=(const CircularQueueType& other);
+
 	/**
 	*	@brief	Destruct the object. Free the array dynamically allocated.
 	*	@pre	Release memory for queue pointer.
@@ -175,6 +177,24 @@ CircularQueueType<T>::CircularQueueType(CircularQueueType& other)
 	memcpy(this->mPtrItems, other.mPtrItems, sizeof(T) * mMaxQueue);
 }
 
+template <typename T>
+CircularQueueType<T>& CircularQueueType<T>::operator=(const CircularQueueType<T>& other)
+{
+	if (&other != this)
+	{
+		delete[] mPtrItems;
+
+		mMaxQueue = other.mMaxQueue;
+		miFront = mMaxQueue - 1;
+		miRear = mMaxQueue - 1;
+		mQLength = 0;
+		mPtrItems = new T[mMaxQueue];
+		memcpy(this->mPtrItems, other.mPtrItems, sizeof(T) * mMaxQueue);
+	}
+
+	return *this;
+}
+
 template<typename T>
 CircularQueueType<T>::~CircularQueueType()
 {
@@ -272,7 +292,8 @@ inline T CircularQueueType<T>::GetFront()
 		throw EmptyQueue();
 	}
 
-	return mPtrItems[miFront];
+	int frontIdx = (miFront + 1) % mMaxQueue;
+	return mPtrItems[frontIdx];
 }
 
 template <typename T>
@@ -283,5 +304,6 @@ void CircularQueueType<T>::GetFrontPointer(T*& pItem)
 		throw EmptyQueue();
 	}
 
-	pItem = std::addressof(mPtrItems[miFront]);
+	int frontIdx = (miFront + 1) % mMaxQueue;
+	pItem = std::addressof(mPtrItems[frontIdx]);
 }

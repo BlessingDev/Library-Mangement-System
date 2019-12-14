@@ -133,6 +133,7 @@
     <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="RelationType.h" />
+    <ClInclude Include="SortedLinkedList.hpp" />
     <ClInclude Include="SortedPointerVector.hpp" />
     <ClInclude Include="TimeForm.h" />
     <ClInclude Include="UserInfo.h" />

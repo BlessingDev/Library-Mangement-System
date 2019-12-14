@@ -83,7 +83,11 @@ void Application::Run()
 			Save();
 			break;
 		case 5:
-			Load();
+			if (Load() == 1)
+			{
+				mLibraryManager.DisplayBooks();
+				mLibraryManager.DisplayUser();
+			}
 			break;
 		case 0:
 			return;
@@ -108,6 +112,7 @@ int GetMode()
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
+	cin.ignore();
 	cout << endl;
 
 	return mode;
@@ -130,6 +135,7 @@ int GetBookCommand()
 
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
+	cin.ignore();
 	cout << endl;
 
 	return command;
@@ -148,6 +154,7 @@ int GetUserCommand()
 
 	cout << endl << "\t Choose a Command--> ";
 	cin >> command;
+	cin.ignore();
 	cout << endl;
 
 	return command;
@@ -168,8 +175,9 @@ int Application::AddBook()
 int Application::DeleteBook()
 {
 	string isbn;
-	cout << "삭제할 책의 ISBN 입력	:	";
+	cout << "삭제할 책의 ISBN 입력: ";
 	cin >> isbn;
+	cin.ignore();
 
 	if (mLibraryManager.DeleteBook(isbn))
 	{
@@ -188,10 +196,11 @@ int Application::BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "사용자 ID 입력	:	";
+	cout << "사용자 ID 입력: ";
 	cin >> id;
-	cout << "ISBN 입력	:	";
+	cout << "ISBN 입력: ";
 	cin >> isbn;
+	cin.ignore();
 
 	switch (mLibraryManager.BorrowBook(isbn, id))
 	{
@@ -217,10 +226,11 @@ int Application::ReserveBook()
 	int id;
 	int nReserve = 0;
 
-	cout << "사용자 ID 입력	:	";
+	cout << "사용자 ID 입력: ";
 	cin >> id;
-	cout << "ISBN	:	";
+	cout << "ISBN: ";
 	cin >> isbn;
+	cin.ignore();
 	
 	switch (mLibraryManager.ReserveBook(isbn, id, nReserve))
 	{
@@ -246,10 +256,11 @@ int Application::ReturnBook()
 	BorrowInfo retInfo;
 	BorrowInfo resInfo;
 
-	cout << "반납하고자 하는 이용자의 ID를 입력하세요	:	";
+	cout << "반납하고자 하는 이용자의 ID를 입력하세요: ";
 	cin >> id;
-	cout << "반납하고자 하는 책의 ISBN을 입력하세요	:	";
+	cout << "반납하고자 하는 책의 ISBN을 입력하세요: ";
 	cin >> isbn;
+	cin.ignore();
 
 	UserInfo* next;
 	switch (mLibraryManager.ReturnBook(isbn, id, retInfo, resInfo))
@@ -263,13 +274,13 @@ int Application::ReturnBook()
 	case 3:
 		cout << "반납 성공!" << endl;
 		next = resInfo.GetUserInfo();
-		cout << "다음 대출자 정보	:	";
+		cout << "다음 대출자 정보: ";
 		(*next).DisplayUserInfo();
 		break;
 	case 4:
 		cout << "반납 성공! 도서 연체로 인한 패널티가 부여됩니다" << endl;
 		next = resInfo.GetUserInfo();
-		cout << "다음 대출자 정보	:	";
+		cout << "다음 대출자 정보: ";
 		(*next).DisplayUserInfo();
 		break;
 	case 5:
@@ -309,13 +320,14 @@ int Application::SearchBook()
 	cout << "\t   2 : 통합 검색" << endl;
 	cout << "\t   3 : 속성 검색" << endl;
 	cin >> command;
+	cin.ignore();
 
 	int check;
 
 	switch (command)
 	{
 	case 1:
-		check=SearchBookWithISBN();
+		check = SearchBookWithISBN();
 		break;
 	case 2:
 		check = SearchBookWithString();
@@ -340,14 +352,14 @@ int Application::SearchBook()
 int Application::SearchBookWithISBN()
 {
 	BookInfo curbook;
-	BookInfo* pCurBook = std::addressof(curbook);
 	string isbn;
-	cout << "검색할 책의 ISBN을 입력하세요	:	";
+	cout << "검색할 책의 ISBN을 입력하세요: ";
 	cin >> isbn;
-	if (mLibraryManager.SearchBookWithIsbn(isbn, pCurBook))
+	cin.ignore();
+
+	if (mLibraryManager.SearchBookWithIsbn(isbn, curbook))
 	{
-		pCurBook->DisplayBookInfo();
-		delete pCurBook;
+		curbook.DisplayBookInfo();
 		return 1;
 	}
 	else
@@ -358,8 +370,10 @@ int Application::SearchBookWithString()
 {
 	LinkedList<BookInfo> searchList;
 	string search;
-	cout << "검색할 내용을 입력하세요	:	";
+	cout << "검색할 내용을 입력하세요: ";
 	cin >> search;
+	cin.ignore();
+
 	if (mLibraryManager.SearchBookWithString(search, searchList))
 	{
 		BookInfo dummy;
@@ -381,15 +395,16 @@ int Application::SearchBookWithAttribute()
 	BookInfo curbook;
 	string search;
 	string attribute;
+
 	cout << "검색 방법을 입력하세요" << endl;
-	cout << "\t   Author	:	작가 검색" << endl;
-	cout << "\t   Publisher	:	출판사 검색" << endl;
-	cout << "\t   Title		:	제목 검색" << endl;
-	cout << "\t   ISBN		:	ISBN 검색" << endl;
+	cout << "\t   Author: 작가 검색" << endl;
+	cout << "\t   Publisher: 출판사 검색" << endl;
+	cout << "\t   Title: 제목 검색" << endl;
 	cin >> attribute;
 
-	cout << "검색 내용을 입력하세요	:	";
+	cout << "검색 내용을 입력하세요: ";
 	cin >> search;
+	cin.ignore();
 
 	if (mLibraryManager.SearchBookWithAttribute(search, curbook, attribute))
 	{
@@ -403,7 +418,12 @@ int Application::SearchBookWithAttribute()
 int Application::AddUser()
 {
 	UserInfo user;
+	user.SetRecordByKB();
 	mLibraryManager.AddUser(user);
+
+	std::cout << "����ڰ� �߰��Ǿ��ϴ�.\n";
+	user.DisplayUserInfo();
+
 	return 1;
 }
 
@@ -415,10 +435,11 @@ int Application::SearchUser()
 	cout << "\t   1 : ID 검색" << endl;
 	cout << "\t   2 : 통합 검색" << endl;
 	cin >> command;
+	cin.ignore();
 
 	UserInfo curUser;
-
 	UserInfo* pCurUser = std::addressof(curUser);
+
 	UserInfo dummy;
 	LinkedList<UserInfo> searchList;
 	string search;
@@ -429,25 +450,27 @@ int Application::SearchUser()
 	switch (command)
 	{
 	case 1:
-		cout << "검색할 ID를 입력하세요	:	";
+		cout << "검색할 ID를 입력하세요: ";
 		cin >> id;
-		check = mLibraryManager.SearchUserById(id, pCurUser);
-		pCurUser->DisplayUserInfo();
-		delete pCurUser;
+		cin.ignore();
+		check = mLibraryManager.SearchUserById(id, curUser);
+		curUser.DisplayUserInfo();
 		break;
 	case 2:
-		cout << "검색 내용을 입력하세요	:	";
+		cout << "검색 내용을 입력하세요: ";
 		cin >> search;
+		cin.ignore();
 		check = mLibraryManager.SearchUserWithString(search, searchList);
 
 		searchList.ResetList();
-		index = searchList.GetNextItem(dummy);
-		while (index)
+		index = searchList.GetLength();
+		for (int i = 0; i < index; ++i)
 		{
+			searchList.GetNextItem(dummy);
 
 			dummy.DisplayUserInfo();
-			index = searchList.GetNextItem(dummy);
 		}
+		break;
 	default:
 		cout << "\t잘못된 입력입니다...\n";
 		return 0;
@@ -465,8 +488,10 @@ int Application::SearchUser()
 int Application::DeleteUser()
 {
 	int id;
-	cout << "\t삭제할 ID를 입력하세요	:	";
+	cout << "\t삭제할 ID를 입력하세요: ";
 	cin >> id;
+	cin.ignore();
+
 	if (mLibraryManager.DeleteUser(id) == true)
 	{
 		cout << "\t삭제 성공" << endl;
@@ -484,6 +509,8 @@ void Application::DayPassed()
 	int time = 1;
 	cout << "몇일 넘기시겠습니까? : ";
 	cin >> time;
+	cin.ignore();
+
 	mProgramTime = mProgramTime.timeStamp() + TimeForm::ONEDAY * time;
 
 	std::cout << "오늘 날짜는 " << mProgramTime << "입니다.\n";
@@ -513,8 +540,11 @@ void Application::DayPassed()
 		t.DisplayInfo();
 		std::cout << "-----" << std::endl;
 		std::cout << "위 책에 대한 다음 예약자입니다." << std::endl;
-		t.GetBookInfo()->GetCurrentBorrowInfo(t);
-		t.DisplayInfo();
+		if (!t.GetBookInfo()->IsNoReservation())
+		{
+			t.GetBookInfo()->GetCurrentBorrowInfo(t);
+			t.DisplayInfo();
+		}
 		std::cout << "----------" << std::endl;
 	}
 	std::cout << std::endl << std::endl;
@@ -522,16 +552,16 @@ void Application::DayPassed()
 
 int Application::Save()
 {
-	if (!mLibraryManager.ExportBookInfo() && !mLibraryManager.ExportUserInfo())
-		return 0;
-	else
+	if (mLibraryManager.ExportBookInfo() && mLibraryManager.ExportUserInfo())
 		return 1;
+	else
+		return 0;
 }
 
 int Application::Load()
 {
-	if (!mLibraryManager.ImportBookInfo() && !mLibraryManager.ImportUserInfo())
-		return 0;
-	else
+	if (mLibraryManager.ImportBookInfo() && mLibraryManager.ImportUserInfo())
 		return 1;
+	else
+		return 0;
 }

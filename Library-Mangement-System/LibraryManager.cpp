@@ -1,5 +1,6 @@
 #include "LibraryManager.h"
 
+#include <sstream>
 #include "Application.h"
 
 RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
@@ -7,9 +8,9 @@ RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
 	auto difA = Application::mProgramTime - a.GetBorrowDate();
 	auto difB = Application::mProgramTime - b.GetBorrowDate();
 
-	if (difA > difB)
+	if (difA < difB)
 		return RelationType::GREATER;
-	else if (difA < difB)
+	else if (difA > difB)
 		return RelationType::LESS;
 	else
 		return RelationType::EQUAL;
@@ -20,7 +21,7 @@ LibraryManager::LibraryManager()
 {
 	mBookNum = 0;
 	mUserNum = 0;
-	mNextUserId = -1;
+	mNextUserId = 1;
 	mBorrowDay = 14;
 	mPossBorrowNum = 5;
 	mPossResNum = 5;
@@ -60,9 +61,9 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 
-bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo*& book)
+bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
 {
-	book->SetISBN(isbn);
+	book.SetISBN(isbn);
 
 	if (mBooks.GetItem(book))
 	{
@@ -136,6 +137,11 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 		else
 		{
 			// 현재 대출하려는 사람이 예약한 사람이다.
+			if (newBorrow.IsBorrowing())
+				// 혹은 현재 대출 중이다.
+			{
+				return 2;
+			}
 			pCurUser->SetUserNBorrow(curNBorrow + 1);
 			pCurUser->SetUserNReserve(pCurUser->GetUserNReserve() - 1); // 예약했던 게 대출로 전환됐으니 예약수는 -1
 			pCurBook->SetBorrowCurrentInfo();
@@ -147,15 +153,17 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 
 	newBorrow.SetBookInfo(pCurBook);
 	newBorrow.SetUserInfo(pCurUser);
-	newBorrow.SetBorrowDate();
+	newBorrow.Borrow();
 
-	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum)
+	if (curPenalty > Application::mProgramTime || curNBorrow >= mPossBorrowNum
+		|| pCurUser->IsDelayed())
 	{
 		return 3;
 	}
 	else
 	{
 		pCurUser->SetUserNBorrow(curNBorrow + 1);
+		pCurBook->EnQueueBorrowed(newBorrow);
 		mBorrows.InsertItem(newBorrow);
 		return 1;
 	}
@@ -183,11 +191,12 @@ int LibraryManager::ReserveBook(std::string isbn, int id, int& borrowedNum)
 	newBorrow.SetBorrowDate();
 
 
-	if (!pCurBook->IsFullReservation())
+	if (pCurBook->IsFullReservation())
 	{
 		return 2;
 	}
-	if (curPenalty > Application::mProgramTime || curNReserve >= mPossResNum)
+	if (curPenalty > Application::mProgramTime || curNReserve >= mPossResNum
+		|| pCurUser->IsDelayed())
 	{
 		return 3;
 	}
@@ -236,8 +245,9 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 		// 연체가 발생했다면
 	{
 		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
-		pCurUser->SetUserPenalty(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
+		pCurUser->SetPenaltyDay(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
 		mDelayedBorrows.Delete(ret);
+		pCurUser->AddDelayedNum(-1);
 		delayed = true;
 	}
 	int result = pCurBook->DeQueueBorrowed(ret);
@@ -299,11 +309,12 @@ void LibraryManager::DisplayBooks()
 	}
 }
 
-void LibraryManager::AddUser(UserInfo user)
+void LibraryManager::AddUser(UserInfo& user)
 {
 	user.SetID(mNextUserId);
 	mUsers.Add(user);
-	mUserNum++;
+	++mUserNum;
+	++mNextUserId;
 }
 
 
@@ -320,14 +331,12 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		dummy = mUsers[i];
 		name = dummy.GetUserName();
 		address = dummy.GetUserAddress();
-		id = to_string(dummy.GetUserID());
-		number = to_string(dummy.GetUserNumber());
+		number = dummy.GetUserNumber();
 
 		if (name.find(search) == string::npos)
 			if (address.find(search) == string::npos)
-				if (id.find(search) == string::npos)
-					if (number.find(search) == string::npos)
-						continue;
+				if (number.find(search) == string::npos)
+					continue;
 
 		found = true;
 		searchList.Add(dummy);
@@ -339,9 +348,9 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		return false;
 }
 
-bool LibraryManager::SearchUserById(int id, UserInfo*& user)
+bool LibraryManager::SearchUserById(int id, UserInfo& user)
 {
-	user->SetID(id);
+	user.SetID(id);
 
 	if (mUsers.GetItem(user))
 	{
@@ -460,57 +469,60 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 bool LibraryManager::ImportBookInfo()
 {
 	ifstream fin;
+	mBooks.MakeEmpty();
 	try
 	{
-		fin.open("BookInfo_in.txt");
-		char achar;
+		fin.open("BookInfo.txt");
+		char achar[200];
 		std::string astr;
 		int flag = 0;
 		BookInfo dummy;
 		
-		while (fin.get(achar))
+		while (fin.getline(achar, 200, '\n'))
 		{
 
-			if (achar == '\n') continue;
+			std::stringstream objectStream(achar);
 
-			if (achar == ',') //딜리미터 
+			while (objectStream.getline(achar, 200, ','))
 			{
+				astr = achar;
+
 				switch (flag)
 				{
 				case(0):
 					dummy.SetAuthor(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(1):
 					dummy.SetPublisher(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(2):
 					dummy.SetTitle(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(3):
 					dummy.SetISBN(astr);
 					astr.clear();
 					flag++;
-					continue;
+					break;
 
 				case(4):
 					int num = stoi(astr);
 					dummy.SetCategoryNum(num);
-					mBooks.Add(dummy);
 					astr.clear();
-					flag = 0;
-					continue;
+					break;
 				}
 			}
-			else 	astr += achar;
+
+			AddBook(dummy);
+			flag = 0;
 		}
 		return true;
 	}
@@ -525,19 +537,21 @@ bool LibraryManager::ImportUserInfo()
 	ifstream fin;
 	try 
 	{
-		fin.open("UserInfo_in.txt");
-		char achar;
+		fin.open("UserInfo.txt");
+		char achar[200];
 		std::string astr;
 		int flag = 0;
 		UserInfo dummy;
 
-		while (fin.get(achar))
+		while (fin.getline(achar, 200, '\n'))
 		{
 
-			if (achar == '\n') continue;
+			std::stringstream objectStream(achar);
 
-			if (achar == ',') //딜리미터 
+			while (objectStream.getline(achar, 200, ','))
 			{
+				astr = achar;
+
 				switch (flag)
 				{
 				case(0):
@@ -559,15 +573,13 @@ bool LibraryManager::ImportUserInfo()
 					continue;
 
 				case(3):
-					int num = stoi(astr);
-					dummy.SetUserNumber(num);
-					mUsers.Add(dummy);
+					dummy.SetUserNumber(astr);
 					astr.clear();
-					flag++;
 					continue;
 				}
 			}
-			else 	astr += achar;
+			AddUser(dummy);
+			flag = 0;
 		}
 		return true;
 	}
@@ -584,7 +596,7 @@ bool LibraryManager::ExportBookInfo()
 	ofstream fout;
 	try
 	{
-		fout.open("BookInfo_out.txt");
+		fout.open("BookInfo.txt");
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mBooks[0];
@@ -604,7 +616,7 @@ bool LibraryManager::ExportUserInfo()
 	ofstream fout;
 	try
 	{
-		fout.open("UserInfo_out.txt");
+		fout.open("UserInfo.txt");
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mUsers[0];
@@ -630,6 +642,7 @@ void LibraryManager::DayPassed(LinkedList<BorrowInfo>& delayedList, LinkedList<B
 
 		if (TimeForm(t.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay) < Application::mProgramTime)
 		{
+			t.GetUserInfo()->AddDelayedNum(1);
 			mDelayedBorrows.Add(t);
 			mBorrows.Delete(t);
 			delayedList.Add(t);

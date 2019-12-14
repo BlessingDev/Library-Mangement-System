@@ -1,18 +1,18 @@
 #include "UserInfo.h"
-
+#include <sstream>
 
 #include "Application.h"
 
 UserInfo::UserInfo()
-	: m_penalty()
+	: mPaneltyEndDay(Application::mProgramTime), mDelayedNum(0)
 {
 	m_userID = -1;
 	m_userName = "";
 	m_userAddress = "";
 	m_userNumber = -1;
 
-	m_nReserve = 4;
-	m_nBorrow = 5;
+	m_nReserve = 0;
+	m_nBorrow = 0;
 }
 
 UserInfo::~UserInfo()
@@ -35,19 +35,24 @@ void UserInfo::SetUserAddress(string address)
 	m_userAddress = address;
 }
 
-void UserInfo::SetUserNumber(int number)
+void UserInfo::SetUserNumber(string number)
 {
 	m_userNumber = number;
 }
 
-void UserInfo::SetUserPenalty(TimeForm t)
+void UserInfo::SetPenaltyDay(TimeForm t)
 {
-	m_penalty = t;
+	mPaneltyEndDay = t;
 }
 
 void UserInfo::SetUserNBorrow(char nborrow)
 {
 	m_nBorrow = nborrow;
+}
+
+void UserInfo::AddDelayedNum(int val)
+{
+	mDelayedNum += val;
 }
 
 void UserInfo::SetUserNReserve(char nreserve)
@@ -57,31 +62,34 @@ void UserInfo::SetUserNReserve(char nreserve)
 
 void UserInfo::SetIDByKB()
 {
-	cout << "Input User ID	:	";
+	cout << "Input User ID: ";
 	cin >> m_userID;
+	cin.ignore();
 }
 
 void UserInfo::SetUserNameByKB()
 {
-	cout << "Input User Name	:	";
-	cin >> m_userName;
+
+	cout << "이름: ";
+	std::getline(std::cin, m_userName);
 }
 
 void UserInfo::SetUserAddressByKB()
 {
-	cout << "Input User Address	:	";
-	cin >> m_userAddress;
+
+	cout << "주소: ";
+	std::getline(std::cin, m_userAddress);
 }
 
 void UserInfo::SetUserNumberByKB()
 {
-	cout << "Input User Number	:	";
+	cout << "전화번호: ";
 	cin >> m_userNumber;
+	cin.ignore();
 }
 
 void UserInfo::SetRecordByKB()
 {
-	SetIDByKB();
 	SetUserNameByKB();
 	SetUserAddressByKB();
 	SetUserNumberByKB();
@@ -102,14 +110,14 @@ string UserInfo::GetUserAddress()
 	return m_userAddress;
 }
 
-int UserInfo::GetUserNumber()
+string UserInfo::GetUserNumber()
 {
 	return m_userNumber;
 }
 
 TimeForm UserInfo::GetUserPenalty()
 {
-	return m_penalty;
+	return mPaneltyEndDay;
 }
 
 char UserInfo::GetUserNReserve()
@@ -122,24 +130,29 @@ char UserInfo::GetUserNBorrow()
 	return m_nBorrow;
 }
 
+bool UserInfo::IsDelayed() const
+{
+	return (mDelayedNum > 0);
+}
+
 void UserInfo::DisplayUserID()
 {
-	cout << "User ID	:	" << m_userID << endl;
+	cout << "사용자 ID: " << m_userID << endl;
 }
 
 void UserInfo::DisplayUserName()
 {
-	cout << "User Name	:	" << m_userName << endl;
+	cout << "이름: " << m_userName << endl;
 }
 
 void UserInfo::DisplayUserAddress()
 {
-	cout << "User Address	:	" << m_userAddress << endl;
+	cout << "주소: " << m_userAddress << endl;
 }
 
 void UserInfo::DisplayUserNumber()
 {
-	cout << "User Number	:	" << m_userNumber << endl;
+	cout << "전화번호: " << m_userNumber << endl;
 }
 
 void UserInfo::DisplayUserInfo()
@@ -152,7 +165,7 @@ void UserInfo::DisplayUserInfo()
 
 void UserInfo::StartPenalty()
 {
-	m_penalty = Application::mProgramTime;
+	mPaneltyEndDay = Application::mProgramTime;
 }
 
 int UserInfo::ReadDataFromFile(ifstream& fin)
