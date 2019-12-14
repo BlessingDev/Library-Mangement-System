@@ -1,5 +1,7 @@
 #include "BookInfo.h"
-#include "BookInfo.h"
+
+
+
 
 BookInfo::BookInfo()
 	: mBorrowingInfo(10)
