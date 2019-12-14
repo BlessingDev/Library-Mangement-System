@@ -49,7 +49,7 @@ void Application::Run()
 			case 0:
 				break;
 			default:
-				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+				cout << "\tìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤...\n";
 				break;
 			}
 			break;
@@ -72,7 +72,7 @@ void Application::Run()
 			case 0:
 				break;
 			default:
-				cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+				cout << "\tìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤...\n";
 				break;
 			}
 			break;
@@ -88,7 +88,7 @@ void Application::Run()
 		case 0:
 			return;
 		default:
-			cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+			cout << "\tìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤...\n";
 			break;
 		}
 	}
@@ -99,12 +99,12 @@ int GetMode()
 	int mode;
 	cout << endl << endl;
 	cout << "\t---ID -- Select Mode ----- " << endl;
-	cout << "\t   1 : µµ¼­ °ü¸®" << endl;
-	cout << "\t   2 : ÀÌ¿ëÀÚ °ü¸®" << endl;
-	cout << "\t   3 : ³¯Â¥ °ü¸®" << endl;
-	cout << "\t   4 : ÇöÀç Á¤º¸ ÀúÀå" << endl;
-	cout << "\t   5 : ÀÌÀü Á¤º¸ ºÒ·¯¿À±â" << endl;
-	cout << "\t   0 : Á¾·á" << endl;
+	cout << "\t   1 : ë„ì„œ ê´€ë¦¬" << endl;
+	cout << "\t   2 : ì´ìš©ìž ê´€ë¦¬" << endl;
+	cout << "\t   3 : ë‚ ì§œ ê´€ë¦¬" << endl;
+	cout << "\t   4 : í˜„ìž¬ ì •ë³´ ì €ìž¥" << endl;
+	cout << "\t   5 : ì´ì „ ì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°" << endl;
+	cout << "\t   0 : ì¢…ë£Œ" << endl;
 
 	cout << endl << "\t Choose a Mode--> ";
 	cin >> mode;
@@ -118,14 +118,14 @@ int GetBookCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : µµ¼­ Ãß°¡" << endl;
-	cout << "\t   2 : µµ¼­ »èÁ¦" << endl;
-	cout << "\t   3 : µµ¼­ °Ë»ö" << endl;
-	cout << "\t   4 : µµ¼­ ´ë¿©" << endl;
-	cout << "\t   5 : µµ¼­ ¿¹¾à" << endl;
-	cout << "\t   6 : µµ¼­ ¹Ý³³" << endl;
-	cout << "\t   7 : ¿¬Ã¼µµ¼­ ¸ñ·Ï" << endl;
-	cout << "\t   8 : ÀüÃ¼µµ¼­ ¸ñ·Ï" << endl;
+	cout << "\t   1 : ë„ì„œ ì¶”ê°€" << endl;
+	cout << "\t   2 : ë„ì„œ ì‚­ì œ" << endl;
+	cout << "\t   3 : ë„ì„œ ê²€ìƒ‰" << endl;
+	cout << "\t   4 : ë„ì„œ ëŒ€ì—¬" << endl;
+	cout << "\t   5 : ë„ì„œ ì˜ˆì•½" << endl;
+	cout << "\t   6 : ë„ì„œ ë°˜ë‚©" << endl;
+	cout << "\t   7 : ì—°ì²´ë„ì„œ ëª©ë¡" << endl;
+	cout << "\t   8 : ì „ì²´ë„ì„œ ëª©ë¡" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -140,10 +140,10 @@ int GetUserCommand()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ÀÌ¿ëÀÚ Ãß°¡" << endl;
-	cout << "\t   2 : ÀÌ¿ëÀÚ »èÁ¦" << endl;
-	cout << "\t   3 : ÀÌ¿ëÀÚ °Ë»ö" << endl;
-	cout << "\t   4 : ÀüÃ¼ÀÌ¿ëÀÚ ¸ñ·Ï" << endl;
+	cout << "\t   1 : ì´ìš©ìž ì¶”ê°€" << endl;
+	cout << "\t   2 : ì´ìš©ìž ì‚­ì œ" << endl;
+	cout << "\t   3 : ì´ìš©ìž ê²€ìƒ‰" << endl;
+	cout << "\t   4 : ì „ì²´ì´ìš©ìž ëª©ë¡" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -168,17 +168,17 @@ int Application::AddBook()
 int Application::DeleteBook()
 {
 	string isbn;
-	cout << "»èÁ¦ÇÒ Ã¥ÀÇ ISBN ÀÔ·Â	:	";
+	cout << "ì‚­ì œí•  ì±…ì˜ ISBN ìž…ë ¥	:	";
 	cin >> isbn;
 
 	if (mLibraryManager.DeleteBook(isbn))
 	{
-		cout << "»èÁ¦ ¼º°ø";
+		cout << "ì‚­ì œ ì„±ê³µ";
 		return 1;
 	}
 	else
 	{
-		cout << "»èÁ¦ ½ÇÆÐ";
+		cout << "ì‚­ì œ ì‹¤íŒ¨";
 		return 0;
 	}
 }
@@ -188,21 +188,21 @@ int Application::BorrowBook()
 {
 	string isbn;
 	int id;
-	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
+	cout << "ì‚¬ìš©ìž ID ìž…ë ¥	:	";
 	cin >> id;
-	cout << "ISBN ÀÔ·Â	:	";
+	cout << "ISBN ìž…ë ¥	:	";
 	cin >> isbn;
 
 	switch (mLibraryManager.BorrowBook(isbn, id))
 	{
 	case 1:
-		cout << "´ëÃâ¿¡ ¼º°øÇß½À´Ï´Ù";
+		cout << "ëŒ€ì¶œì— ì„±ê³µí–ˆìŠµë‹ˆë‹¤";
 		break;
 	case 2:
-		cout << "´ëÃâ ½ÇÆÐ! ¸ÕÀú ¿¹¾àÇÑ »ç¶÷ÀÌ Á¸ÀçÇÕ´Ï´Ù";
+		cout << "ëŒ€ì¶œ ì‹¤íŒ¨! ë¨¼ì € ì˜ˆì•½í•œ ì‚¬ëžŒì´ ì¡´ìž¬í•©ë‹ˆë‹¤";
 		break;
 	case 3:
-		cout << "´ëÃâ ºÒ°¡! ÆÐ³ÎÆ¼°¡ Á¸ÀçÇÏ°Å³ª ÃÖ´ë ´ëÃâ±Ç¼ö¸¦ ÃÊ°úÇÏ¿´½À´Ï´Ù";
+		cout << "ëŒ€ì¶œ ë¶ˆê°€! íŒ¨ë„í‹°ê°€ ì¡´ìž¬í•˜ê±°ë‚˜ ìµœëŒ€ ëŒ€ì¶œê¶Œìˆ˜ë¥¼ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤";
 		break;
 	default:
 		return 0;
@@ -217,7 +217,7 @@ int Application::ReserveBook()
 	int id;
 	int nReserve = 0;
 
-	cout << "»ç¿ëÀÚ ID ÀÔ·Â	:	";
+	cout << "ì‚¬ìš©ìž ID ìž…ë ¥	:	";
 	cin >> id;
 	cout << "ISBN	:	";
 	cin >> isbn;
@@ -225,13 +225,13 @@ int Application::ReserveBook()
 	switch (mLibraryManager.ReserveBook(isbn, id, nReserve))
 	{
 	case 1:
-		cout << "¿¹¾à¿¡ ¼º°øÇÏ¿´½À´Ï´Ù";
+		cout << "ì˜ˆì•½ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤";
 		break;
 	case 2:
-		cout << "¿¹¾à ½ÇÆÐ! ¿¹¾àÀÎ¿øÀ» ÃÊ°úÇÏ¿´½À´Ï´Ù";
+		cout << "ì˜ˆì•½ ì‹¤íŒ¨! ì˜ˆì•½ì¸ì›ì„ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤";
 		break;
 	case 3:
-		cout << "¿¹¾à ºÒ°¡! ÆÐ³ÎÆ¼°¡ Á¸ÀçÇÏ°Å³ª ÃÖ´ë ´ëÃâ±Ç¼ö¸¦ ÃÊ°úÇÏ¿´½À´Ï´Ù";
+		cout << "ì˜ˆì•½ ë¶ˆê°€! íŒ¨ë„í‹°ê°€ ì¡´ìž¬í•˜ê±°ë‚˜ ìµœëŒ€ ëŒ€ì¶œê¶Œìˆ˜ë¥¼ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤";
 		break;
 	default:
 		return 0;
@@ -246,34 +246,34 @@ int Application::ReturnBook()
 	BorrowInfo retInfo;
 	BorrowInfo resInfo;
 
-	cout << "¹Ý³³ÇÏ°íÀÚ ÇÏ´Â ÀÌ¿ëÀÚÀÇ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "ë°˜ë‚©í•˜ê³ ìž í•˜ëŠ” ì´ìš©ìžì˜ IDë¥¼ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> id;
-	cout << "¹Ý³³ÇÏ°íÀÚ ÇÏ´Â Ã¥ÀÇ ISBNÀ» ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "ë°˜ë‚©í•˜ê³ ìž í•˜ëŠ” ì±…ì˜ ISBNì„ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> isbn;
 
 	UserInfo* next;
 	switch (mLibraryManager.ReturnBook(isbn, id, retInfo, resInfo))
 	{
 	case 1:
-		cout << "¹Ý³³ ¼º°ø";
+		cout << "ë°˜ë‚© ì„±ê³µ";
 		break;
 	case 2:
-		cout << "¹Ý³³ ¼º°ø! µµ¼­ ¿¬Ã¼·Î ÀÎÇÑ ÆÐ³ÎÆ¼°¡ ºÎ¿©µË´Ï´Ù";
+		cout << "ë°˜ë‚© ì„±ê³µ! ë„ì„œ ì—°ì²´ë¡œ ì¸í•œ íŒ¨ë„í‹°ê°€ ë¶€ì—¬ë©ë‹ˆë‹¤";
 		break;
 	case 3:
-		cout << "¹Ý³³ ¼º°ø!" << endl;
+		cout << "ë°˜ë‚© ì„±ê³µ!" << endl;
 		next = resInfo.GetUserInfo();
-		cout << "´ÙÀ½ ´ëÃâÀÚ Á¤º¸	:	";
+		cout << "ë‹¤ìŒ ëŒ€ì¶œìž ì •ë³´	:	";
 		(*next).DisplayUserInfo();
 		break;
 	case 4:
-		cout << "¹Ý³³ ¼º°ø! µµ¼­ ¿¬Ã¼·Î ÀÎÇÑ ÆÐ³ÎÆ¼°¡ ºÎ¿©µË´Ï´Ù" << endl;
+		cout << "ë°˜ë‚© ì„±ê³µ! ë„ì„œ ì—°ì²´ë¡œ ì¸í•œ íŒ¨ë„í‹°ê°€ ë¶€ì—¬ë©ë‹ˆë‹¤" << endl;
 		next = resInfo.GetUserInfo();
-		cout << "´ÙÀ½ ´ëÃâÀÚ Á¤º¸	:	";
+		cout << "ë‹¤ìŒ ëŒ€ì¶œìž ì •ë³´	:	";
 		(*next).DisplayUserInfo();
 		break;
 	case 5:
-		cout << "¹Ý³³½ÇÆÐ";
+		cout << "ë°˜ë‚©ì‹¤íŒ¨";
 		break;
 	default:
 		return 0;
@@ -305,9 +305,9 @@ int Application::SearchBook()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ISBN °Ë»ö" << endl;
-	cout << "\t   2 : ÅëÇÕ °Ë»ö" << endl;
-	cout << "\t   3 : ¼Ó¼º °Ë»ö" << endl;
+	cout << "\t   1 : ISBN ê²€ìƒ‰" << endl;
+	cout << "\t   2 : í†µí•© ê²€ìƒ‰" << endl;
+	cout << "\t   3 : ì†ì„± ê²€ìƒ‰" << endl;
 	cin >> command;
 
 	int check;
@@ -324,13 +324,13 @@ int Application::SearchBook()
 		check = SearchBookWithAttribute();
 		break;
 	default:				
-		cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+		cout << "\tìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤...\n";
 		return 0;
 	}
 
 	if (!check)
 	{
-		cout << "°Ë»ö ½ÇÆÐ";
+		cout << "ê²€ìƒ‰ ì‹¤íŒ¨";
 		return 0;
 	}
 	else
@@ -342,7 +342,7 @@ int Application::SearchBookWithISBN()
 	BookInfo curbook;
 	BookInfo* pCurBook = std::addressof(curbook);
 	string isbn;
-	cout << "°Ë»öÇÒ Ã¥ÀÇ ISBNÀ» ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "ê²€ìƒ‰í•  ì±…ì˜ ISBNì„ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> isbn;
 	if (mLibraryManager.SearchBookWithIsbn(isbn, pCurBook))
 	{
@@ -358,7 +358,7 @@ int Application::SearchBookWithString()
 {
 	LinkedList<BookInfo> searchList;
 	string search;
-	cout << "°Ë»öÇÒ ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "ê²€ìƒ‰í•  ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> search;
 	if (mLibraryManager.SearchBookWithString(search, searchList))
 	{
@@ -381,14 +381,14 @@ int Application::SearchBookWithAttribute()
 	BookInfo curbook;
 	string search;
 	string attribute;
-	cout << "°Ë»ö ¹æ¹ýÀ» ÀÔ·ÂÇÏ¼¼¿ä" << endl;
-	cout << "\t   Author	:	ÀÛ°¡ °Ë»ö" << endl;
-	cout << "\t   Publisher	:	ÃâÆÇ»ç °Ë»ö" << endl;
-	cout << "\t   Title		:	Á¦¸ñ °Ë»ö" << endl;
-	cout << "\t   ISBN		:	ISBN °Ë»ö" << endl;
+	cout << "ê²€ìƒ‰ ë°©ë²•ì„ ìž…ë ¥í•˜ì„¸ìš”" << endl;
+	cout << "\t   Author	:	ìž‘ê°€ ê²€ìƒ‰" << endl;
+	cout << "\t   Publisher	:	ì¶œíŒì‚¬ ê²€ìƒ‰" << endl;
+	cout << "\t   Title		:	ì œëª© ê²€ìƒ‰" << endl;
+	cout << "\t   ISBN		:	ISBN ê²€ìƒ‰" << endl;
 	cin >> attribute;
 
-	cout << "°Ë»ö ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "ê²€ìƒ‰ ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> search;
 
 	if (mLibraryManager.SearchBookWithAttribute(search, curbook, attribute))
@@ -412,11 +412,12 @@ int Application::SearchUser()
 	int command;
 	cout << endl << endl;
 	cout << "\t---ID -- Command ----- " << endl;
-	cout << "\t   1 : ID °Ë»ö" << endl;
-	cout << "\t   2 : ÅëÇÕ °Ë»ö" << endl;
+	cout << "\t   1 : ID ê²€ìƒ‰" << endl;
+	cout << "\t   2 : í†µí•© ê²€ìƒ‰" << endl;
 	cin >> command;
 
 	UserInfo curUser;
+
 	UserInfo* pCurUser = std::addressof(curUser);
 	UserInfo dummy;
 	LinkedList<UserInfo> searchList;
@@ -428,14 +429,14 @@ int Application::SearchUser()
 	switch (command)
 	{
 	case 1:
-		cout << "°Ë»öÇÒ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä	:	";
+		cout << "ê²€ìƒ‰í•  IDë¥¼ ìž…ë ¥í•˜ì„¸ìš”	:	";
 		cin >> id;
 		check = mLibraryManager.SearchUserById(id, pCurUser);
 		pCurUser->DisplayUserInfo();
 		delete pCurUser;
 		break;
 	case 2:
-		cout << "°Ë»ö ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä	:	";
+		cout << "ê²€ìƒ‰ ë‚´ìš©ì„ ìž…ë ¥í•˜ì„¸ìš”	:	";
 		cin >> search;
 		check = mLibraryManager.SearchUserWithString(search, searchList);
 
@@ -443,17 +444,18 @@ int Application::SearchUser()
 		index = searchList.GetNextItem(dummy);
 		while (index)
 		{
+
 			dummy.DisplayUserInfo();
 			index = searchList.GetNextItem(dummy);
 		}
 	default:
-		cout << "\tÀß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù...\n";
+		cout << "\tìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤...\n";
 		return 0;
 	}
 
 	if (!check)
 	{
-		cout << "°Ë»ö ½ÇÆÐ";
+		cout << "ê²€ìƒ‰ ì‹¤íŒ¨";
 		return 0;
 	}
 	else
@@ -463,16 +465,16 @@ int Application::SearchUser()
 int Application::DeleteUser()
 {
 	int id;
-	cout << "\t»èÁ¦ÇÒ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä	:	";
+	cout << "\tì‚­ì œí•  IDë¥¼ ìž…ë ¥í•˜ì„¸ìš”	:	";
 	cin >> id;
 	if (mLibraryManager.DeleteUser(id) == true)
 	{
-		cout << "\t»èÁ¦ ¼º°ø" << endl;
+		cout << "\tì‚­ì œ ì„±ê³µ" << endl;
 		return 1;
 	}
 	else
 	{
-		cout << "\t»èÁ¦ ½ÇÆÐ" << endl;
+		cout << "\tì‚­ì œ ì‹¤íŒ¨" << endl;
 		return 0;
 	}
 }
@@ -480,17 +482,17 @@ int Application::DeleteUser()
 void Application::DayPassed()
 {
 	int time = 1;
-	cout << "¸îÀÏ ³Ñ±â½Ã°Ú½À´Ï±î? : ";
+	cout << "ëª‡ì¼ ë„˜ê¸°ì‹œê² ìŠµë‹ˆê¹Œ? : ";
 	cin >> time;
 	mProgramTime = mProgramTime.timeStamp() + TimeForm::ONEDAY * time;
 
-	std::cout << "¿À´Ã ³¯Â¥´Â " << mProgramTime << "ÀÔ´Ï´Ù.\n";
+	std::cout << "ì˜¤ëŠ˜ ë‚ ì§œëŠ” " << mProgramTime << "ìž…ë‹ˆë‹¤.\n";
 
 	LinkedList<BorrowInfo> delayed;
 	LinkedList<BorrowInfo> expired;
 	mLibraryManager.DayPassed(delayed, expired);
 
-	std::cout << "ÀÌÇÏÀÇ ´ëÃâÀÌ ¿¬Ã¼µÇ¾ú½À´Ï´Ù." << std::endl;
+	std::cout << "ì´í•˜ì˜ ëŒ€ì¶œì´ ì—°ì²´ë˜ì—ˆìŠµë‹ˆë‹¤." << std::endl;
 	delayed.ResetList();
 	int length = delayed.GetLength();
 	for (int i = 0; i < length; ++i)
@@ -501,7 +503,7 @@ void Application::DayPassed()
 		std::cout << "----------" << std::endl;
 	}
 	std::cout << std::endl << std::endl;
-	std::cout << "ÀÌÇÏÀÇ ¿¹¾àÀÌ ¸¸·áµÇ¾ú½À´Ï´Ù." << std::endl;
+	std::cout << "ì´í•˜ì˜ ì˜ˆì•½ì´ ë§Œë£Œë˜ì—ˆìŠµë‹ˆë‹¤." << std::endl;
 	expired.ResetList();
 	length = expired.GetLength();
 	for (int i = 0; i < length; ++i)
@@ -510,7 +512,7 @@ void Application::DayPassed()
 		expired.GetNextItem(t);
 		t.DisplayInfo();
 		std::cout << "-----" << std::endl;
-		std::cout << "À§ Ã¥¿¡ ´ëÇÑ ´ÙÀ½ ¿¹¾àÀÚÀÔ´Ï´Ù." << std::endl;
+		std::cout << "ìœ„ ì±…ì— ëŒ€í•œ ë‹¤ìŒ ì˜ˆì•½ìžìž…ë‹ˆë‹¤." << std::endl;
 		t.GetBookInfo()->GetCurrentBorrowInfo(t);
 		t.DisplayInfo();
 		std::cout << "----------" << std::endl;
