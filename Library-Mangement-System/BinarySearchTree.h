@@ -170,9 +170,13 @@ public:
 		else if (mCompFunc(treePtr->mData, item) == RelationType::GREATER)
 		{
 			InternalRetrieve(treePtr->mLeft, item);
+			return true;
 		}
-		else if (mCompFunc(treePtr->mData, item) == RelationType::LESS)
+		else if (mCompFunc(treePtr->mData, item) == RelationType::LESS
+		{
 			InternalRetrieve(treePtr->mRight, item);
+			return true;
+		}
 		else if (mCompFunc(treePtr->mData, item) == RelationType::EQUAL)
 		{
 			item = treePtr->mData;
