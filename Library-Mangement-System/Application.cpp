@@ -1,4 +1,4 @@
-#include "Application.h"
+﻿#include "Application.h"
 
 TimeForm Application::mProgramTime = TimeForm();
 
@@ -401,10 +401,10 @@ int Application::SearchBookWithAttribute()
 	cout << "\t   Publisher: 출판사 검색" << endl;
 	cout << "\t   Title: 제목 검색" << endl;
 	cin >> attribute;
+	cin.ignore();
 
 	cout << "검색 내용을 입력하세요: ";
-	cin >> search;
-	cin.ignore();
+	getline(std::cin, search);
 
 	if (mLibraryManager.SearchBookWithAttribute(search, curbook, attribute))
 	{
@@ -459,7 +459,8 @@ int Application::SearchUser()
 	case 2:
 		cout << "검색 내용을 입력하세요: ";
 		cin >> search;
-		cin.ignore();
+		getline(std::cin, search);
+
 		check = mLibraryManager.SearchUserWithString(search, searchList);
 
 		searchList.ResetList();
