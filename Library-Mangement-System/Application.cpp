@@ -342,7 +342,7 @@ int Application::SearchBook()
 
 	if (!check)
 	{
-		cout << "검색 실패";
+		cout << "검색 실패" << endl;
 		return 0;
 	}
 	else
@@ -421,7 +421,7 @@ int Application::AddUser()
 	user.SetRecordByKB();
 	mLibraryManager.AddUser(user);
 
-	std::cout << "����ڰ� �߰��Ǿ��ϴ�.\n";
+	std::cout << "사용자가 추가되었습니다.\n";
 	user.DisplayUserInfo();
 
 	return 1;
@@ -507,7 +507,7 @@ int Application::DeleteUser()
 void Application::DayPassed()
 {
 	int time = 1;
-	cout << "몇일 넘기시겠습니까? : ";
+	cout << "몇일 넘기시겠습니까?: ";
 	cin >> time;
 	cin.ignore();
 
