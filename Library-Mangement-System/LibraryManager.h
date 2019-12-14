@@ -10,6 +10,7 @@
 #include "BookInfo.h"
 #include "BorrowInfo.h"
 #include "TimeForm.h"
+#include "RelationType.h"
 
 class LibraryManager
 {
@@ -39,7 +40,7 @@ public:
 	* @전: 초기화된 Book 리스트, 추가할 BookInfo 객체
 	* @후: 책 추가
 	**/
-	void AddBook(BookInfo);
+	void AddBook(BookInfo&);
 
 	/**
 	* @전: 초기화된 Book 리스트, 검색할 문자열
@@ -59,7 +60,7 @@ public:
 	* @후: ISBN 검색을 수행하고, 검색에 성공하면 검색된 책의 정보 BookInfo& 객체에 집어넣는다.
 	* @반환: 책 검색에 성공하면 true, 실패하면 false를 반환
 	**/
-	bool SearchBookWithIsbn(std::string, BookInfo&);
+	bool SearchBookWithIsbn(std::string, BookInfo*&);
 
 	/**
 	* @전: 검색할 문자열을 string 형태로 전달받는다. 책 정보를 반환받을 LinkedList<BookInfo> 객체를 전달한다.
@@ -67,13 +68,6 @@ public:
 	* @반환: 검색된 책이 한 권이라도 있다면 true, 없다면 false를 반환
 	**/
 	bool SearchBookWithString(std::string, LinkedList<BookInfo>&);
-
-	/**
-	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
-	* @후: 책을 대출
-	* @반환: 대출에 성공하면 true, 실패하면 false를 반환. 책을 빌리고자 하는 사람의 penalty, nbook을 확인하고 조건에 맞지 않는다면 대출실패
-	**/
-	int BorrowBook(std::string, int);
 
 	/**
 	* @전: 빌리고자 하는 책의 ISBN과 빌리고자 하는 사람의 UserID를 전달. 빌리고자 하는 책의 예약이 없거나 전달된 사람의 예약일 것.
@@ -108,7 +102,7 @@ public:
 	> 4: 반납 성공, 예약 있음, 연체됨
 	> 5: 반납 실패
 	*/
-	int ReturnBook(std::string, int, BorrowInfo& 반납된대출, BorrowInfo& 예약정보);
+	int ReturnBook(std::string, int, BorrowInfo& returned, BorrowInfo& resInfo);
 
 	/**
 	* @전: 연체된 대출이 존재할 것
@@ -141,7 +135,7 @@ public:
 	* @후: 사용자 정보를 찾으면 UserInfo 객체에 넣는다
 	* @반환: 검색된 사용자가 있다면 true, 없다면 false를 반환
 	**/
-	bool SearchUserById(int, UserInfo&);
+	bool SearchUserById(int, UserInfo*&);
 
 	/**
 	* @전: 찾을 도서의 값, 도서 정보를 반환받을 BookInfo 객체, 값의 Attirbute를 전달한다.
@@ -197,5 +191,13 @@ public:
 	bool ExportUserInfo();
 
 
-	void DayPassed(LinkedList<BorrowInfo>& 연체된대출, LinkedList<BorrowInfo>& 만료된예약);
+	void DayPassed(LinkedList<BorrowInfo>& delayed, LinkedList<BorrowInfo>& expired);
 };
+
+void SPVToBST(SortedPointerVector<BookInfo>& SPV, BinarySearchTree<BookInfo>& BST);
+
+RelationType CompByAuthor(BookInfo myBook, BookInfo other);
+RelationType CompByISBN(BookInfo myBook, BookInfo other);
+RelationType CompByTitle(BookInfo myBook, BookInfo other);
+RelationType CompByPublisher(BookInfo myBook, BookInfo other);
+RelationType CompByCategoryNum(BookInfo myBook, BookInfo other);

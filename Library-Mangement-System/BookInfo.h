@@ -84,6 +84,10 @@ public:
 
 	int GetNumReservation();
 
+	bool operator==(const BookInfo&);
+	bool operator<(const BookInfo&);
+	bool operator>(const BookInfo&);
+
 private:
 	string m_Author;
 	string m_Publisher;

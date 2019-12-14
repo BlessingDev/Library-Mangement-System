@@ -71,9 +71,9 @@ public:
 	**/
 	int SearchBook();
 
-	int SearchBookWithISBN(BookInfo&);
-	int SearchBookWithString(BookInfo&, LinkedList<BookInfo>&);
-	int SearchBookWithAttribute(BookInfo&);
+	int SearchBookWithISBN();
+	int SearchBookWithString();
+	int SearchBookWithAttribute();
 
 
 	int ReturnBook();
@@ -105,4 +105,13 @@ public:
 	* @후: currentTime 멤버의 날짜가 1일 증가한다.
 	**/
 	void DayPassed();
+
+	int Save();
+	int Load();
 };
+
+int GetUserCommand();
+
+int GetMode();
+
+int GetBookCommand();

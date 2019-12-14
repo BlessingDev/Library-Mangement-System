@@ -4,12 +4,12 @@
 #include <ctime>
 #include <iomanip>
 #include "TimeForm.h"
-#include "RelationType.h"
 
 using namespace std;
 
 class BookInfo;
 class UserInfo;
+enum RelationType;
 
 class BorrowInfo
 {

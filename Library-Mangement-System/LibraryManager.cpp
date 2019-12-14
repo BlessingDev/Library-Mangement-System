@@ -2,7 +2,21 @@
 
 #include "Application.h"
 
+RelationType SortByProgramTime(BorrowInfo& a, BorrowInfo& b)
+{
+	auto difA = Application::mProgramTime - a.GetBorrowDate();
+	auto difB = Application::mProgramTime - b.GetBorrowDate();
+
+	if (difA > difB)
+		return RelationType::GREATER;
+	else if (difA < difB)
+		return RelationType::LESS;
+	else
+		return RelationType::EQUAL;
+}
+
 LibraryManager::LibraryManager()
+	: mBorrows(SortByProgramTime), mReservedTop(SortByProgramTime)
 {
 	mBookNum = 0;
 	mUserNum = 0;
@@ -18,7 +32,7 @@ LibraryManager::~LibraryManager(){}
 * @전:
 * @후: 하루가 지날 때 일어나야하는 계산을 실행합니다.
 **/
-void LibraryManager::AddBook(BookInfo book)
+void LibraryManager::AddBook(BookInfo& book)
 {
 	mBooks.Add(book);
 	mBookNum++;
@@ -46,14 +60,12 @@ bool LibraryManager::DeleteBook(std::string isbn)
 }
 
 
-bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo& book)
+bool LibraryManager::SearchBookWithIsbn(std::string isbn, BookInfo*& book)
 {
-	BookInfo temp;
-	temp.SetISBN(isbn);
+	book->SetISBN(isbn);
 
-	if (mBooks.GetItem(temp))
+	if (mBooks.GetItem(book))
 	{
-		book = temp;
 		return true;
 	}
 	else
@@ -82,7 +94,7 @@ bool LibraryManager::SearchBookWithString(std::string search, LinkedList<BookInf
 			if (author.find(search) == string::npos)
 				if (publisher.find(search) == string::npos)
 					if (title.find(search) == string::npos)
-						break;
+						continue;
 
 		found = true;
 		searchList.Add(dummy);
@@ -223,7 +235,7 @@ int LibraryManager::ReturnBook(std::string isbn, int id, BorrowInfo& retInfo, Bo
 	else
 		// 연체가 발생했다면
 	{
-		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
+		int delayDay = (Application::mProgramTime.timeStamp() - (ret.GetBorrowDate().timeStamp() + TimeForm::ONEDAY * mBorrowDay)) / TimeForm::ONEDAY;
 		pCurUser->SetUserPenalty(Application::mProgramTime.timeStamp() + delayDay * TimeForm::ONEDAY);
 		mDelayedBorrows.Delete(ret);
 		delayed = true;
@@ -270,8 +282,6 @@ void LibraryManager::DisplayDelayedBooks()
 	BorrowInfo dummy;
 	mDelayedBorrows.ResetList();
 	int length = mDelayedBorrows.GetLength();
-	BookInfo* curbook;
-	UserInfo* curuser;
 
 	for (int i = 0; i < length; i++)
 	{
@@ -317,7 +327,7 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 			if (address.find(search) == string::npos)
 				if (id.find(search) == string::npos)
 					if (number.find(search) == string::npos)
-						break;
+						continue;
 
 		found = true;
 		searchList.Add(dummy);
@@ -329,14 +339,12 @@ bool LibraryManager::SearchUserWithString(std::string search, LinkedList<UserInf
 		return false;
 }
 
-bool LibraryManager::SearchUserById(int id, UserInfo& user)
+bool LibraryManager::SearchUserById(int id, UserInfo*& user)
 {
-	UserInfo temp;
-	temp.SetID(id);
+	user->SetID(id);
 
-	if (mUsers.GetItem(temp))
+	if (mUsers.GetItem(user))
 	{
-		user = temp;
 		return true;
 	}
 	else
@@ -533,7 +541,7 @@ bool LibraryManager::ImportUserInfo()
 				switch (flag)
 				{
 				case(0):
-					dummy.SetUserID(astr);
+					dummy.SetID(stoi(astr));
 					astr.clear();
 					flag++;
 					continue;
@@ -580,7 +588,7 @@ bool LibraryManager::ExportBookInfo()
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mBooks[0];
-			fout << dummy.GetAuthor<<"," << dummy.GetPublisher << ","<< dummy.GetTitle << ","<<dummy.GetISBN<< "," << dummy.GetCategoryNum<<endl;
+			fout << dummy.GetAuthor() <<"," << dummy.GetPublisher() << ","<< dummy.GetTitle() << ","<<dummy.GetISBN() << "," << dummy.GetCategoryNum() <<endl;
 		}
 		return true;
 	}
@@ -600,7 +608,7 @@ bool LibraryManager::ExportUserInfo()
 		for (int i = 0; i < mBooks.GetLength(); i++)
 		{
 			dummy = mUsers[0];
-			fout << dummy.GetUserID << "," << dummy.GetUserName<< "," << dummy.GetUserAddress << "," << dummy.GetUserNumber << endl;
+			fout << dummy.GetUserID() << "," << dummy.GetUserName() << "," << dummy.GetUserAddress() << "," << dummy.GetUserNumber() << endl;
 		}
 		return true;
 	}

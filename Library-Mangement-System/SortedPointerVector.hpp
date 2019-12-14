@@ -23,7 +23,7 @@ public:
 
 		memset(m_Array, 0, sizeof(T*) * cap);
 
-		mCompFunc = [](const T& a, const T&b)->RelationType {
+		mCompFunc = [](T& a, T& b)->RelationType {
 			if (a == b)
 				return RelationType::EQUAL;
 			else if (a > b)
@@ -33,7 +33,7 @@ public:
 		};
 	}
 
-	SortedPointerVector(std::function<RelationType(const T&, const T&)> comp)
+	SortedPointerVector(std::function<RelationType(T&, T&)> comp)
 		: mCompFunc(comp)
 	{
 		cap = 10;
@@ -84,19 +84,20 @@ public:
 	*	@param	data	new data.
 	*	@return	return 1 if this function works well, otherwise 0.
 	*/
-	int Add(T elem)
+	int Add(T& elem)
 	{
 		int location = 0;
 		if (m_Length >= cap - 1) {
 			expand();
 		}
-		T t = elem;
+		T* t = &elem;
 		bool result = this->GetItem(t);
 
 		T* node = new T(elem);
 
 		if (result)
 		{
+			delete t;
 			for (int i = m_CurPointer + 1; i <= m_Length; i++)
 			{
 				m_Array[i] = m_Array[i - 1];
@@ -143,9 +144,12 @@ public:
 	*/
 	int Delete(T item)
 	{
-		bool result = this->GetItem(item);
+		T* temp;
+		bool result = this->GetItem(temp);
+
 		if (result)
 		{
+			delete temp;
 			delete[] m_Array[m_CurPointer];
 			for (int i = m_CurPointer; i < m_Length; i++)
 			{
@@ -166,10 +170,10 @@ public:
 	*	@brief	Retrieves list element whose key matches item's key. BinarySearch
 	*	@pre	List has been initialized.
 	*	@post	If there is an element someItem whose key matches item's key,
-	*			then item returned.
+	*			동적할당된 item의 포인터를 반환한다.
 	*	@return	key가 맞는 아이템을 찾았는지에 대한 여부를 반환.
 	*/
-	bool GetItem(T& item)
+	bool GetItem(T*& item)
 	{
 		int first = 0;
 		int last = m_Length - 1;
@@ -181,22 +185,22 @@ public:
 		{
 			m_CurPointer = (first + last) / 2;
 			T val = (*m_Array[m_CurPointer]);
-			if (mCompFunc(item, val) == RelationType::LESS)
+			if (mCompFunc((*item), val) == RelationType::LESS)
 			{
 				last = m_CurPointer - 1;
 				moreToSearch = (first <= last);
 				continue;
 			}
-			if (mCompFunc(item, val) == RelationType::GREATER)
+			if (mCompFunc((*item), val) == RelationType::GREATER)
 			{
 				first = m_CurPointer + 1;
 				moreToSearch = (first <= last);
 				continue;
 			}
-			if (mCompFunc(item, val) == RelationType::EQUAL)
+			if (mCompFunc((*item), val) == RelationType::EQUAL)
 			{
 				found = true;
-				item = val;
+				item = new T(val);
 				break;
 			}
 		}
@@ -213,11 +217,12 @@ public:
 	*/
 	bool GetPointer(T*& item)
 	{
-		T key = (*item);
+		T* key = item;
 
 		bool result = this->GetItem(key);
 		if (result)
 		{
+			delete key;
 			item = m_Array[m_CurPointer];
 		}
 
@@ -238,7 +243,7 @@ private:
 	int m_Length;		///< number of elements in list.
 	int cap;		    ///< capacity of array.
 	int m_CurPointer;   ///< iterator pointer.
-	std::function<RelationType(const T&, const T&)> mCompFunc;
+	std::function<RelationType(T&, T&)> mCompFunc;
 
 
 

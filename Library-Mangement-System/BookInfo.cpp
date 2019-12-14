@@ -1,5 +1,7 @@
 #include "BookInfo.h"
-#include "BookInfo.h"
+
+
+
 
 BookInfo::BookInfo()
 	: mBorrowingInfo(10)
@@ -14,7 +16,7 @@ BookInfo::BookInfo()
 
 BookInfo::~BookInfo()
 {
-	//	delete[] BorrowedBooks;
+	//delete[] BorrowedBooks;
 }
 
 void BookInfo::SetAuthor(string author)
@@ -69,19 +71,19 @@ int BookInfo::GetCategoryNum()
 
 void BookInfo::SetAuthorByKB()
 {
-	cout << "Input Author:	";
+	cout << "Input Author: ";
 	cin >> m_Author;
 }
 
 void BookInfo::SetTitleByKB()
 {
-	cout << "Input Title:	";
+	cout << "Input Title: ";
 	cin>>m_Title;
 }
 
 void BookInfo::SetISBNByKB()
 {
-	cout << "Input ISBN:	";
+	cout << "Input ISBN: ";
 	cin >> m_ISBN;
 }
 
@@ -178,6 +180,8 @@ bool BookInfo::SetBorrowCurrentInfo()
 		return false;
 	}
 	pbi->Borrow();
+
+	return true;
 }
 
 bool BookInfo::SetDateCurrentInfo()
@@ -192,6 +196,8 @@ bool BookInfo::SetDateCurrentInfo()
 		return false;
 	}
 	pbi->SetBorrowDate();
+	
+	return true;
 }
 
 bool BookInfo::IsNoReservation()
@@ -207,5 +213,20 @@ bool BookInfo::IsFullReservation()
 int BookInfo::GetNumReservation()
 {
 	return mBorrowingInfo.GetLength();
+}
+
+bool BookInfo::operator==(const BookInfo& other)
+{
+	return (this->m_ISBN == other.m_ISBN);
+}
+
+bool BookInfo::operator<(const BookInfo& other)
+{
+	return (this->m_ISBN < other.m_ISBN);
+}
+
+bool BookInfo::operator>(const BookInfo& other)
+{
+	return (this->m_ISBN > other.m_ISBN);
 }
 
