@@ -401,7 +401,7 @@ int Application::SearchBookWithAttribute()
 	cout << "\tTitle: 제목 검색" << endl;
 	cin >> attribute;
 
-	cout << "검색 내용을 입력하세요	:	";
+	cout << "검색 내용을 입력하세요: ";
 	cin >> search;
 	cin.ignore();
 
