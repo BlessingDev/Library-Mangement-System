@@ -371,18 +371,17 @@ int Application::SearchBookWithString()
 	LinkedList<BookInfo> searchList;
 	string search;
 	cout << "검색할 내용을 입력하세요: ";
-	cin >> search;
-	cin.ignore();
+	getline(std::cin, search);
 
 	if (mLibraryManager.SearchBookWithString(search, searchList))
 	{
 		BookInfo dummy;
 		searchList.ResetList();
-		int index = searchList.GetNextItem(dummy);
-		while (index)
+		int length = searchList.GetLength();
+		for (int i = 0; i < length; ++i)
 		{
+			searchList.GetNextItem(dummy);
 			dummy.DisplayBookInfo();
-			index = searchList.GetNextItem(dummy);
 		}
 		return 1;
 	}
@@ -458,7 +457,6 @@ int Application::SearchUser()
 		break;
 	case 2:
 		cout << "검색 내용을 입력하세요: ";
-		cin >> search;
 		getline(std::cin, search);
 
 		check = mLibraryManager.SearchUserWithString(search, searchList);
