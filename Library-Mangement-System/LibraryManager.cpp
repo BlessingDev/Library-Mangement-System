@@ -115,12 +115,14 @@ int LibraryManager::BorrowBook(std::string isbn, int id)
 	BookInfo curBook;
 	BookInfo* pCurBook = std::addressof(curBook);
 	curBook.SetISBN(isbn);
-	mBooks.GetPointer(pCurBook);
+	if (!mBooks.GetPointer(pCurBook))
+		return 4;
 
 	UserInfo curUser;
 	UserInfo* pCurUser = std::addressof(curUser);
 	curUser.SetID(id);
-	mUsers.GetPointer(pCurUser);
+	if (!mUsers.GetPointer(pCurUser))
+		return 4;
 
 	TimeForm curPenalty = pCurUser->GetUserPenalty();
 	char curNBorrow = pCurUser->GetUserNBorrow();
