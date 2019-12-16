@@ -213,6 +213,9 @@ int Application::BorrowBook()
 	case 3:
 		cout << "대출 불가! 패널티가 존재하거나 최대 대출권수를 초과하였습니다";
 		break;
+	case 4:
+		cout << "존재하지 않는 유저나 책입니다.\n";
+		break;
 	default:
 		return 0;
 	}
