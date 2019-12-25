@@ -442,7 +442,7 @@ bool LibraryManager::SearchBookWithAttribute(int search, BookInfo& book, string 
 	if (attribute == "CategoryNum")
 	{
 		dummy.SetCategoryNum(search);
-		BinarySearchTree<BookInfo> BST(CompByAuthor);
+		BinarySearchTree<BookInfo> BST(CompByCategoryNum);
 		SPVToBST(mBooks, BST);
 		if (BST.GetItem(dummy))
 		{
